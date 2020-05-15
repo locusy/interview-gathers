@@ -1,0 +1,60 @@
+<template>
+    <div>
+        数组扁平化
+    </div>
+</template>
+
+<script>
+    //（1）老方法-递归
+    var result = []
+    function unfold(arr){
+        for(var i=0;i< arr.length;i++){
+            if(typeof arr[i]=="object") {
+                unfold(arr[i]);
+            } else {
+                result.push(arr[i]);
+            }
+        }
+    }
+    var arr = [1,3,4,5,[6,[0,1,5],9],[2,5,[1,5]],[5]];
+    unfold(arr);
+    console.log(result)
+
+    // 递归另一种写法
+    // var result=[];
+    // var arr=[1, [2, [ [3, 4], 5], 6],[2]];
+
+    // function flat(arr,result){
+    //     for(var i=0;i<arr.length;i++){
+    //         if(typeof arr[i]==="number"){
+    //             result.push(arr[i]);
+    //         }
+    //         else{
+    //             flat(arr[i],result);
+    //         }
+    //     }
+    // }
+    // flat(arr,result);
+    // console.log(result);
+
+    //（2）使用tostring
+    var c=[1,3,4,5,[6,[0,1,5],9],[2,5,[1,5]],[5]];
+    var b = c.toString().split(',');
+    console.log(b);
+
+    //（3）使用es6的reduce函数
+    // var arr=[1,3,4,5,[6,[0,1,5],9],[2,5,[1,5]],[5]];
+    // const flatten = arr => arr.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
+    // var result = flatten(arr)
+
+
+    import Vue from 'vue'
+
+    export default Vue.extend({
+        
+    })
+</script>
+
+<style scoped>
+
+</style>
