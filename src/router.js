@@ -8,6 +8,7 @@ import LinkedList from './components/Algorithm/LinkedList.vue'
 import NoRepeat from './components/Algorithm/NoRepeat.vue'
 import Flat from './components/Algorithm/Flat.vue'
 import Gather from './components/Algorithm/Gather.vue'
+import Security from './components/Security'
 
 // const App = () => import('./App')
 // const Home = () => import('./components/Home')
@@ -34,7 +35,7 @@ const routes = [
       },
       {
         path: '/algorithm/quicksort',
-        component: QuickSort,
+        component: QuickSort, 
         name: 'QuickSort'
       },
       {
@@ -56,6 +57,11 @@ const routes = [
         path: '/algorithm/gather',
         component: Gather,
         name: 'Gather'
+      },
+      {
+        path: '/security',
+        component: Security,
+        name: 'Security'
       }
     ]
   }
