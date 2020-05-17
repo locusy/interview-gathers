@@ -1,0 +1,199 @@
+<template>
+    <div>
+
+    </div>
+</template>
+
+<script>
+// https://juejin.im/post/5c9edb066fb9a05e267026dc
+
+// 2、手写bind, call, apply
+  //   Function.prototype.bind = function(context, ...bindArgs) {
+  //     // func 为调用 bind 的原函数
+  //     const func = this;
+  //     context = context || window;
+      
+  //     if (typeof func !== 'function') {
+  //       throw new TypeError('Bind must be called on a function');
+  //     }
+  //     // bind 返回一个绑定 this 的函数
+  //     return function(...callArgs) {
+  //       let args = bindArgs.concat(callArgs);
+  //       if (this instanceof func) {
+  //         // 意味着是通过 new 调用的 而 new 的优先级高于 bind
+  //         return new func(...args);
+  //       }
+  //       return func.call(context, ...args);
+  //     }
+  //   }
+
+  // // 通过隐式绑定实现
+  //   Function.prototype.call = function(context, ...args) {
+  //     context = context || window;
+  //     context.func = this;
+
+  //     if (typeof context.func !== 'function') {
+  //       throw new TypeError('call must be called on a function');
+  //     }
+
+  //     let res = context.func(...args);
+  //     delete context.func;
+  //     return res;
+  //   }
+
+  //   Function.prototype.apply = function(context, args) {
+  //     context = context || window;
+  //     context.func = this;
+
+  //     if (typeof context.func !== 'function') {
+  //       throw new TypeError('apply must be called on a function');
+  //     }
+
+  //     let res = context.func(...args);
+  //     delete context.func;
+  //     return res;
+  //   }
+
+// 3、手动实现一个 new 关键字的功能的函数 _new(fun, args) --> new fun(args)
+    // function _new(fun, ...args) {
+    //     if (typeof fun !== 'function') {
+    //         return new Error('参数必须是一个函数');
+    //     }
+    //     let obj = Object.create(fun.prototype);
+    //     let res = fun.call(obj, ...args);
+    //     if (res !== null && (typeof res === 'object' || typeof res === 'function')) {
+    //         return res;
+    //     }
+    //     return obj;
+    // }
+
+
+// 4、实现一个 instanceof 
+    // a instanceof b
+    // function _instanceof(a, b) {
+    //     while (a) {
+    //         if (a.__proto__ === b.prototype) return true;
+    //         a = a.__proto__;
+    //     }
+    //     return false;
+    // }
+
+
+// 5、手写jsonp
+    // foo 函数将会被调用 传入后台返回的数据
+      // function foo(data) {
+      //     console.log('通过jsonp获取后台数据:', data);
+      //     document.getElementById('data').innerHTML = data;
+      // }
+      // /**
+      // * 通过手动创建一个 script 标签发送一个 get 请求
+      // * 并利用浏览器对 <script> 不进行跨域限制的特性绕过跨域问题
+      // */
+      // (function jsonp() {
+      //     let head = document.getElementsByTagName('head')[0]; // 获取head元素 把js放里面
+      //     let js = document.createElement('script');
+      //     js.src = 'http://domain:port/testJSONP?a=1&b=2&callback=foo'; // 设置请求地址
+      //     head.appendChild(js); // 这一步会发送请求
+      // })();
+
+      // // 后台代码
+      // // 因为是通过 script 标签调用的 后台返回的相当于一个 js 文件
+      // // 根据前端传入的 callback 的函数名直接调用该函数
+      // // 返回的是 'foo(3)'
+      // function testJSONP(callback, a, b) {
+      //   return `${callback}(${a + b})`;
+      // }
+
+// 7、reduce的实现
+    // function reduce(arr, callback, initial) {
+    //     let i = 0;
+    //     let acc = initial === undefined ? arr[i++] : initial;
+    //     for (; i < arr.length; i++) {
+    //         acc = callback(acc, arr[i], i, arr);
+    //     }
+    //     return acc;
+    // }
+
+// 8、实现 generator 的自动执行器
+    // 要求是 yield 后面只能是 Promise 或 Thunk 函数
+    // https://juejin.im/post/5c9edb066fb9a05e267026dc#heading-12
+    // function run(gen) {
+    //   let g = gen();
+
+    //   function next(data) {
+    //     let result = g.next(data);
+    //     if (result.done) return result.value;
+    //     if (result.value instanceof Promise) {
+    //       result.value.then(data => next(data));
+    //     } else {
+    //       result.value(next);
+    //     }
+    //   }
+
+    //   return next();
+    // }
+
+    // // ======== e.g. ==========
+
+    // function func(data, cb) {
+    //   console.log(data);
+    //   cb();
+    // }
+
+    // function *gen() {
+    //   let a = yield Promise.resolve(1);
+    //   console.log(a);
+    //   let b = yield Promise.resolve(2);
+    //   console.log(b);
+    //   yield func.bind(null, a + b);
+    // }
+    // run(gen);
+    /** 
+    output:
+    1
+    2
+    3
+    **/
+
+
+// 9、节流
+    /**
+    * 节流函数 限制函数在指定时间段只能被调用一次
+    * 用法 比如防止用户连续执行一个耗时操作 对操作按钮点击函数进行节流处理
+    */
+    // function throttle(func, wait) {
+    //   let timer = null;
+    //   return function(...args) {
+    //     if (!timer) {
+    //       func(...args);
+    //       timer = setTimeout(() => {
+    //         timer = null;
+    //       }, wait);
+    //     }
+    //   }
+    // }
+
+// 10、防抖
+    /**
+    * 函数调用后不会被立即执行 之后连续 wait 时间段没有调用才会执行
+    * 用法 如处理用户输入
+    */
+    // function debounce(func, wait) {
+    //   let timer = null;
+      
+    //   return function(...args) {
+    //     if (timer) clearTimeout(timer); // 如果在定时器未执行期间又被调用 该定时器将被清除 并重新等待 wait 秒
+    //     timer = setTimeout(() => {
+    //       func(...args);
+    //     }, wait);
+    //   }
+    // }
+    
+    export default {
+        
+    }
+</script>
+
+<style lang="less" scoped>
+
+</style>

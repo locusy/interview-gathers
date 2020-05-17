@@ -2,7 +2,12 @@
   <div class="wrap">
     <p>
       <router-link :to="{ path: '/algorithm' }">算法</router-link>
+    </p>
+    <p>
       <router-link :to="{ path: '/security' }">安全</router-link>
+    </p>
+    <p>
+      <router-link :to="{ path: '/handwrite' }">手写</router-link>
     </p>
   </div>
 </template>
@@ -19,7 +24,4 @@ export default {
 }
 </script>
 <style lang="less">
-.wrap {
-  text-align: left;
-}
 </style>
