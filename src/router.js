@@ -16,6 +16,7 @@ import HandwriteEventEmitter from './components/HandWrite/EventEmitter'
 import HandwritePromise from './components/HandWrite/Promise'
 import HandwriteHash from './components/HandWrite/RouteHash'
 import HandwriteHistory from './components/HandWrite/RouteHistory'
+import Http from './components/Http'
 
 // const App = () => import('./App')
 // const Home = () => import('./components/Home')
@@ -72,6 +73,12 @@ const routes = [
         component: Security,
         name: 'Security'
       },
+      // 通信
+      {
+        path: '/http',
+        component: Http,
+        name: 'Http'
+      },
       // 手写
       {
         path: '/handwrite',
@@ -107,7 +114,7 @@ const routes = [
         path: '/handwrite/history',
         component: HandwriteHistory,
         name: 'HandwriteHistory'
-      },
+      }
     ]
   }
 ]

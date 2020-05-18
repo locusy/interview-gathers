@@ -1,0 +1,868 @@
+<template>
+    <div>
+
+    </div>
+</template>
+
+<script>
+/*
+
+  --------------------jquery---------------------
+
+  1、jQuery获取的dom对象和原生的dom对象有何区别？
+      js原生获取的dom是一个对象，jQuery对象就是一个数组对象，其实就是选择出来的元素的数组集合，
+      所以说他们两者是不同的对象类型不等价。
+      原生DOM对象转jQuery对象：
+      var box = document.getElementById('box');
+      var $box = $(box)
+      jQuery对象转原生DOM对象：
+      var $box = $('#box');
+      var box = $box[0]
+
+  2、jQuery插件：
+      https://segmentfault.com/a/1190000008800382
+      https://juejin.im/entry/57a1b817c4c971005af56343
+      jQuery.extend()：
+        jQuery.extend(object),一个参数的用于扩展jQuery类本身
+        这个重载的方法，我们一般用来在编写插件时用自定义插件参数去覆盖插件的默认参数。
+
+      jQuery.fn = jQuery.prototype，是jQuery对象的原型。jQuery.fn.extend()方法就是扩展jQuery对象的原型方法。
+      第一种：
+        (jQuery.fn.method = function() {
+          console.log('method')
+        })
+        比如：
+          $.fn.changeStyle = function(colorStr){
+            this.css("color",colorStr);
+            return this   //满足链式调用
+          }
+      第二种：
+        (function($) {
+          $.fn.extend({
+            method: function() {
+            }
+          })
+        })(jQuery)
+        例如：
+          (function($){
+            $.fn.changeStyle = function(option){
+              var defaultSetting = { colorStr:"green",fontSize:12};
+              var setting = $.extend(defaultSetting,option);
+              this.css("color",setting.colorStr).css("fontSize",setting.fontSize+"px");        
+              return this;
+            }
+          })(jQuery);
+
+  3、jQuery里面的选择器原理：
+    从下至上查找  dom树
+
+
+
+    ------------------------------原型链--------------------------
+
+    js数据类型：
+    基本类型：number string boolean undefined  Symbol（符号,es6新增）
+    引用类型：object(Function，Array，Date，RegExp，Null)
+
+   1.对象都是通过函数创建的
+      function Fn(){
+        this.name = 'tianzhi'
+        this.school = 28
+      }
+      var fn1 = new Fn()
+
+      var arr = [1,2,3]
+      var arr = new Array()
+      arr[1] = 2
+
+      var object = {a:1, b:2}
+      var object = new Object()
+      object.a = 1
+
+      console.log(typeof (Object))  //function
+      console.log(typeof (Array))  //function
+
+
+  2.每个函数都有一个属性叫做prototype 
+    prototype的属性值是一个对象(属性的集合),默认的只有一个叫做constructor的属性,指向这个函数本身
+    可以在自己自定义的方法的prototype中新增自己的属性
+
+     function FN(){
+       FN.prototype.name = 'tianzhi'
+       FN.prototype.handle = function(){
+         return 'strawbrray'
+       }
+     }
+     var obj = new FN()
+     console.log(obj.name)
+     console.log(obj.handle())
+     FN是一个函数，FN2对象是从FN函数new出来的，这样FN2对象就可以调用FN.prototype中的属性
+
+     每个对象都有个隐式原型'__proto__'
+     obj.__proto__ === FN.prototype   //true
+
+
+  3.每个对象都有一个__proto__属性，指向创建该对象的函数的prototype
+    自定义函数的prototype：
+       本质上就是和 var obj = {} 是一样的，都是用new Object()创建，所以它的__proto__指向的就是Object.prototype
+    Function.prototype：
+      __proto__也指向Object.prototype
+    Object.prototype：
+       一个特例——它的__proto__指向的是null，切记切记！
+    函数也有__proto__:
+      函数是由Function创建的
+         var fn2 = new Function('x','y','return x + y')
+      这种写法相当于
+      function fn2(x,y) {
+        return x+ y
+      }
+      console.log(fn2(1,2))
+
+  4、typeof
+    typeof用于基本数据类型的类型判断
+    typeof Date  //function
+    typeof Array //function
+    typeof Object  //function
+    typeof null  //object
+    typeof undefined  //undefined
+
+  4.instanceof：
+    instanceof 利用原型链继承关系做判断，它针对对象类型
+    值类型用typeof判断   引用类型用typeof时候只返回object/function
+    Instanceof运算符的第一个变量是一个对象，暂时称为A；第二个变量一般是一个函数，暂时称为B。
+    Instanceof的判断队则是：沿着A的__proto__这条线来找，同时沿着B的prototype这条线来找，
+              如果两条线能找到同一个引用，即同一个对象，那么就返回true。
+              如果找到终点还未重合，则返回false。
+    function foo(){}
+    var f1 = new foo()
+    console.log(f1 instanceof foo)    //true
+    console.log(f1 instanceof Object)    //true
+    console.log(Object instanceof Function)  //true 
+    console.log(Function instanceof Object)   //true
+    console.log(Function instanceof Function)  //true
+
+  5.继承：
+   function fn(){
+     this.name = 'tianzhi'
+   }
+   fn.prototype.age = 25
+
+   let Fn = new fn()
+   Fn.name = 'dazhi'
+   console.log(Fn.name,Fn.age)
+
+   原型链: 访问一个对象的属性时，先在基本属性中查找，如果没有，再沿着__proto__这条链向上找，这就是原型链
+   由于所有的对象的原型链都会找到Object.prototype，因此所有的对象都会有Object.prototype的方法。这就是所谓的“继承”。
+  
+  6、继承的几种方式： 
+    原型链继承
+    混合式继承
+
+
+
+    -----------------------------javascript相关---------------------------
+    // https://juejin.im/post/5cb0315f518825215e61ec14
+//  es6:    http://es6.ruanyifeng.com/#README
+
+  /* 
+  1、作用域题
+    alert(a)    // undefined
+    var a = 1
+
+    alert(b)    // 没有执行
+    let b = 1   // 报错 b is not undefined
+
+    alert(c)    // 没有执行
+    const c = 1  // 报错 c is not undefined
+
+  1、将一个json对象{a:1,b:2}转化成'a=1&b=2'的形式
+    var json = {a:1, b:2}
+    var str = ''
+    for(var attr in json) {
+        str += attr + '=' + json[attr] + '&'
+    }
+    str = str.slice(0, str.length-1)
+    console.log(str)
+
+  1、null和undefined的区别？
+    （1）null是一个表示"无"的对象，转为数值时为0；
+        undefined是一个表示"无"的原始值，转为数值时为NaN。
+    （2）当声明的变量还未被初始化时，变量的默认值为undefined；
+        null用来表示尚未存在的对象，常用来表示函数企图返回一个不存在的对象。
+    （3）undefined表示"缺少值"，就是此处应该有一个值，但是还没有定义。典型用法是：
+          1）变量被声明了，但没有赋值时，就等于undefined。
+          2) 调用函数时，应该提供的参数没有提供，该参数等于undefined。
+          3）对象没有赋值的属性，该属性的值为undefined。
+          4）函数没有返回值时，默认返回undefined。
+        null表示"没有对象"，即该处不应该有值。典型用法是：
+          1）作为函数的参数，表示该函数的参数不是对象。
+          2）作为对象原型链的终点。
+
+  1、== 和 === 有什么区别？
+    === 不需要进行类型转换，只有类型相同并且值相等时，才返回 true.
+    == 如果两者类型不同，首先需要进行类型转换。具体流程如下:
+    首先判断两者类型是否相同，如果相等，判断值是否相等.
+    如果类型不同，进行类型转换
+    判断比较的是否是 null 或者是 undefined, 如果是, 返回 true .
+    判断两者类型是否为 string 和 number, 如果是, 将字符串转换成 number
+    判断其中一方是否为 boolean, 如果是, 将 boolean 转为 number 再进行判断
+    判断其中一方是否为 object 且另一方为 string、number 或者 symbol , 如果是, 将 object 转为原始类型再进行判断
+
+  2、思考: [] == ![]
+    我们来分析一下: [] == ![] 是true还是false？  true
+
+    首先，我们需要知道 ! 优先级是高于 == (更多运算符优先级可查看: 运算符优先级)
+    ![] 引用类型转换成布尔值都是true,因此![]的是false
+    根据上面的比较步骤中的第五条，其中一方是 boolean，将 boolean 转为 number 再进行判断，false转换成 number，对应的值是 0.
+    根据上面比较步骤中的第六条，有一方是 number，那么将object也转换成Number,空数组转换成数字，对应的值是0.(空数组转换成数字，对应的值是0，如果数组中只有一个数字，那么转成number就是这个数字，其它情况，均为NaN)
+    0 == 0; 为true
+
+  2、typescript语法 除了类型检查：eslint也可以
+    https://juejin.im/entry/5a156adaf265da43231aa032
+
+    ESLint 是一个代码检查工具，主要用来发现代码错误、统一代码风格，目前已被广泛的应用于各种 JavaScript 项目中。
+  
+  2、ts和js的区别
+    http://taobaofed.org/blog/2017/03/09/head-first-typescript/
+
+    TypeScript 是微软开发一款开源的编程语言，本质上是向 JavaScript 增加静态类型系统。
+    它是 JavaScript 的超集，所有现有的 JavaScript 都可以不加改变就在其中使用。
+    它是为大型软件开发而设计的，它最终编译产生 JavaScript，所以可以运行在浏览器、Node.js 等等的运行时环境。
+
+  2、TypeScript 和 JavaScript 的关系
+    和一些基于 JavaScript 的激进语言不同（比如 CoffeeScript），TypeScript 的语法设计首先考虑的就是兼容 JavaScript，或者说对 JavaScript 的语法做扩展。基本上是在 JavaScript 的基础之上增加了一些类型标记语法，以实现静态类型分析。把这些类型标注语法去掉之后，仍是一个标准的 JavaScript 语言。
+
+    TypeScript 同样也在做一些新语法编译到老语法的事情（就像 Babel 做的）， 基本实现常用的 EcmaScript Stage 1 以上的语法特性。
+
+  2、谈谈this
+    https://www.jianshu.com/p/85e35c07b954
+
+    直接调用：this指向window
+    对象调用：对象.方法名() this指向调用该方法的对象
+    new函数后调用：用Person函数创建一个对象实例person, 此时的this指向对象person.
+    ES6中的箭头函数的调用：箭头函数本身不用再给this赋值，它用的是直接外层函数(即包含它的最近的一层函数或函数表达式)绑定的this。箭头函数this绑定了父级作用域的上下文
+    call apply bind改变this指向；
+
+    let age = 2;
+    let kitty = {
+        age: 1,
+        grow: function() {
+            setTimeout(function(){
+                console.log(this)     // window
+                console.log(++this.age)
+            },100)
+        }
+    };
+    kitty.grow()   // undefined
+
+    window.name = 'globalName';
+    var getName = function(){
+        return this.name;
+    };
+    console.log( getName() );  // 输出： globalName
+
+    window.name = 'globalName';
+    var myObject = {
+        name: 'sven',
+        getName: function(){
+            return this.name;
+        }
+    };
+    var getName = myObject.getName;
+    console.log( getName() );  // globalName
+
+    window.name = 'globalName';
+    var myObject = {
+        name: 'sven',
+        getName: function(){
+            return this.name;
+        }
+    };
+    var getName = myObject.getName();
+    console.log( getName );  // sven
+
+  3、call apply bind的区别：
+    apply 、 call 、bind 三者都是用来改变函数的this对象的指向的；
+    apply 、 call 、bind 三者第一个参数都是this要指向的对象，也就是想指定的上下文；
+    apply 、 call 、bind 三者都可以利用后续参数传参；
+    bind 是返回对应函数，便于稍后调用；apply 、call则是立即调用。
+    
+    当使用 call 或者 apply 的时候，如果我们传入的第一个参数为 null，函数体内的 this 会指向默认的宿主对象，在浏览器中则是 window：
+
+  3、用过哪些es6语法  
+    let/const
+    箭头函数
+    解构赋值
+    拓展运算符 ...
+    Promise
+    Object.assign
+    import / export
+
+  3、let、const 以及 var 的区别是什么？
+    let 和 const 定义的变量不会出现变量提升，而 var 定义的变量会提升。
+    let 和 const 是JS中的块级作用域
+    let 和 const 不允许重复声明(会抛出错误)
+    let 和 const 定义的变量在定义语句之前，如果使用会抛出错误(形成了暂时性死区)，而 var 不会。
+    const 声明一个只读的常量。一旦声明，常量的值就不能改变(如果声明是一个对象，那么不能改变的是对象的引用地址)
+
+  3、在JS中什么是变量提升？什么是暂时性死区？
+    变量提升就是变量在声明之前就可以使用，值为undefined。
+
+    在代码块内，使用 let/const 命令声明变量之前，该变量都是不可用的(会抛出错误)。这在语法上，称为“暂时性死区”。暂时性死区也意味着 typeof 不再是一个百分百安全的操作。
+
+    typeof x; // ReferenceError(暂时性死区，抛错)
+    let x;
+    typeof y; // 值是undefined,不会报错
+    暂时性死区的本质就是，只要一进入当前作用域，所要使用的变量就已经存在了，但是不可获取，只有等到声明变量的那一行代码出现，才可以获取和使用该变量。
+
+  3、解构赋值：数组的解构赋值
+    http://es6.ruanyifeng.com/#docs/destructuring
+
+  3、你考虑过ES6提出的真正趋势吗？
+
+  4、ES6中的class和ES5的类有什么区别？
+    ES6 class 内部所有定义的方法都是不可枚举的;
+    ES6 class 必须使用 new 调用;
+    ES6 class 不存在变量提升;
+    ES6 class 默认即是严格模式;
+    ES6 class 子类必须在父类的构造函数中调用super()，这样才有this对象;ES5中类继承的关系是相反的，先有子类的this，然后用父类的方法应用在this上。
+
+  4、import和require的区别（商汤科技）
+    import引用的变量改变 不会影响原来的值
+    require引用的变量改变 会影响原来的值
+  
+  5、类数组和数组的区别是什么？
+     类数组：1）拥有length属性，其它属性（索引）为非负整数（对象中的索引会被当做字符串来处理）;
+            2）不具有数组所具有的方法；
+     类数组是一个普通对象，而真实的数组是Array类型。
+    常见的类数组有: 函数的参数 arugments, DOM 对象列表(比如通过 document.querySelectorAll 得到的列表), jQuery 对象 (比如 $("div")).
+
+  9、将类数组转化成数组的方法：
+    //第一种方法
+    Array.prototype.slice.call(arrayLike, start);
+
+    //第二种方法
+    [...arrayLike];
+    
+    //第三种方法:
+    Array.from(arrayLike);
+
+  10、 如何判断一个变量是不是数组？
+    使用Array.isArray 判断，如果返回true, 说明是数组  
+        Array.isArray([]) 返回true
+    使用 instanceof Array 判断，如果返回true, 说明是数组
+        [] instanceof Array 返回true
+        '' instanceof Array  false
+        {} instanceof Array  报错:Uncaught SyntaxError: Unexpected token instanceof
+    使用 Object.prototype.toString.call 判断，如果值是 [object Array], 说明是数组
+        Object.prototype.toString.call()   "[object Undefined]"
+        Object.prototype.toString.call([])   "[object Array]"
+        Object.prototype.toString.call({})   "[object object]"
+    通过 constructor 来判断，如果是数组，那么 arr.constructor === Array (不准确，因为我们可以指定 obj.constructor = Array)
+        [].constructor === Array   true
+
+  10、数组的哪些API会改变原数组？
+    修改原数组的API有:
+    splice/reverse/fill/copyWithin/sort/push/pop/unshift/shift
+
+    不修改原数组的API有:
+    slice/map/forEach/every/filter/reduce/entries/find
+
+    注: 数组的每一项是简单数据类型，且未直接操作数组的情况下。
+
+  10、取数组的最大值（ES5、ES6）
+    // ES5 的写法
+    Math.max.apply(null, [14, 3, 77, 30]);
+
+    // ES6 的写法
+    Math.max(...[14, 3, 77, 30]);
+
+    // reduce
+    [14,3,77,30].reduce((accumulator, currentValue)=>{
+        return accumulator = accumulator > currentValue ? accumulator : currentValue
+    });
+
+  10、typeof和instanceof的区别（商汤科技）
+        https://www.jianshu.com/p/b97445cf8d77
+        typeof用于基本数据类型的类型判断，无法甄别对象具体类型（除了function）;
+        instanceof用于对象的类型判断，基于原型链上的继承关系;
+
+  10、闭包是什么：
+      闭包就是能够读取其他函数内部变量的函数。
+      闭包的用途：可以读取函数内部的变量，并且让这些变量的值始终保持在内存中。
+
+  11、说说JS的垃圾回收机制。
+    Js具有自动垃圾回收机制。垃圾收集器会按照固定的时间间隔周期性的执行。
+    JS中最常见的垃圾回收方式是标记清除。
+    工作原理：是当变量进入环境时，将这个变量标记为“进入环境”。当变量离开环境时，则将其标记为“离开环境”。
+            标记“离开环境”的就回收内存。
+    工作流程：
+        1.垃圾回收器，在运行的时候会给存储在内存中的所有变量都加上标记。
+        2.去掉环境中的变量以及被环境中的变量引用的变量的标记。
+        3.再被加上标记的会被视为准备删除的变量。
+        4.垃圾回收器完成内存清除工作，销毁那些带标记的值并回收他们所占用的内存空间。
+
+    引用计数 方式
+    工作原理：跟踪记录每个值被引用的次数。
+    工作流程：
+        1.声明了一个变量并将一个引用类型的值赋值给这个变量，这个引用类型值的引用次数就是1。
+        2.同一个值又被赋值给另一个变量，这个引用类型值的引用次数加1.
+        3.当包含这个引用类型值的变量又被赋值成另一个值了，那么这个引用类型值的引用次数减1.
+        4.当引用次数变成0时，说明没办法访问这个值了。
+        5.当垃圾收集器下一次运行时，它就会释放引用次数是0的值所占的内存。
+
+  12、 什么情况会引起内存泄漏？
+    （1）意外的全局变量引起的内存泄漏。
+        原因：全局变量，不会被回收。
+        解决：使用严格模式避免。
+    （2）闭包引起的内存泄漏
+        原因：闭包可以维持函数内局部变量，使其得不到释放。
+        解决：将事件处理函数定义在外部，解除闭包,或者在定义事件处理函数的外部函数中，删除对dom的引用。
+    （3）没有清理的DOM元素引用
+        原因：虽然别的地方删除了，但是对象中还存在对dom的引用
+        解决：手动删除。
+    （4）被遗忘的定时器或者回调
+        原因：定时器中有dom的引用，即使dom删除了，但是定时器还在，所以内存中还是有这个dom。
+        解决：手动删除定时器和dom。
+    （5）子元素存在引用引起的内存泄漏
+        原因：div中的ul li  得到这个div，会间接引用某个得到的li，那么此时因为div间接引用li，即使li被清空，也还是在内存中，并且只要li不被删除，他的父元素都不会被删除。
+
+  12、js内存泄漏的排查方法（饿了么）
+    https://github.com/wengjq/Blog/issues/1
+    http://www.ruanyifeng.com/blog/2017/04/memory-leak.html  阮一峰 内存泄漏 垃圾回收机制
+
+    Chrome的timeline、performance monitor
+    如果运行平稳则是正常，一直增加就是内存泄漏
+
+  12、进程和线程是什么：
+    进程是资源分配的最小单位，线程是CPU调度的最小单位
+      （1）线程是最小的执行单元，进程是最小的资源管理单元：
+          线程是最小的执行单元，而进程由至少一个线程组成。
+          如何调度进程和线程，完全由操作系统决定，程序自己不能决定什么时候执行，执行多长时间。
+          进程指计算机中已运行的程序。
+          线程指操作系统能够进行运算调度的最小单位。
+      （2）一个线程只能属于一个进程，而一个进程可以有多个线程，但至少有一个线程（一般情况）
+      （3）一个进程对应多个线程最为常见，Linux、Windows等是这么实现的。其实理论上这种关系并不是一定的，可以存在多个进程对应一个线程，例如一些分布式操作系统的研究使用过这种方式，让线程能从一个地址空间转移到另一个地址空间，甚至跨机器调用不同的进程入口（感谢AlienZHOU补充）
+
+  12、promise, Generator, async/await区别
+      https://www.lazycoffee.com/articles/view?id=58ab09eea072b332753d9774
+      https://blog.csdn.net/deng1456694385/article/details/83831931
+
+      promise比较简单，也是最常用的，主要就是将原来的用回调函数的异步编程方法转成用relsove和reject触发事件， 用then和catch捕获成功或者失败的状态执行相应代码的异步编程的方法, promise将多个回调函数嵌套的回调地狱，变成了链式的写法 ，可读性更高写法也更清晰；但是希望顺序执行时，处理链式调用麻烦，需要多次使用then；捕获错误麻烦
+      Generator函数是将函数分步骤阻塞，希望顺序执行时方便；捕获错误简洁；但是只有主动调用next()才能进行下一步；
+      async函数就相当于自执行的Generator函数，Generator函数的语法糖，相当于自带一个状态机，在await的部分等待返回，返回后自动执行下一步；如果中途出错返回空值了，可以直接return中止执行
+
+  13、promise.then().then().then()  中间的then怎么阻止返回
+      return promise.reject()
+
+  13、await后面的执行（作业帮）
+    正常情况下，await命令后面是一个 Promise 对象，返回该对象的结果。如果不是 Promise 对象，就直接返回对应的值。
+    async function f() {
+        // 等同于
+        // return 123;
+        return await 123;
+    }
+    f().then(v => console.log(v))
+    上面代码中，await命令的参数是数值123，这时等同于return 123。
+    
+      await 13 不会报错 但是没有意义
+      await setTimeout(() = {
+        console.log('time')
+      }, 200) 
+      上面会执行吗？
+
+  13、promise.all():
+      http://liubin.org/promises-book/#ch2-promise-all
+
+      Promise.all 接收一个 promise对象的数组作为参数，当这个数组里的所有promise对象全部变为resolve或reject状态的时候，它才会去调用 .then 方法。
+      传递给 Promise.all 的promise并不是一个个的顺序执行的，而是同时开始、并行执行的。
+      而且每个promise的结果（resolve或reject时传递的参数值，和传递给 Promise.all 的promise数组的顺序是一致的。
+
+      如果传入的参数是一个空的可迭代对象，那么此promise对象回调完成(resolve),只有此情况，是同步执行的，其它都是异步返回的。
+        如果传入的参数不包含任何 promise，则返回一个异步完成.
+        promises 中所有的promise都“完成”时或参数中不包含 promise 时回调完成。
+        如果参数中有一个promise失败，那么Promise.all返回的promise对象失败
+        在任何情况下，Promise.all 返回的 promise 的完成状态的结果都是一个数组
+
+  13、一句话描述promise
+      Promise对象用于异步操作，它表示一个尚未完成且预计在未来完成的异步操作。
+
+  13、promise 有几种状态, Promise 有什么优缺点 ?
+    promise有三种状态: fulfilled, rejected, pending.
+
+    Promise 的优点:
+    一旦状态改变，就不会再变，任何时候都可以得到这个结果
+    可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数
+    Promise 的缺点:
+    无法取消 Promise
+    当处于pending状态时，无法得知目前进展到哪一个阶段
+
+  14、Promise构造函数是同步还是异步执行，then中的方法呢 ?promise如何实现then处理 ?
+      Promise的构造函数是同步执行的。then中的方法是异步执行的。
+
+  14、在没有 promise 之前，怎么解决异步回调
+      http://www.ruanyifeng.com/blog/2012/12/asynchronous＿javascript.html
+
+  13、自己如何实现一个promise？
+    https://github.com/FEGuideTeam/FEGuide/blob/master/%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/READEME.md#js-%E5%AE%9E%E7%8E%B0%E5%8D%83%E4%BD%8D%E5%88%86%E9%9A%94%E7%AC%A6 
+
+  14、Promise和setTimeout的区别?
+     Promise 是微任务，setTimeout 是宏任务，同一个事件循环中，promise总是先于 setTimeout 执行。
+
+  15、js防抖和节流
+      https://segmentfault.com/a/1190000018383955
+
+      解决的问题：
+         高频率的函数会导致页面卡顿，性能开销；DOM频繁重绘的卡顿，用户体验；Ajax数据请求导致接口崩溃
+      防抖（debounce)：
+          在事件被触发n秒后再执行回调函数，如果在这n秒内又被触发，则重新计时延迟时间。
+          “非立即执行防抖”：指事件触发后，回调函数不会立即执行，会在延迟时间n秒后执行，
+                        如果n秒内被调用多次，则重新计时延迟时间
+          “立即执行防抖”：指事件触发后，回调函数会立即执行，之后要想触发执行回调函数，需等待n秒延迟
+          函数防抖原理：通过维护一个定时器，其延迟计时以最后一次触发为计时起点，到达延迟时间后才会触发函数执行。
+      节流（throttle)：
+          规定在一个单位时间内，只能触发一次函数。如果这个单位时间内触发多次函数，只有一次生效（间隔执行）
+          函数节流原理：一定时间内只触发一次，间隔执行。通过判断是否到达指定触发时间，间隔时间固定。
+      “防抖” 与 “节流” 的异同：
+        相同：都是防止某一时间段内，函数被频繁调用执行，通过时间频率控制，减少回调函数执行次数，来实现相关性能优化。
+        区别：“防抖”是某一时间内只执行一次，最后一次触发后过段时间执行，而“节流”则是间隔时间执行，间隔时间固定。
+      “防抖” 与 “节流” 的应用场景：
+        防抖：
+          文本输入搜索联想
+          文本输入验证（包括 Ajax 后端验证）
+        节流：
+          鼠标点击
+          监听滚动 scroll
+          窗口 resize
+          mousemove 拖拽
+
+    16、深拷贝和浅拷贝的区别
+        https://cnblogs.com/biaochenxuying/p/11438353.html
+        浅拷贝是指只复制第一层对象，但是当对象的属性是引用类型时，实质复制的是其引用，当引用指向的值改变时也会跟着变化。
+
+        深拷贝复制变量值，对于非基本类型的变量，则递归至基本类型变量后，再复制。
+        深拷贝后的对象与原来的对象是完全隔离的，互不影响，对一个对象的修改并不会影响另一个对象。
+
+    17、深拷贝有哪些方式
+        https://juejin.im/post/5cb8323cf265da038e54a35e
+
+        使用递归方式进行深拷贝：
+            var json = {a:6,b:5,c:[1,2,3,4,5]};
+            function clone(json){
+
+                var json1 = {};
+                for(var attr in json){
+                    if( isNaN(json[attr]) ){
+                        clone(json[attr]);
+                    }
+                    json1[attr] = json[attr];
+                };
+
+                return json;
+
+            };
+            console.log( clone(json) );
+        通过JSON对象实现深拷贝 JSON.parse(JSON.stringify(obj))
+        使用jq（extend）方法实现深拷贝 $.extend(true,{},obj);
+        object.assign()实现深拷贝 只能拷贝一维 Object.assign({}, obj1)
+        lodash函数库实现深拷贝 lodash.cloneDeep(abj)
+        MessageChannel实现深拷贝
+        Web Worker实现深拷贝
+
+    18、原生的js如何设置元素的高度？（自如网）
+        // 方法一：
+        var html = document.getElementsByTagName('html')[0];
+        html.style.height = '200px'
+
+        // 方法二：
+        var obj = document.getElementById('myelem');
+        obj.style.cssText = 'height:200px'
+
+        obj.offsetHeight
+        obj.clientHeight
+        
+
+    21、target和currenttarget的区别（自如网）
+        https://www.jianshu.com/p/1dd668ccc97a
+
+        e.target 指向触发事件监听的对象。
+        e.currentTarget 指向添加监听事件的对象。
+        <ul>
+            <li>hello 1</li>
+            <li>hello 2</li>
+            <li>hello 3</li>
+            <li>hello 4</li>
+        </ul>
+        <script >
+            let ul = document.querySelectorAll('ul')[0]
+            let aLi = document.querySelectorAll('li')
+            ul.addEventListener('click',function(e){
+            let oLi1 = e.target  
+            let oLi2 = e.currentTarget
+            console.log(oLi1)   //  被点击的li
+            console.log(oLi2)   // ul
+            console.log(oLi1===oLi2)  // falses
+            console.log(e.currentTarget===this) // true
+            console.log(e.target===this) // false
+            })
+        </ script>
+
+    23、innerhtml和document.write的区别（商汤科技）
+
+    24、怎么判断一个变量是否存在？（商汤科技）
+      需要考虑是undefined还是null
+
+    25、ts泛型的使用（商汤科技）
+      https://www.tslang.cn/
+
+    26、用过哪些ts的方法（商汤科技）
+      https://www.tslang.cn/
+
+    28、为什么Boolean({})=true（商汤科技）
+        http://www.w3school.com.cn/jsref/jsref_obj_boolean.asp
+      如果省略 value 参数，或者设置为 0、-0、null、""、false、undefined 或 NaN，则该对象设置为 false。否则设置为 true（即使 value 参数是字符串 "false"）
+
+    29、Bom对象：浏览器对象模型
+        （1）window对象：顶层对象 表示瀏覽器打開的視窗，包括獲取焦點、改變捲軸、設置計時器等等。
+        （2）Navigator物件：包含瀏覽器資訊。 如：獲取瀏覽器名稱、版本資訊、作業系統平臺資訊等等。
+        （3）Screen物件：包含螢幕資訊。 如：獲取螢幕高度、寬度等等。
+        （4）History物件：可對當前頁的流覽歷史進行操作，如：前進、後退等。
+        （5）Location物件：可對當前頁面的URL進行操作，如：導航到新的頁面、獲取URL資訊等。
+
+    30、请简述下js引擎的工作原理，js是怎样处理事件的eventloop，宏任务源tasks和微任务源jobs分别有哪些？
+        js是如何构造抽象语法树（AST）的？
+
+    30、Eventloop
+        https://juejin.im/post/5cbc0a9cf265da03b11f3505
+        https://github.com/YvetteLau/Blog/issues/4
+
+        在一个事件循环中，异步事件返回结果后会被放到一个任务队列中。然而，根据这个异步事件的类型，这个事件实际上会被对应的宏任务队列或者微任务队列中去，当执行栈为空的时候，主线程会首先查看微任务中的事件，如果微任务不是空的那么执行微任务中的事件，如果没有在宏任务中取出最前面的一个事件。把对应的回调加入当前执行栈...如此反复，进入循环。
+
+        macro-task(宏任务)
+            setTimeout
+            setInterval
+            setImmediate
+
+        micro-task(微任务)
+            Promise
+            process.nextTick
+
+    31、Math.floor()，Math.ceil()，Math.round()的区别
+      Math.floor(): 向下取整，返回的比它小的整数
+      Math.ceil(): 向上取整，返回的比它大的整数
+      Math.round(): 类似于四舍五入
+
+    32、Object.defineProperty(obj, prop, descriptor)
+        https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
+        obj：要在其上定义属性的对象。
+        prop：要定义或修改的属性的名称。
+        descriptor：将被定义或修改的属性描述符。
+
+        数据描述符和存取描述符均具有以下可选键值：
+            （1）configurable：当且仅当该属性的 configurable 为 true 时，该属性描述符才能够被改变，同时该属性也能从对应的对象上被删除。默认为 false。
+            （2）enumerable：当且仅当该属性的enumerable为true时，该属性才能够出现在对象的枚举属性中。默认为 false。
+            （3）value：该属性对应的值。可以是任何有效的 JavaScript 值（数值，对象，函数等）。默认为 undefined。
+            （4）writable：当且仅当该属性的writable为true时，value才能被赋值运算符改变。默认为 false。
+        存取描述符同时具有以下可选键值：
+            （1）get：一个给属性提供 getter 的方法，如果没有 getter 则为 undefined。当访问该属性时，该方法会被执行，方法执行时没有参数传入，但是会传入this对象（由于继承关系，这里的this并不一定是定义该属性的对象）。
+            默认为 undefined。
+            （2）set：一个给属性提供 setter 的方法，如果没有 setter 则为 undefined。当属性值修改时，触发执行该方法。该方法将接受唯一参数，即该属性新的参数值。
+            默认为 undefined。
+
+    33、轮询
+        https://www.cnblogs.com/hoojo/p/longPolling_comet_jquery_iframe_ajax.html
+        https://www.cnblogs.com/zhaowinter/p/5332681.html
+
+        客户端定时向服务器发送Ajax请求，服务器接到请求后马上返回响应信息并关闭连接。 
+        优点：后端程序编写比较容易。 
+        缺点：请求中有大半是无用，浪费带宽和服务器资源。 
+        实例：适于小型应用。
+
+    33、 websocket
+        http://www.ruanyifeng.com/blog/2017/05/websocket.html
+
+    34、SourceMap
+      http://www.ruanyifeng.com/blog/2013/01/javascript_source_map.html
+      https://www.jianshu.com/p/ebf0ca8febb2
+
+    35、js性能问题 同时加载多个js文件（饿了么）
+        https://www.ibm.com/developerworks/cn/web/1308_caiys_jsload/index.html
+
+        1）、将所有的<script>标签放到页面底部，也就是</body>闭合标签之前，这能确保在脚本执行前页面已经完成了渲染。
+        2）、尽可能地合并脚本。页面中的<script>标签越少，http请求次数少，加载也就越快，响应也越迅速。无论是外链脚本还是内嵌脚本都是如此。
+        3）、采用无阻塞下载 JavaScript 脚本的方法：
+            使用<script>标签的 defer 属性（仅适用于 IE 和 Firefox 3.5 以上版本）；
+            使用动态创建的<script>元素来下载并执行代码； loadScript
+            使用 XHR 对象下载 JavaScript 代码并注入页面中。
+    
+    35、defer和async的区别（自如网）
+        <body>
+            <script type="text/javascript" defer>
+                alert("defer");
+            </ script>
+            <script type="text/javascript">
+                alert("script");
+            </ script>
+            <script type="text/javascript">
+                window.onload = function(){
+                    alert("load");
+                };
+            </ script>
+        </body>   
+        以上代码执行的顺序是：‘script’，‘defer’，‘load’
+
+        带有 defer 属性的<script>标签可以放置在文档的任何位置。对应的 JavaScript 文件将在页面解析到<script>标签时开始下载，但不会执行，直到 DOM 加载完成，即onload事件触发前才会被执行。当一个带有 defer 属性的 JavaScript 文件下载时，它不会阻塞浏览器的其他进程，因此这类文件可以与其他资源文件一起并行下载。
+
+        HTML 5 为<script>标签定义了一个新的扩展属性：async。它的作用和 defer 一样，能够异步地加载和执行脚本，不因为加载脚本而阻塞页面的加载。但是有一点需要注意，在有 async 的情况下，JavaScript 脚本一旦下载好了就会执行，所以很有可能不是按照原本的顺序来执行的。如果 JavaScript 脚本前后有依赖性，使用 async 就很有可能出现错误。
+
+        总结：
+        都是异步执行脚本的方法
+        何时执行：defer在onload事件触发前才会被执行，async下载完就执行
+        顺序：defer按照顺序执行，async无序执行
+        应用：当js脚本前后存在依赖关系的时候用defer，不存在依赖关系的用async
+
+    35、loadscript封装：
+        https://blog.csdn.net/load_life/article/details/7336828
+
+        loadScript(settings)，settings的参数：
+        url:脚本路径
+        async:是否异步，默认false(HTML5)
+        charset:文件编码
+        cache:是否缓存，默认为true
+        success:加载成功后执行的函数，优先执行callback。
+
+        function loadScript(url, callback){
+            var script = document.createElement ("script")
+            script.type = "text/javascript";
+            if (script.readyState){ //IE
+                script.onreadystatechange = function(){
+                    if (script.readyState == "loaded" || script.readyState == "complete"){
+                        script.onreadystatechange = null;
+                        callback();
+                    }
+                };
+            } else { //Others
+                script.onload = function(){
+                    callback();
+                };
+            }
+            script.src = url;
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+
+    37、node占用内存优化 多线程（饿了么）
+        process.memoryUsage
+
+    38、h5内唤起app的方法（饿了么）
+        https://www.cnblogs.com/angelatian/p/9259422.html
+
+    39、js跳出循环
+        forEach循环：throw new Error('error')
+            https://www.cnblogs.com/Marydon20170307/p/8920775.html
+        for循环：
+            break  跳出
+            continue  跳过
+
+    40、for of , for in 和 forEach,map 的区别:
+        for...of循环：
+            具有 iterator 接口，就可以用for...of循环遍历它的成员(属性值)。for...of循环可以使用的范围包括数组、Set 和 Map 结构、某些类似数组的对象、Generator 对象，以及字符串。for...of循环调用遍历器接口，数组的遍历器接口只返回具有数字索引的属性。对于普通的对象，for...of结构不能直接使用，会报错，必须部署了 Iterator 接口后才能使用。可以中断循环。
+        for...in循环：
+            遍历对象自身的和继承的可枚举的属性, 不能直接获取属性值。可以中断循环。 break
+        forEach: 
+            只能遍历数组，不能中断，没有返回值(或认为返回值是undefined)。
+        map: 只能遍历数组，不能中断，返回值是修改后的数组。
+
+    40、setTimeout倒计时为什么会出现误差？
+        setTimeout() 只是将事件插入了“任务队列”，必须等当前代码（执行栈）执行完，主线程才会去执行它指定的回调函数。要是当前代码消耗时间很长，也有可能要等很久，所以并没办法保证回调函数一定会在 setTimeout() 指定的时间执行。所以， setTimeout() 的第二个参数表示的是最少时间，并非是确切时间。
+
+        HTML5标准规定了 setTimeout() 的第二个参数的最小值不得小于4毫秒，如果低于这个值，则默认是4毫秒。在此之前。老版本的浏览器都将最短时间设为10毫秒。另外，对于那些DOM的变动（尤其是涉及页面重新渲染的部分），通常是间隔16毫秒执行。这时使用 requestAnimationFrame() 的效果要好于 setTimeout();
+
+    40、为什么 0.1 + 0.2 != 0.3 ?
+        0.1 + 0.2 != 0.3 是因为在进制转换和进阶运算的过程中出现精度损失。
+
+    40、什么是函数柯里化？实现 sum(1)(2)(3) 返回结果是1,2,3之和
+        函数柯里化是把接受多个参数的函数变换成接受一个单一参数（最初函数的第一个参数）的函数，
+        并且返回接受余下的参数而且返回结果的新函数的技术。
+
+        function sum(a) {
+            return function(b) {
+                return function(c) {
+                    return a+b+c;
+                }
+            }
+        }
+        console.log(sum(1)(2)(3)); // 6
+
+        引申：实现一个curry函数，将普通函数进行柯里化:
+
+        function curry(fn, args = []) {
+            return function(){
+                let rest = [...args, ...arguments];
+                if (rest.length < fn.length) {
+                    return curry.call(this,fn,rest);
+                }else{
+                    return fn.apply(this,rest);
+                }
+            }
+        }
+        //test
+        function sum(a,b,c) {
+            return a+b+c;
+        }
+        let sumFn = curry(sum);
+        console.log(sumFn(1)(2)(3)); //6
+        console.log(sumFn(1)(2, 3)); //6
+
+    41、你是否可以利用面向对象的思维去抽象你的功能，你会构建一个class（ES6）吗？你对于前端架构的理解？
+    42、你了解js的数据结构吗？基本数据类型有哪些？复杂数据类型有哪些？在内存是如何表现的？
+    43、你可以用js去实现一个单向、双向、循环链表吗？你可以实现查找、插入、删除操作吗？
+    44、你是如何理解前端架构的？你了解持续集成吗？
+    45、你了解基本的设计模式吗？举例单例模式、策略模式、代理模式、迭代模式、发布订阅模式
+
+    
+*/
+
+// call apply 实现继承
+  function Person(name, age){
+    this.name = name
+    this.age = age
+  }
+
+  function Student(name, age, grade){
+    console.log(Array.prototype.toString.call(arguments))
+    Person.apply(this, arguments)
+    // Person.call(this, name, age)
+    this.grade = grade
+  }
+
+  var obj = new Student('tianzhi','25','一年级')
+  console.log(obj.name,obj.age,obj.grade)
+
+  // 组合继承
+  function SuperType() {
+    this.name = name;
+    this.colors = ['red', 'blue', 'green'];
+  }
+  SuperType.prototype.sayName = function() {
+      console.log(this.name);
+  }
+
+  function SubType(name, age) {
+      SuperType.call(this, name);
+      this.age = age;
+  }
+  SubType.prototype = new SuperType();
+  SubType.prototype.constructor = SubType;
+
+  SubType.prototype.sayAge = function() {
+      console.log(this.age);
+  }
+  
+    export default {
+        
+    }
+</script>
+
+<style lang="scss" scoped>
+
+</style>

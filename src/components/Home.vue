@@ -7,6 +7,15 @@
       <router-link :to="{ path: '/security' }">安全</router-link>
     </p>
     <p>
+      <router-link :to="{ path: '/http' }">HTTP</router-link>
+    </p>
+    <p>
+      <router-link :to="{ path: '/performance' }">性能</router-link>
+    </p>
+    <p>
+      <router-link :to="{ path: '/regexp' }">正则</router-link>
+    </p>
+    <p>
       <router-link :to="{ path: '/handwrite' }">手写</router-link>
     </p>
   </div>
