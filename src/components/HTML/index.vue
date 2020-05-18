@@ -44,6 +44,7 @@
 
     7、vedio标签
       静音、自动播放等
+
       http://www.w3school.com.cn/html5/html5_ref_audio_video_dom.asp
       https://www.cnblogs.com/baiyygynui/p/6323565.html
 

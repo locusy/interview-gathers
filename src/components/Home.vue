@@ -1,6 +1,9 @@
 <template>
   <div class="wrap">
     <p>
+      <router-link :to="{ path: '/handwrite' }">手写</router-link>
+    </p>
+    <p>
       <router-link :to="{ path: '/algorithm' }">算法</router-link>
     </p>
     <p>
@@ -15,9 +18,7 @@
     <p>
       <router-link :to="{ path: '/regexp' }">正则</router-link>
     </p>
-    <p>
-      <router-link :to="{ path: '/handwrite' }">手写</router-link>
-    </p>
+   
   </div>
 </template>
 <script>

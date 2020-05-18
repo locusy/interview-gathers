@@ -56,6 +56,21 @@
   3、jQuery里面的选择器原理：
     从下至上查找  dom树
 
+    4、监听浏览器的跳转事件
+    if(window.history && window.history.pushState) {
+        $(window).on('popstate', function() {
+          var hashLocation = location.hash
+          var hashSplit = hashLocation.split("#!/")
+          var hashName = hashSplit[1]
+          if(hashName !== '') {
+            var hash = window.location.hash
+            if(hash !== '') {
+              console.log('跳转---')
+            }
+          }
+        })
+        window.history.pushState('forward', null, './#forward')
+      }
 
 
     ------------------------------原型链--------------------------
@@ -822,42 +837,116 @@
     
 */
 
-// call apply 实现继承
-  function Person(name, age){
-    this.name = name
-    this.age = age
-  }
+    // 闭包和作用域
+    // 同时输出5个5
+    for(var i=0;i<5;i++){
+      setTimeout(() => {
+        console.log(i) 
+      },1000);
+    }
 
-  function Student(name, age, grade){
-    console.log(Array.prototype.toString.call(arguments))
-    Person.apply(this, arguments)
-    // Person.call(this, name, age)
-    this.grade = grade
-  }
+    // 同时输出5，6，7，8，9
+    for(var i=0;i<5;i++){
+      setTimeout(function() {
+        console.log(i++)
+      },1000)
+    }
 
-  var obj = new Student('tianzhi','25','一年级')
-  console.log(obj.name,obj.age,obj.grade)
+    // 每隔一秒输出一个5
+     for(var i=0; i<5; i++){
+       setTimeout(() => {
+         console.log(i)
+       }, 1000*i)
+     }
 
-  // 组合继承
-  function SuperType() {
-    this.name = name;
-    this.colors = ['red', 'blue', 'green'];
-  }
-  SuperType.prototype.sayName = function() {
-      console.log(this.name);
-  }
+    // 同时输出0，1，2，3，4
+    for(let i=0;i<5;i++){
+      setTimeout(() => {
+        console.log(i)
+      },1000)
+    }
 
-  function SubType(name, age) {
-      SuperType.call(this, name);
-      this.age = age;
-  }
-  SubType.prototype = new SuperType();
-  SubType.prototype.constructor = SubType;
+    // 每隔一秒依次输出0，1，2，3，4
+    for(var i=0; i<5; i++ ){
+      ((j) => {
+        setTimeout(() => {
+          console.log(j)
+        },1000*j)
+      })(i)
+    }
 
-  SubType.prototype.sayAge = function() {
-      console.log(this.age);
-  }
-  
+    // 闭包内存泄漏问题：
+    // http://www.ruanyifeng.com/blog/2017/04/memory-leak.html
+    
+
+      // 函数作为返回值
+      // function fn() {
+      //   var max = 10
+      //   return function compare(x) {
+      //     if(x > max) {
+      //       console.log(true)
+      //     }
+      //   }
+      // }
+      // var f1 = fn()     
+      // f1(15)  //true
+
+
+      // 函数作为参数被传递
+      var max = 10
+      function fn(x) {
+        if(x > max) {
+          console.log(true)
+        }else{
+          console.log(false)
+        }
+      }
+      (function(f){
+        var max = 100
+        f(12)   //true  max变量的取值是10，而不是100:要去创建这个函数的作用域取值，而不是“父作用域”
+      })(fn)
+
+
+/*
+    // call apply 实现继承
+    function Person(name, age){
+        this.name = name
+        this.age = age
+    }
+
+    function Student(name, age, grade){
+        console.log(Array.prototype.toString.call(arguments))
+        Person.apply(this, arguments)
+        // Person.call(this, name, age)
+        this.grade = grade
+    }
+
+    var obj = new Student('tianzhi','25','一年级')
+    console.log(obj.name,obj.age,obj.grade)
+
+    // 组合继承
+    function SuperType() {
+        this.name = name;
+        this.colors = ['red', 'blue', 'green'];
+    }
+    SuperType.prototype.sayName = function() {
+        console.log(this.name);
+    }
+
+    function SubType(name, age) {
+        SuperType.call(this, name);
+        this.age = age;
+    }
+    SubType.prototype = new SuperType();
+    SubType.prototype.constructor = SubType;
+
+    SubType.prototype.sayAge = function() {
+        console.log(this.age);
+    }
+*/
+
+
+
     export default {
         
     }
