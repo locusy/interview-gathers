@@ -53,7 +53,7 @@
             }
           })(jQuery);
 
-  3、jQuery里面的选择器原理：
+    3、jQuery里面的选择器原理：
     从下至上查找  dom树
 
     4、监听浏览器的跳转事件
@@ -71,6 +71,8 @@
         })
         window.history.pushState('forward', null, './#forward')
       }
+
+    5、jQuery的事件委托怎么写的？
 
 
     ------------------------------原型链--------------------------
@@ -180,6 +182,7 @@
 //  es6:    http://es6.ruanyifeng.com/#README
 
   /* 
+  
   1、作用域题
     alert(a)    // undefined
     var a = 1
@@ -586,6 +589,11 @@
         MessageChannel实现深拷贝
         Web Worker实现深拷贝
 
+    18、js深度复制的方式
+      1.使用jq的$.extend(true, target, obj)
+      2.newobj = Object.create(sourceObj)，// 但是这个是有个问题就是 newobj的更改不会影响到 sourceobj但是 sourceobj的更改会影响到newObj
+      3.newobj = JSON.parse(JSON.stringify(sourceObj))
+
     18、原生的js如何设置元素的高度？（自如网）
         // 方法一：
         var html = document.getElementsByTagName('html')[0];
@@ -770,6 +778,7 @@
     37、node占用内存优化 多线程（饿了么）
         process.memoryUsage
 
+    33、XMLHttpRequest通用属性和方法？
     38、h5内唤起app的方法（饿了么）
         https://www.cnblogs.com/angelatian/p/9259422.html
 
@@ -953,9 +962,15 @@
     
 */
 
+
+
     export default {
         mouted() {
-          this.ziJieTiaoDong()
+          // 字节跳动
+          // this.ziJieTiaoDong()
+
+          // 知网
+          // this.zhiwang()
         },
         methods: {
           ziJieTiaoDong() {
@@ -1022,6 +1037,190 @@
               // }
 
               // person.bind(obj, x)
+          },
+          zhiwang() {
+             //////////////////////////////////////////////////////////////////////////
+
+              //    var a = [1,2,3,4],
+              //        i = 0;
+              //
+              //    a[i++] = a[i++]*2;
+                  //console.log(a);    //[4,2,3,4]
+
+                  /*
+                  解析：
+
+                  i++ 执行完语句后再加1
+
+                  ++i 先加1再执行后面的语句
+
+                  例如 var i=0;
+
+                  ++i 的值为1
+
+                  i++的值为0
+
+                  注意：不管前置++还是后置++，i的值都会发生变化，值为1
+                  */
+
+                  //////////////////////////////////////////////////////////////////////////
+
+              //    b(); a();
+              //    var a = function () {
+              //        console.log('aaa');
+              //    };
+              //
+              //    function b() {
+              //        console.log('bbb');
+              //    }
+
+
+              //  结果: 'bbb'  'a is not a function'
+
+                  //////////////////////////////////////////////////////////////////////////
+
+              //    var name = 'global';
+              //    var obj = {
+              //        name: 'obj',
+              //        dose: function () {
+              //            this.name = 'dose';
+              //            return function(){
+              //                return this.name;
+              //            }
+              //        }
+              //    }
+              //    var result = obj.dose().call(this);   //call将this指向window
+              //    console.log(result);    // global
+              //    console.log(this)    //window
+              //    console.log(this.name)   //global
+
+
+                  //////////////////////////////////////////////////////////////////////////
+                  //call实现继承方法
+              //    function num1(){
+              //        this.a = 'zhi';
+              //        this.add = function () {
+              //            return this.a;
+              //        }
+              //    }
+              //    function num2(){
+              //        this.a = 'tian';
+              //    }
+              //
+              //    var n1 = new num1();
+              //    var n2 = new num2();
+              //    var result = n1.add.call(n2);
+              //    console.log(result)  //tian
+
+
+                  //////////////////////////////////////////////////////////////////////////
+              //   call转变this指向
+              //    function add(a,b) {
+              //        return a+b
+              //    }
+              //    function sub(a,b) {
+              //        return a-b
+              //    }
+              //
+              //    var a = add.call(sub,1,2);
+              //    var b = sub.call(add,1,2);
+
+              //    apply写法
+              //    var a = add.apply(sub,[1,2]);
+              //    var b = sub.apply(add,[1,2]);
+
+              //    console.log(a,b);   //3 -1
+
+
+                  //////////////////////////////////////////////////////////////////////////
+              //    apply实现数组追加
+              //    var arr1 = [1,2,3,4];
+              //    var arr2 = [5,6,7,8];
+              //
+              //    Array.prototype.push.apply(arr1,arr2);
+              //    console.log(arr1);  //[1,2,3,4,5,6,7,8]
+
+                  //////////////////////////////////////////////////////////////////////////
+              //    *将类数组对象转化成真正的数组怎么做？
+              //    var domNodes = Array.prototype.slice.call(document.getElementsByTagName("li"));
+              //    console.log(domNodes.length);   //13
+              //    console.log(domNodes);   //
+
+
+                  //////////////////////////////////////////////////////////////////////////
+              //    如何判断一个对象是否为数组
+              //    var arr = {name:'2',age:'3'};
+              //    var arr3 = [1,2,3]
+              //
+              //    function isArray(obj){
+              //        return Object.prototype.toString.call(obj) === '[object Array]';
+              //    }
+              //
+              //    console.log(isArray(arr));
+              //    console.log(isArray(arr3));
+
+                  //////////////////////////////////////////////////////////////////////////
+              ////    获取数组中的最大值和最小值
+              //    var  numbers = [5, 458 , 120 , -215 ];
+              //    var maxInNumbers = Math.max.apply(Math, numbers)   //458
+              ////        maxInNumbers = Math.max.call(Math,5, 458 , 120 , -215); //458
+              //    var minInNumbers = Math.min.apply(Math, numbers)
+              //
+              //    console.log(maxInNumbers)
+              //    console.log(minInNumbers)
+
+
+                  //////////////////////////////////////////////////////////////////////////
+              //    编写一个函数,将列表子元素的顺序倒转
+
+
+
+                  //////////////////////////////////////////////////////////////////////////
+              //    如何判断一个对象是否为函数
+
+
+
+                  //////////////////////////////////////////////////////////////////////////
+              //    循环时输出0 1 2 3 4  这样写正确吗?
+                  for(var i=0;i<5;i++){
+                      setTimeout(function () {
+                          console.log(i+'');
+                      },100)
+                  }
+                  //不正确  将var改成let
+
+                  //////////////////////////////////////////////////////////////////////////
+              //    var a = ['1','2','3','4'...];a的长度是100,内容填充随机整数的字符串,请先构造此数组,再去重
+
+
+                  //////////////////////////////////////////////////////////////////////////
+
+
+
+
+                  //////////////////////////////////////////////////////////////////////////
+              //    以下代码的作用是?空白处填写什么?
+                  //定义
+                  (function(window){
+                      function fn(str) {
+                          this.str = str;
+                      }
+                      fn.prototype.format = function () {
+                          var arg = NaN;
+                          return this.str.replace(NaN,function (a,b) {
+                              return arg[b] || '';
+                          })
+                      }
+
+                      window.fn = fn;
+                  })(window)
+
+
+                  //使用
+                  (function(){
+                      var t = new fn('<p><a href="{0}">{1}</a><span>{2}</span></p>');
+                      console.log(t.format('http://www.cnki.net','cnki','welcome'));
+                  })()
           }
         }
     }

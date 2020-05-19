@@ -8,7 +8,8 @@
 /*
     页面布局面试题 
 
-    1、iframe有那些缺点？
+    1、iframe有那些特点？
+      1.缺点
       (1) iframe会阻塞主页面的Onload事件；
       (2) 搜索引擎的检索程序无法解读这种页面，不利于SEO;
       (3) iframe和主页面共享连接池，而浏览器对相同域的连接有限制，所以会影响页面的并行加载。
@@ -100,6 +101,25 @@
 
     4、请描述img的title和alt的区别。
     5、请简述一下src与href的区别。
+    6、DOM结构解释？怎么遍历dom树？
+    7、描述浏览器重绘和回流，哪些方法能够改善由于dom操作产生的回流
+      1.直接改变className，如果动态改变样式，则使用cssText
+          // 不好的写法
+          var left = 1;
+          var top = 1;
+          el.style.left = left + "px";
+          el.style.top = top + "px"; 
+          // 比较好的写法
+          el.className += " className1";
+          // 比较好的写法
+          el.style.cssText += ";
+          left: " + left + "px;
+          top: " + top + "px;";
+
+      2.让要操作的元素进行”离线处理”，处理完后一起更新
+          a) 使用DocumentFragment进行缓存操作,引发一次回流和重绘；
+          b) 使用display:none技术，只引发两次回流和重绘；
+          c) 使用cloneNode(true or false) 和 replaceChild 技术，引发一次回流和重绘
 
   */
 

@@ -56,9 +56,9 @@
 　　2、 document.domain + iframe跨域
 　　3、 location.hash + iframe
 　　4、 window.name + iframe跨域
-　　5、 postMessage跨域
-　　6、 跨域资源共享（CORS）
-　　7、 nginx代理跨域
+　　5、 postMessage跨域 使用HTML5中新引进的window.postMessage方法来跨域传送数据（ie 67 不支持）
+　　6、 跨域资源共享（CORS） 需要服务器设置header ：Access-Control-Allow-Origin。
+　　7、 nginx代理跨域 这个方法一般很少有人提及，但是他可以不用目标服务器配合，不过需要你搭建一个中转nginx服务器，用于转发请求
 　　8、 nodejs中间件代理跨域
 　　9、 WebSocket协议跨域
 
@@ -84,10 +84,10 @@
         localStorage（本地存储）,可以长期存储数据，没有时间限制，一天，一年，两年甚至更长，数据都可以使用。
         sessionStorage（会话存储），只有在浏览器被关闭之前使用，创建另一个页面时同意可以使用，关闭浏览器之后数据就会消失。)
 
-  11、localStorage怎么设置过期时间？
+  11、localStorage怎么设置过期时间？(localStorage怎么设置一个时间限定让信息能在一定的时间范围内存储和消失？)
       localStorage本身没有设置过期时间的属性，但是可以在存储的时候设置一个时间戳，每次取值的时候对比时间
 
-  12. 网页从输入网址到渲染完成经历了哪些过程？
+  12. 网页从输入网址到渲染完成经历了哪些过程？（必考）
       输入网址；
       发送到DNS服务器，并获取域名对应的web服务器对应的ip地址；
       与web服务器建立TCP连接；
@@ -95,6 +95,20 @@
       web服务器响应请求，并返回指定url的数据（或错误信息，或重定向的新的url地址）；
       浏览器下载web服务器返回的数据及解析html源文件；
       生成DOM树，解析css和js，渲染页面，直至显示完成；
+
+
+      输入地址
+      1.浏览器查找域名的 IP 地址
+      2.这一步包括 DNS 具体的查找过程，包括：浏览器缓存->系统缓存->路由器缓存…
+      3.浏览器向 web 服务器发送一个 HTTP 请求
+      4.服务器的永久重定向响应（从 http://example.com 到 http://www.example.com）
+      5.浏览器跟踪重定向地址
+      6.服务器处理请求
+      7.服务器返回一个 HTTP 响应
+      8.浏览器显示 HTML
+      9.浏览器发送请求获取嵌入在 HTML 中的资源（如图片、音频、视频、CSS、JS等等）
+      10.浏览器发送异步请求
+
 
   13、Http1.0和http2的区别
 
