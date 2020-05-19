@@ -259,6 +259,7 @@
           clip(clip-path):rect()/inset()/polygon()
 
       26、flex有哪些属性
+      27、请描述自适应和响应式的区别。
           
     */
 

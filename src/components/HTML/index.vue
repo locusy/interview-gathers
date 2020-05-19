@@ -98,6 +98,8 @@
       JSON（Javascript Object Notation）比较轻量级的数据交换格式，由键值对组成，数据格式比较简单, 
         易于读写, 格式都是压缩的, 占用带宽小
 
+    4、请描述img的title和alt的区别。
+    5、请简述一下src与href的区别。
 
   */
 

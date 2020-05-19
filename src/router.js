@@ -26,6 +26,7 @@ import React from './components/React'
 import Regexp from './components/Regexp'
 import Vuer from './components/Vue'
 import Webpack from './components/Webpack'
+import Array from './components/Array'
 
 // const App = () => import('./App')
 // const Home = () => import('./components/Home')
@@ -177,6 +178,12 @@ const routes = [
         path: '/webpack',
         component: Webpack,
         name: 'Webpack'
+      },
+      // 数组
+      {
+        path: '/array',
+        component: Array,
+        name: 'Array'
       },
     ]
   }

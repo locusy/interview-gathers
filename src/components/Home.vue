@@ -42,7 +42,9 @@
     <p>
       <router-link :to="{ path: '/webpack' }">webpack</router-link>
     </p>
-   
+    <p>
+      <router-link :to="{ path: '/array' }">Array</router-link>
+    </p>
   </div>
 </template>
 <script>

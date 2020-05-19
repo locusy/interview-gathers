@@ -86,7 +86,13 @@
     15、webpack和gulp的区别：
         https://www.cnblogs.com/iovec/p/7921177.html
         https://www.cnblogs.com/lovesong/p/6413546.html  
-        
+
+     1.webpack的入口问津怎么配置;多个入口如何分割。
+    2.Babel 插件transform-runtime 以及stage-2说一下他们的作用；
+    3.webpack配置用到webpack.optimize.UglifyJsPlugin这个插件
+        1.有没有写过webpack的loader 它的原理以及什么
+    2.有没有研究过webpack的一些的怎么实现的。
+    3.babel 把es6 转换成es5这类的原理是什么
 */
     export default {
         
