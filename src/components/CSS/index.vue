@@ -244,6 +244,21 @@
             :after{content:""; display:block;clear:both;}
           6）overflow:hidden/auto 创建一个bfc
           7) 给父级加position:fixed/absolute
+
+      25.如何隐藏和显示DOM元素,有几种方法,每种方法的区别是?
+          https://juejin.im/post/584b645a128fe10058a0d625
+
+          opacity:0；  占据空间 
+          visibility:hidden  占据空间
+          display:none 不占据空间
+          z-index:-1000  不占据空间 
+          transform:scaleY(0)   占据空间
+
+          overflow:hidden  隐藏溢出部分
+          position:absolute  
+          clip(clip-path):rect()/inset()/polygon()
+
+      26、flex有哪些属性
           
     */
 

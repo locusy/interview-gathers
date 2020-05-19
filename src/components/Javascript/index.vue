@@ -406,6 +406,8 @@
       闭包就是能够读取其他函数内部变量的函数。
       闭包的用途：可以读取函数内部的变量，并且让这些变量的值始终保持在内存中。
 
+    js闭包：闭包什么时候给变量赋值？
+
   11、说说JS的垃圾回收机制。
     Js具有自动垃圾回收机制。垃圾收集器会按照固定的时间间隔周期性的执行。
     JS中最常见的垃圾回收方式是标记清除。
@@ -839,41 +841,41 @@
 
     // 闭包和作用域
     // 同时输出5个5
-    for(var i=0;i<5;i++){
-      setTimeout(() => {
-        console.log(i) 
-      },1000);
-    }
+    // for(var i=0;i<5;i++){
+    //   setTimeout(() => {
+    //     console.log(i) 
+    //   },1000);
+    // }
 
-    // 同时输出5，6，7，8，9
-    for(var i=0;i<5;i++){
-      setTimeout(function() {
-        console.log(i++)
-      },1000)
-    }
+    // // 同时输出5，6，7，8，9
+    // for(var i=0;i<5;i++){
+    //   setTimeout(function() {
+    //     console.log(i++)
+    //   },1000)
+    // }
 
-    // 每隔一秒输出一个5
-     for(var i=0; i<5; i++){
-       setTimeout(() => {
-         console.log(i)
-       }, 1000*i)
-     }
+    // // 每隔一秒输出一个5
+    //  for(var i=0; i<5; i++){
+    //    setTimeout(() => {
+    //      console.log(i)
+    //    }, 1000*i)
+    //  }
 
-    // 同时输出0，1，2，3，4
-    for(let i=0;i<5;i++){
-      setTimeout(() => {
-        console.log(i)
-      },1000)
-    }
+    // // 同时输出0，1，2，3，4
+    // for(let i=0;i<5;i++){
+    //   setTimeout(() => {
+    //     console.log(i)
+    //   },1000)
+    // }
 
-    // 每隔一秒依次输出0，1，2，3，4
-    for(var i=0; i<5; i++ ){
-      ((j) => {
-        setTimeout(() => {
-          console.log(j)
-        },1000*j)
-      })(i)
-    }
+    // // 每隔一秒依次输出0，1，2，3，4
+    // for(var i=0; i<5; i++ ){
+    //   ((j) => {
+    //     setTimeout(() => {
+    //       console.log(j)
+    //     },1000*j)
+    //   })(i)
+    // }
 
     // 闭包内存泄漏问题：
     // http://www.ruanyifeng.com/blog/2017/04/memory-leak.html
@@ -893,18 +895,18 @@
 
 
       // 函数作为参数被传递
-      var max = 10
-      function fn(x) {
-        if(x > max) {
-          console.log(true)
-        }else{
-          console.log(false)
-        }
-      }
-      (function(f){
-        var max = 100
-        f(12)   //true  max变量的取值是10，而不是100:要去创建这个函数的作用域取值，而不是“父作用域”
-      })(fn)
+      // var max = 10
+      // function fn(x) {
+      //   if(x > max) {
+      //     console.log(true)
+      //   }else{
+      //     console.log(false)
+      //   }
+      // }
+      // (function(f){
+      //   var max = 100
+      //   f(12)   //true  max变量的取值是10，而不是100:要去创建这个函数的作用域取值，而不是“父作用域”
+      // })(fn)
 
 
 /*
@@ -945,10 +947,77 @@
     }
 */
 
-
-
     export default {
-        
+        mouted() {
+          this.ziJieTiaoDong()
+        },
+        methods: {
+          ziJieTiaoDong() {
+              const obj = {
+                name: "jsCoder",
+                skill: ["es6", "react", "angular"],
+                say: function () {
+                  for(let i = 0, len = this.skill.length; i< len; i++){
+                    let _this = this
+                    setTimeout(function(){
+                      console.log('No.' + i + _this.name);
+                      console.log(_this.skill[i]);
+                      console.log('--------------------------');
+                    }, 0);
+                    console.log(i+1);
+                  }
+                }
+              };
+              obj.say();
+              /*期望得到下面的结果:
+              1
+              2
+              3
+              No.1 jsCoder
+              es6
+              /------------------------
+              No.2 jsCoder
+              react
+              /---------------------------
+              No. 3 jsCoder
+              angular
+              /--------------------------
+              */
+
+
+              // function a() {
+              //   console.log('a');
+              //   Promise.resolve().then(() => {
+              //     console.log('e')
+              //   })
+              // };
+              // function b() {
+              //   console.log('b')
+              // }
+              // function c() {
+              //   console.log('c');
+              // }
+              // function say() {
+              //   setTimeout(a, 0);
+              //   var temp = Promise.resolve().then(b);
+              //   setTimeout(c, 0);
+              //   console.log('d');
+              // }
+              // say()    //d b a e c
+
+
+              // function person(x, y) {
+              //   this.name = x,
+              //   this.age = y
+              // }
+
+              // var obj = {
+              //   name = 'qw'
+              // }
+
+              // person.bind(obj, x)
+          }
+        }
     }
 </script>
 

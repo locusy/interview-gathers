@@ -18,6 +18,30 @@
     <p>
       <router-link :to="{ path: '/regexp' }">正则</router-link>
     </p>
+    <p>
+      <router-link :to="{ path: '/css' }">CSS</router-link>
+    </p>
+    <p>
+      <router-link :to="{ path: '/git' }">GIT</router-link>
+    </p>
+    <p>
+      <router-link :to="{ path: '/html' }">HTML</router-link>
+    </p>
+    <p>
+      <router-link :to="{ path: '/javascript' }">Javascript</router-link>
+    </p>
+    <p>
+      <router-link :to="{ path: '/node' }">Node</router-link>
+    </p>
+    <p>
+      <router-link :to="{ path: '/react' }">React</router-link>
+    </p>
+    <p>
+      <router-link :to="{ path: '/vue' }">Vue</router-link>
+    </p>
+    <p>
+      <router-link :to="{ path: '/webpack' }">webpack</router-link>
+    </p>
    
   </div>
 </template>

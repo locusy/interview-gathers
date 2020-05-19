@@ -1,12 +1,23 @@
 <template>
     <div>
+        <p>
+            <router-link :to="{ path: '/handwrite/gather' }">1、图片预览</router-link>
+        </p>
+        <input type="file" name="file" v-on:change="showPreview($event)" />
+        <img id="portrait" src="http://t7.baidu.com/it/u=3616242789,1098670747&fm=79&app=86&f=JPEG?w=900&h=1350" width="70" height="75">
 
+        <br><br>
+        ********************************************************************************
+
+        <p>
+            <router-link :to="{ path: '/handwrite/gather' }">2、输出答案</router-link>
+        </p>
     </div>
 </template>
 
 <script>
 // https://juejin.im/post/5c9edb066fb9a05e267026dc
-
+    
 // 2、手写bind, call, apply
   //   Function.prototype.bind = function(context, ...bindArgs) {
   //     // func 为调用 bind 的原函数
@@ -191,26 +202,26 @@
 
     /******************笔试题******************/
     //1
-      var myvar = 'my value';
-      (function(){
-          console.log(myvar);  //undefined
-          var myvar = 'local value'; 
-      })()
+    //   var myvar = 'my value';
+    //   (function(){
+    //       console.log(myvar);  //undefined
+    //       var myvar = 'local value'; 
+    //   })()
   
-      //2
-      function Person(name){
-          this.name = name;
-      }
-      Person.prototype.age = 20;
-      Person.prototype.award = [];
+    //   //2
+    //   function Person(name){
+    //       this.name = name;
+    //   }
+    //   Person.prototype.age = 20;
+    //   Person.prototype.award = [];
       
-      var jack = new Person('jack');
-      var rose = new Person('rose');
+    //   var jack = new Person('jack');
+    //   var rose = new Person('rose');
 
-      jack.age++;
-      rose.award.push('oscar');
-      console.log(rose.age); //20
-      console.log(jack.award);//['oscar']
+    //   jack.age++;
+    //   rose.award.push('oscar');
+    //   console.log(rose.age); //20
+    //   console.log(jack.award);//['oscar']
   
       //3.请编写formatNum 函数，将数字格式化为金额格式，每三位数加入逗号：
     //   var money = 34782632;
@@ -231,18 +242,18 @@
     //   console.log(money.formatNum());
    
       //4.扩展console.log 方法，使其输入带赢自增序号
-      function extendLog(){
-          var index = 1;
-          var log = console.log;
-          return function(){
-              arguments[0] = index + ':' + arguments[0];
-              log.apply(this,arguments);
-              index ++;
-          }
-      }
-      console.log = new extendLog();
-      console.log('foo'); //1:foo
-      console.log('bar'); //2:bar
+    //   function extendLog(){
+    //       var index = 1;
+    //       var log = console.log;
+    //       return function(){
+    //           arguments[0] = index + ':' + arguments[0];
+    //           log.apply(this,arguments);
+    //           index ++;
+    //       }
+    //   }
+    //   console.log = new extendLog();
+    //   console.log('foo'); //1:foo
+    //   console.log('bar'); //2:bar
   
       //5.实现一个函数 输出结果如下
       /**
@@ -267,11 +278,100 @@
     //   console.log(f(1)(2).value);
     //   console.log(f(1)(2)(3).value);
 
-
-      
     
     export default {
-        
+        mounted() {
+            // this.output()
+        },
+        methods: {
+             // 1、图片预览
+            showPreview(source) {
+                console.log(source.target.files, 'sourse---')
+                var file = source.target.files[0];
+                if(window.FileReader) {
+                    var fr = new FileReader();
+                    fr.onloadend = function(e) {
+                        console.log('e.target.result,', e.target.result)
+                        document.getElementById("portrait").src = e.target.result;
+                    };
+                    fr.readAsDataURL(file);
+                }
+            },
+
+            // 2、输出答案
+            output() {
+                //  1.输出结果
+                   console.log(typeof null);   //object
+                   console.log(typeof undefined);   //undefined
+
+                //   2.输出结果
+                    var a;
+                   console.log(a === undefined);   //true
+                   console.log(undefined === undefined)    // true
+                    var undefined;
+                    undefined = 1;
+                   console.log(a)                  //undefined
+                   console.log(undefined)          //1
+                   console.log(a === undefined);    //false
+
+                //    3.输出结果
+                    var name = 'duolaidian';
+                    (function () {
+                        test1();
+                        function test1() {
+                           console.log('name', name);    // undefined
+                        };
+
+                        // var name  = 'hualala';
+                        // test2();                // 报错:test2 is not a function
+                        // var test2 = function () {
+                        //    console.log('name', name);     // 不会执行
+                        // };
+                        // console.log(typeof test2)    //function
+                    })()
+
+                //    4.输出结果
+                    function Ninja() {
+                        var value = 'Ninja'  //  "TypeError: Cannot set property 'value' of undefined"
+                    }
+
+                    var ninjaA = Ninja(),
+                        ninjaB = new Ninja();
+                   console.log('typeof ninjaA:', typeof ninjaA);    //undefined
+                   console.log('typeof ninjaB:',typeof ninjaB);     //object
+
+
+                //    5.下面程序有什么问题,如何改进   将var改成let
+                    var arr = [1,23,4,5]
+                    function print(arr) {
+                        var i,l=arr.length;
+                        for(var i=0;i<l;i++){
+                            setTimeout(function () {
+                               console.info(arr[i]);   //undefined
+                            },200)
+                        }
+                    }
+                    print(arr);
+
+
+                //    6.将arguments转化成数组
+                    function args(a, b) {
+                        console.log('arguments:', arguments)
+
+                        // 转化成字符串
+                        // const str =  Array.prototype.toString.call(arguments)   
+
+                        // 转化成数组
+                        // const arr = Array.prototype.slice.call(arguments)
+                        // const arr = Array.from(arguments)
+
+                        console.log('arr:', Object.prototype.toString.call(arr) === '[object Array]')
+                        // 判断是否是对象：Object.prototype.toString.call(obj) === '[object Object]'
+                        console.log('arr:', arr)
+                    }
+                    args(1,2)
+            }
+        }
     }
 </script>
 

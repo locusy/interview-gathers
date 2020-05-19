@@ -17,6 +17,15 @@ import HandwritePromise from './components/HandWrite/Promise'
 import HandwriteHash from './components/HandWrite/RouteHash'
 import HandwriteHistory from './components/HandWrite/RouteHistory'
 import Http from './components/Http'
+import Css from './components/Css'
+import Git from './components/Git'
+import Html from './components/Html'
+import Javascript from './components/Javascript'
+import Node from './components/Node'
+import React from './components/React'
+import Regexp from './components/Regexp'
+import Vuer from './components/Vue'
+import Webpack from './components/Webpack'
 
 // const App = () => import('./App')
 // const Home = () => import('./components/Home')
@@ -35,6 +44,42 @@ const routes = [
         path: '/home',
         component: Home,
         name: 'Home'
+      },
+      // 手写
+      {
+        path: '/handwrite',
+        component: HandWrite,
+        name: 'HandWrite'
+      },
+      {
+        path: '/handwrite/gather',
+        component: HandwriteGather,
+        name: 'HandwriteGather'
+      },
+      {
+        path: '/handwrite/ajax',
+        component: HandwriteAjax,
+        name: 'HandwriteAjax'
+      },
+      {
+        path: '/handwrite/eventEmitter',
+        component: HandwriteEventEmitter,
+        name: 'HandwriteEventEmitter'
+      },
+      {
+        path: '/handwrite/promise',
+        component: HandwritePromise,
+        name: 'HandwritePromise'
+      },
+      {
+        path: '/handwrite/hash',
+        component: HandwriteHash,
+        name: 'HandwriteHash'
+      },
+      {
+        path: '/handwrite/history',
+        component: HandwriteHistory,
+        name: 'HandwriteHistory'
       },
       // 算法
       {
@@ -79,42 +124,60 @@ const routes = [
         component: Http,
         name: 'Http'
       },
-      // 手写
+      // css
       {
-        path: '/handwrite',
-        component: HandWrite,
-        name: 'HandWrite'
+        path: '/css',
+        component: Css,
+        name: 'Css'
       },
+      // git
       {
-        path: '/handwrite/gather',
-        component: HandwriteGather,
-        name: 'HandwriteGather'
+        path: '/git',
+        component: Git,
+        name: 'Git'
       },
+      // Html
       {
-        path: '/handwrite/ajax',
-        component: HandwriteAjax,
-        name: 'HandwriteAjax'
+        path: '/html',
+        component: Html,
+        name: 'Html'
       },
+      //Javascript
       {
-        path: '/handwrite/eventEmitter',
-        component: HandwriteEventEmitter,
-        name: 'HandwriteEventEmitter'
+        path: '/javascript',
+        component: Javascript,
+        name: 'Javascript'
       },
+      // Node
       {
-        path: '/handwrite/promise',
-        component: HandwritePromise,
-        name: 'HandwritePromise'
+        path: '/node',
+        component: Node,
+        name: 'Node'
       },
+      // React
       {
-        path: '/handwrite/hash',
-        component: HandwriteHash,
-        name: 'HandwriteHash'
+        path: '/react',
+        component: React,
+        name: 'React'
       },
+      // Regexp
       {
-        path: '/handwrite/history',
-        component: HandwriteHistory,
-        name: 'HandwriteHistory'
-      }
+        path: '/regexp',
+        component: Regexp,
+        name: 'Regexp'
+      },
+      // Vue
+      {
+        path: '/vue',
+        component: Vuer,
+        name: 'Vuer'
+      },
+      // Webpack
+      {
+        path: '/webpack',
+        component: Webpack,
+        name: 'Webpack'
+      },
     ]
   }
 ]

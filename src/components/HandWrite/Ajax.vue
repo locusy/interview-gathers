@@ -5,6 +5,8 @@
 </template>
 
 <script>
+// XMLhttprequest封装promise.then
+
 // 6、ajax 的实现
     // Asynchronous Javascript And XML
       // function ajax(options) {
