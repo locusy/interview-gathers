@@ -1,13 +1,14 @@
 <template>
     <div>
-
+        <p>一、jquery</p>
+        <p>二、原型链</p>
     </div>
 </template>
 
 <script>
 /*
 
-  --------------------jquery---------------------
+  --------------------一、jquery---------------------
   
   1、jQuery获取的dom对象和原生的dom对象有何区别？
       js原生获取的dom是一个对象，jQuery对象就是一个数组对象，其实就是选择出来的元素的数组集合，
@@ -75,7 +76,7 @@
     5、jQuery的事件委托怎么写的？
 
 
-    ------------------------------原型链--------------------------
+    ------------------------------二、原型链--------------------------
 
     js数据类型：
     基本类型：number string boolean undefined  Symbol（符号,es6新增）
@@ -175,6 +176,25 @@
     原型链继承
     混合式继承
 
+  7、Object.create
+    1.写法一
+      Object.create = function (obj) {
+        function F() {}
+        F.prototype = obj;
+        return new F();
+      };
+    2.写法二
+      Object.create = function (obj) {
+        var B = {};
+        Object.setPrototypeOf(B, obj);
+        return B;
+      };
+    3.写法三
+      Object.create = function (obj) {
+        var B = {};
+        B.__proto__ = obj;
+        return B;
+      };
 
 
     -----------------------------javascript相关---------------------------
@@ -182,6 +202,27 @@
 //  es6:    http://es6.ruanyifeng.com/#README
 
   /* 
+  1、JavaScript的函数调用有哪几种方式？请举例说明，并分析其不同之处。
+      1.函数调用
+          this指向：window
+          返回值：由return值决定，如果没有return语句就表示没有返回值
+      2.方法调用
+              this指向：该方法的调用者
+              返回值  ：由return语句决定
+      3.构造函数调用
+              this指向：当前构造函数创建的对象
+              返回值：a、没有手动添加返回值，默认返回this
+                                  b、return了一个基本数据类型（数字、布尔值、null、undefined），最终返回this
+                                  c、return了一个复杂数据类型（对象），最终返回该对象
+      4.上下文调用
+              call和apply 是方法， 是所有函数都具有的方法。 Function.prototype
+              只要函数调用call/apply 方法，那么该函数就会立即执行。
+              this指向： a、传递一个null/undefined------------------->window
+                        b、传递一个数字、字符串、布尔值------->对应的基本包装类型的对象
+                        c、传递一个对象------------------------------->指向该对象
+              返回值：由return语句决定
+    
+  1、请举例说明DOM event的传播机制和用途
   
   1、作用域题
     alert(a)    // undefined

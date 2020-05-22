@@ -1,11 +1,13 @@
 <template>
     <div>
-        数组方法
+        <p>1、数组方法</p>
+        <p>2、封装reduce</p>
     </div>
 </template>
 
 <script>
- var arr = [1,2,3,3,3,4,4,5];
+    // 1、数组方法
+    var arr = [1,2,3,3,3,4,4,5];
 
     function arrFind(){
       // find方法找到 数组里面符合条件的第一项
@@ -107,7 +109,26 @@
     // console.log(arr,arr.unshift(1))
     // console.log(arr,arr.push(1))
     // console.log(arr,arr.pop(1))
-    console.log(arr,arrFindindex())
+    // console.log(arr,arrFindindex())
+
+
+    // 2、封装reduce
+  //   Array.prototype.myReduce = function (fn, initialValue) {
+  //   if (this.length === 0) {
+  //     if (initialValue === undefined) {
+  //       console.error("reduce of empty array with no initialValue");
+  //     } else {
+  //       return initialValue;
+  //     }
+  //   } else {
+  //     var prev = initialValue !== undefined ? initialValue : this[0];
+  //     var startIndex = initialValue !== undefined ? 0 : 1;
+  //     for (var i = startIndex; i < this.length; i++) {
+  //       prev = fn(prev, this[i]);
+  //     }
+  //     return prev;
+  //   }
+  // };
 
     export default {
         

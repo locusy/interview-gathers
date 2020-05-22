@@ -12,11 +12,123 @@
         <p>
             <router-link :to="{ path: '/handwrite/gather' }">2、输出答案</router-link>
         </p>
+
+        <br><br>
+        ********************************************************************************
+
+        <p>
+            <router-link :to="{ path: '/handwrite/gather' }">3、数字转成中文</router-link>
+        </p>
     </div>
 </template>
 
 <script>
 // https://juejin.im/post/5c9edb066fb9a05e267026dc
+
+    // 序列化
+    // function Serialize(pNode) {
+    //     var result = [];
+    //     function preOrder(childNode) {
+    //         if (!childNode) {
+    //             result.push("#");
+    //             return;
+    //         }
+    //         result.push(childNode.val);
+    //         preOrder(childNode.left);
+    //         preOrder(childNode.right);
+    //     }
+    //     preOrder(pNode);
+    //     for (var i = result.length - 1; i >= 0; i--) {
+    //         if (result[i] !== "#") {
+    //             break;
+    //         }
+    //         result.pop();
+    //     }
+    //     return result.join();
+    // }
+
+    // 反序列化
+    // function Deserialize(s) {
+    //         if (!s) return;
+    //         s = s.split(",");
+    //         return deserlia(s);
+    // }
+    // function deserlia(arr) {
+    //     if (arr.length === 0) return;
+    //     let current = arr.shift();
+    //     let node = null;
+    //     if (current !== "#") {
+    //         node = { val: current };
+    //         node.left = deserlia(arr);
+    //         node.right = deserlia(arr);
+    //     }
+    //     return node;
+    // }
+
+// 1、封装jsonp
+//http://www.baidu.com?aa=11&callback=my_jsonp04349289664328899
+// var jsonp = function (url, param, callback) {
+//   //处理url地址,查找？，如果没有？这个变量就有一个"?"，有？这个变量接收一个&
+//   var querystring = url.indexOf("?") == -1 ? "?" : "&";
+//   //处理参数{xx:xx}
+//   for (var k in param) {
+//     querystring += k + "=" + param[k] + "&"; //?k=para[k]
+//   }
+//   //处理回调函数名
+//   var cbName = "callback_" + new Date().getTime();
+//   querystring += "callback=" + cbName;
+//   var script = document.createElement("script");
+//   script.src = url + querystring;
+//   //把回调函数的名字附给window
+//   window[cbName] = function (param) {
+//     //这里执行回调的操作，用回调来处理参数
+//     callback(param);
+//     //拿到了就删掉这个script
+//     document.body.removeChild(script);
+//   };
+//   document.body.appendChild(script);
+// };
+
+// jsonp("https://www.baidu.com", { aa: 11 }, function () {
+//   console.log(param);
+// });
+
+// 1、发布订阅模式
+// class Event {
+//   constructor() {
+//     this._handlers = {};
+//   }
+//   publish(type, value) {
+//     let fns = this._handlers[type];
+//     if (Array.isArray(fns)) {
+//       fns.forEach((fn) => fn(value));
+//     }
+//   }
+//   subscribe(type, func) {
+//     let fns = this._handlers[type] || [];
+//     if (fns.indexOf(func) !== -1) {
+//       fns.push(func);
+//     }
+//   }
+//   remove(type, func) {
+//     if (!type) {
+//       this._handlers = {};
+//     } else {
+//       let fns = this._handlers[type];
+//       if (!func) {
+//         fns = [];
+//       } else {
+//         if (Array.isArray(fns)) {
+//           let index = fns.indexOf(func);
+//           if (index !== -1) {
+//             fns.splice(index, 1);
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+
     
 // 2、手写bind, call, apply
   //   Function.prototype.bind = function(context, ...bindArgs) {
@@ -282,6 +394,7 @@
     export default {
         mounted() {
             // this.output()
+            console.log(this.intToChinese(99))
         },
         methods: {
              // 1、图片预览
@@ -370,6 +483,35 @@
                         console.log('arr:', arr)
                     }
                     args(1,2)
+            },
+            // 3、数字转成中文
+            intToChinese ( str ) {
+                str = str+'';
+                var len = str.length-1;
+                var idxs = ['','十','百','千','万','十','百','千','亿','十','百','千','万','十','百','千','亿'];
+                var num = ['零','一','二','三','四','五','六','七','八','九'];
+                return str.replace(/([1-9]|0+)/g,function( $, $1, idx, full) {
+                    var pos = 0;
+                    if( $1[0] != '0' ){
+                        pos = len-idx;
+                        if( idx == 0 && $1[0] == 1 && idxs[len-idx] == '十'){
+                            return idxs[len-idx];
+                        }
+                        return num[$1[0]] + idxs[len-idx];
+                    } else {
+                    var left = len - idx;
+                    var right = len - idx + $1.length;
+                    if( Math.floor(right/4) - Math.floor(left/4) > 0 ){
+                        pos = left - left%4;
+                    }
+                    if( pos ){
+                        return idxs[pos] + num[$1[0]];
+                    } else if( idx + $1.length >= len ){
+                        return '';
+                    }else {
+                        return num[$1[0]] }
+                    }
+                })
             }
         }
     }

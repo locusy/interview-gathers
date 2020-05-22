@@ -7,6 +7,36 @@
 <script>
 // XMLhttprequest封装promise.then
 
+    // promise化ajax
+    function getJson(url) {
+      return new Promise((resolve, reject) => {
+        const handler = function () {
+          if (this.readState !== 4) {
+            return;
+          }
+          if (this.readStatus === 200) {
+            resolve(this.response);
+          } else {
+            reject(new Error("err reason" + this.statusText));
+          }
+        };
+        const client = new XMLHttpRequest();
+        client.open("GET", url);
+        client.onreadystatechange = handler;
+        client.responseType = "json";
+        client.requestHeader("Accept", "application/json");
+        client.send();
+      });
+    }
+    getJson("url").then(
+      (res) => {
+        console.log(res);
+      },
+      (err) => {
+        console.error(err);
+      }
+    );
+
 // 6、ajax 的实现
     // Asynchronous Javascript And XML
       // function ajax(options) {

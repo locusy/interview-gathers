@@ -56,6 +56,18 @@
         // var str1 = arr.join('_')
         // console.log(str1)
 
+    // 驼峰下划线转换
+    function toLine(name) {
+        return name.replace(/([A-Z])/g, "_$1").toLowerCase();
+    }
+
+    // 下划线转换驼峰
+    function toHump(name) {
+        return name.replace(/\_(\w)/g, function (all, letter) {
+            console.log(all, letter);
+            return letter.toUpperCase();
+        });
+    }
 
     // 3、二分法有什么限制条件（饿了么）
         
