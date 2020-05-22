@@ -1,12 +1,13 @@
 <template>
     <div>
-        性能优化
+        <p>1、前端如何优化网站性能？</p>
+        <p>2、衡量指标window.performance.timing是干什么的？</p>
+        <p>3、如何优化SPA应用的首屏加载速度慢的问题？</p>
     </div>
 </template>
 
 <script>
-/* 性能优化
-
+/* 
     1、前端如何优化网站性能？
     （1）减少 HTTP 请求数量
         在浏览器与服务器进行通信时，主要是通过 HTTP 进行通信。
@@ -46,7 +47,7 @@
     （5）减少 DOM 操作
     （6）图标使用 IconFont 替换
 
-    2.你关于性能优化是否只知道js文件摆放顺序、减少请求、雪碧图等等，却连衡量指标window.performance.timing都不清楚是干什么的？
+    2、衡量指标window.performance.timing是干什么的？
         https://www.cnblogs.com/LuckyWinty/p/8053226.html
         https://www.cnblogs.com/libin-1/p/6501951.html
 

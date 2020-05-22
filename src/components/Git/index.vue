@@ -1,13 +1,12 @@
 <template>
     <div>
-
+        <p>1、git revert 和 git reset 的区别</p>
+        <p>2、git rebase（变基）</p>
     </div>
 </template>
 
 <script>
 /*
-    git 操作
-
     1、git revert 和 git reset 的区别
        在还没有push的情况下：
         git reset --hard HEAD^ 撤销上一次commit，会在git提交记录中消失

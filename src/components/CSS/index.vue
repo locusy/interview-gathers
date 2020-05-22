@@ -1,15 +1,12 @@
 <template>
   <div>
-     <div class="center">
+    <!-- <div class="center">
       <div class="innerbox">1231</div>
       <div class="innerbox">1231</div>
       <div class="innerbox">1231</div>
       <div class="innerbox">1231</div>
-    </div>
+    </div> -->
 
-    <br>
-    <br>
-    <br>
     <p>*****************圣杯布局*****************</p>
     <div id="header">header</div>
     <div id="container">
@@ -19,9 +16,6 @@
     </div>
     <div id="footer">footer</div>
 
-    <br>
-    <br>
-    <br>
     <!-- <p>****************双飞翼布局*****************</p>
     <div id="header"></div>
     <div id="container" class="column">
