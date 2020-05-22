@@ -1000,6 +1000,9 @@
         console.log(this.age);
     }
 
+    es6新特征
+    typescript
+
     
 */
 

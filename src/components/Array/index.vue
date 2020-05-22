@@ -29,12 +29,6 @@
       return result
     };
 
-    function arrMaptoString(){
-      // map方法对数组的每一项返回为字符串
-      let result = arr.map(String)
-      return result
-    };
-
     function arrSome(){
       // some方法返回的是布尔值 只要有一项符合就返回true
       let result = arr.some(item => item>4)  //true
@@ -75,6 +69,12 @@
     // 取数组的最大值二：数组长度很大时不合适
     Math.max(...arr)
 
+    function arrMaptoString(){
+      // map方法对数组的每一项返回为字符串
+      let result = arr.map(String)
+      return result
+    };
+
     function arrReducetoInt(){
       var arr1 = ['1','2','4','5']
       // 将数组字符串转成整数
@@ -113,22 +113,32 @@
 
 
     // 2、封装reduce
-  //   Array.prototype.myReduce = function (fn, initialValue) {
-  //   if (this.length === 0) {
-  //     if (initialValue === undefined) {
-  //       console.error("reduce of empty array with no initialValue");
-  //     } else {
-  //       return initialValue;
-  //     }
-  //   } else {
-  //     var prev = initialValue !== undefined ? initialValue : this[0];
-  //     var startIndex = initialValue !== undefined ? 0 : 1;
-  //     for (var i = startIndex; i < this.length; i++) {
-  //       prev = fn(prev, this[i]);
-  //     }
-  //     return prev;
-  //   }
-  // };
+    Array.prototype.myReduce = function (fn, initialValue) {
+      // console.log('this:', this)
+      // console.log('initialValue:', initialValue)
+      if (!this.length) {
+        if (!initialValue) {
+          console.error("reduce of empty array with no initialValue");
+        } else {
+          return initialValue;
+        }
+      } else {
+        var prev = initialValue || this[0];
+        // console.log('prev:', prev)
+        var startIndex = initialValue ? 0 : 1;
+        for (var i = startIndex; i < this.length; i++) {
+          prev = fn(prev, this[i]);
+        }
+        return prev;
+      }
+    }
+
+    var myArr = [2, 4, 6]
+    const result = myArr.myReduce((a,b) => {
+      return a*b
+    }, 10)
+    // console.log('result:', result)
+
 
     export default {
         

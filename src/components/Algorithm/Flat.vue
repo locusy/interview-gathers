@@ -1,6 +1,9 @@
 <template>
     <div>
-        数组扁平化
+        <p>数组扁平化：</p>
+        <p>（1）老方法-递归</p>
+        <p>（2）使用tostring</p>
+        <p>（3）使用es6的reduce函数</p>
     </div>
 </template>
 
@@ -18,7 +21,7 @@
     }
     var arr = [1,3,4,5,[6,[0,1,5],9],[2,5,[1,5]],[5]];
     unfold(arr);
-    console.log(result)
+    // console.log(result)
 
     // 递归另一种写法
     // var result=[];
@@ -40,12 +43,13 @@
     //（2）使用tostring
     var c=[1,3,4,5,[6,[0,1,5],9],[2,5,[1,5]],[5]];
     var b = c.toString().split(',');
-    console.log(b);
+    // console.log(b);
 
     //（3）使用es6的reduce函数
-    // var arr=[1,3,4,5,[6,[0,1,5],9],[2,5,[1,5]],[5]];
-    // const flatten = arr => arr.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
-    // var result = flatten(arr)
+    var arr=[1,3,4,5,[6,[0,1,5],9],[2,5,[1,5]],[5]];
+    const flatten = arr => arr.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
+    var result = flatten(arr)
+    // console.log('flat arr:', result)
 
 
     import Vue from 'vue'
