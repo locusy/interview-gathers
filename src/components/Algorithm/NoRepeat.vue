@@ -26,7 +26,7 @@
         }
         return arr1
     }
-    console.log(noRepeat(arr1))
+    // console.log(noRepeat(arr1))
 
     // 2、使用indexOf
     // var arr = [1,2,3,3,3,4,4,5];
