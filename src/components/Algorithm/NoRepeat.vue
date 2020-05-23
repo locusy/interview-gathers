@@ -1,13 +1,19 @@
 <template>
     <div>
-        数组去重
+        <p>数组去重</p>
+        <p>1、双重for循环</p>
+        <p>2、使用indexOf</p>
+        <p>3、使用includes</p>
+        <p>4、使用filter</p>
+        <p>5、使用对象的特点</p>
+        <p>6、使用set</p>
     </div>
 </template>
 
 <script>
     // https://juejin.im/post/5c7e0328f265da2dc538da03
 
-    // 1、双重for循环：
+    // 1、双重for循环
     var arr1 = [1,2,3,3,3,4,4,5];
     function noRepeat(arr1) {
         for(var i=0;i<arr1.length;i++){
@@ -22,7 +28,7 @@
     }
     console.log(noRepeat(arr1))
 
-    // 2、使用indexOf：
+    // 2、使用indexOf
     // var arr = [1,2,3,3,3,4,4,5];
     // function unique(arr) {
     //     let res = []
@@ -35,7 +41,7 @@
     // }
     // console.log(unique(arr))
 
-    // 使用includes()：
+    // 3、使用includes()
     // var arr = [1,2,3,3,3,4,4,5]
     // function unique1(arr) {
     //     let res = []
@@ -48,7 +54,7 @@
     // }
     // console.log(unique1(arr))
 
-    // 使用filter：
+    // 4、使用filter
     // var arr = [1,2,3,3,3,4,4,5]
     // function unique2(arr) {
     //     return arr.filter((item,index, arr) => {
@@ -57,7 +63,7 @@
     // }
     // console.log(unique2(arr))
     
-    // 使用对象的特点：
+    // 5、使用对象的特点：
     // var arr = [1,2,3,3,3,4,4,5]
     // function unique3(arr) {
     //     let obj = {}
@@ -72,7 +78,7 @@
     // }
     // console.log(unique3(arr))
 
-    // 使用set：
+    // 6、使用set：
     // var arr = [1,2,3,3,3,4,4,5]
     // function unique4(arr) {
     //     return [...new Set(arr)]
