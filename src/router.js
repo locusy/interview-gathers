@@ -8,6 +8,10 @@ import LinkedList from './components/Algorithm/LinkedList.vue'
 import NoRepeat from './components/Algorithm/NoRepeat.vue'
 import Flat from './components/Algorithm/Flat.vue'
 import Gather from './components/Algorithm/Gather.vue'
+import LeetCode from './components/Algorithm/LeetCode.vue'
+import Hash from './components/Algorithm/Hash.vue'
+import Stack from './components/Algorithm/Stack.vue'
+import Seter from './components/Algorithm/Set.vue'
 import Security from './components/Security'
 import HandWrite from './components/HandWrite'
 import HandwriteGather from './components/HandWrite/Gather'
@@ -109,9 +113,29 @@ const routes = [
         name: 'Flat'
       },
       {
+        path: '/algorithm/leetcode',
+        component: LeetCode,
+        name: 'LeetCode'
+      },
+      {
         path: '/algorithm/gather',
         component: Gather,
         name: 'Gather'
+      },
+      {
+        path: '/algorithm/hash',
+        component: Hash,
+        name: 'Hash'
+      },
+      {
+        path: '/algorithm/stack',
+        component: Stack,
+        name: 'Stack'
+      },
+      {
+        path: '/algorithm/set',
+        component: Seter,
+        name: 'Set'
       },
       // 安全
       {
