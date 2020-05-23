@@ -1,9 +1,6 @@
 <template>
     <div>
         <p>
-            <router-link :to="{ path: '/handwrite/gather' }">收集</router-link>
-        </p>
-        <p>
             <router-link :to="{ path: '/handwrite/ajax' }">Ajax</router-link>
         </p>
         <p>
@@ -17,6 +14,9 @@
         </p>
         <p>
             <router-link :to="{ path: '/handwrite/history' }">手写route-history</router-link>
+        </p>
+        <p>
+            <router-link :to="{ path: '/handwrite/gather' }">收集</router-link>
         </p>
     </div>
 </template>

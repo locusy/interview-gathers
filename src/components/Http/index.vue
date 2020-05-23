@@ -127,6 +127,7 @@
       https://www.cnblogs.com/gotodsp/p/6366163.html
 
   15、浏览器缓存的基本策略，什么时候该缓存什么时候不该缓存，以及对于控制缓存的字段的相关设置是否清楚？
+      https://www.jianshu.com/p/54cc04190252
       缓存的设置:
       强缓存和协商缓存
       expires

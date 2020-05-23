@@ -394,7 +394,7 @@
     export default {
         mounted() {
             // this.output()
-            console.log(this.intToChinese(99))
+            // console.log(this.intToChinese(99))
         },
         methods: {
              // 1、图片预览

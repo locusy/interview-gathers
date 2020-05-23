@@ -1,102 +1,139 @@
 <template>
     <div>
-
+      <p>1、ajax封装</p>
+      <p>2、XMLhttprequest封装promise.then（promise化ajax）</p>
     </div>
 </template>
 
 <script>
-// XMLhttprequest封装promise.then
-
-    // promise化ajax
-    function getJson(url) {
-      return new Promise((resolve, reject) => {
-        const handler = function () {
-          if (this.readState !== 4) {
-            return;
-          }
-          if (this.readStatus === 200) {
-            resolve(this.response);
-          } else {
-            reject(new Error("err reason" + this.statusText));
-          }
-        };
-        const client = new XMLHttpRequest();
-        client.open("GET", url);
-        client.onreadystatechange = handler;
-        client.responseType = "json";
-        client.requestHeader("Accept", "application/json");
-        client.send();
-      });
-    }
-    getJson("url").then(
-      (res) => {
-        console.log(res);
-      },
-      (err) => {
-        console.error(err);
-      }
-    );
-
-// 6、ajax 的实现
-    // Asynchronous Javascript And XML
-      // function ajax(options) {
-      //   // 选项
-      //   var method = options.method || 'GET',
-      //       params = options.params,
-      //       data = options.data,
-      //       url = options.url + (params ? '?' + Object.keys(params).map(key => key + '=' + params[key]).join('&') : ''),
-      //       async = options.async === false ? false : true,
-      //       success = options.success,
-      //       headers = options.headers;
-
-      //   var request;
-      //   if (window.XMLHttpRequest) {
-      //     request = new XMLHttpRequest();
-      //   } else {
-      //     request = new ActiveXObject('Microsoft.XMLHTTP');
-      //   }
-
-      //   request.onstatechange = function() {
-      //     /**
-      //     readyState:
-      //       0: 请求未初始化
-      //       1: 服务器连接已建立
-      //       2: 请求已接收
-      //       3: 请求处理中
-      //       4: 请求已完成，且响应已就绪
-
-      //     status: HTTP 状态码
-      //     **/
-      //     if (request.readyState === 4 && request.status === 200) {
-      //       success && success(request.responseText);
-      //     }
-      //   }
-
-      //   request.open(method, url, async);
-      //   if (headers) {
-      //     Object.keys(headers).forEach(key => request.setRequestHeader(key, headers[key]));
-      //   }
-      //   method === 'GET' ? request.send() : request.send(request.data);
-      // }
-      // // e.g.
-      // ajax({
-      //   method: 'GET',
-      //   url: '...',
-      //   success: function(res) {
-      //     console.log('success', res);
-      //   },
-      //   async: true,
-      //   params: {
-      //     p: 'test',
-      //     t: 666
-      //   },
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   }
-      // })
-      
     export default {
-        
+      methods: {
+        ajax: (method, url, data, success) => {
+          var xhr = null;
+          try {
+            xhr = new XMLHttpRequest();
+          } catch (e) {
+            xhr = new ActiveXObject('Microsoft.XMLHTTP');
+          }
+          
+          if (method == 'get' && data) {
+            url += '?' + data;
+          }
+          
+          xhr.open(method,url,true);
+          if (method == 'get') {
+            xhr.send();
+          } else {
+            xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+            xhr.send(data);
+          }
+          
+          xhr.onreadystatechange = function() {
+            
+            if ( xhr.readyState == 4 ) {
+              if ( xhr.status == 200 ) { 
+                success && success(xhr.responseText);
+              } else {
+                alert('出错了,Err：' + xhr.status);
+              }
+            }
+            
+          }
+        },
+
+        // 2、XMLhttprequest封装promise.then（promise化ajax）
+        promisefy: (options) => {
+          let method = options.method,
+              url = options.url,
+              success = options.success,
+              async = options.async,
+              params = options.params,
+              data = options.data,
+              headers = options.headers;
+
+          return new Promise((resolve, reject) => {
+            var client;
+            try{
+              client = new XMLHttpRequest()
+            } catch {
+              client = new ActiveXObject('Microsoft.XMLHTTP')
+            }
+
+            /**
+              readyState:
+                0: 请求未初始化
+                1: 服务器连接已建立
+                2: 请求已接收
+                3: 请求处理中
+                4: 请求已完成，且响应已就绪
+              status: HTTP 状态码
+            **/
+
+            if(params) {
+              let queryStr = Object.keys(params).map(key => `${key}=${params[key]}`).join('&')
+              url = options.url + '?' + queryStr
+            }
+            client.open(method, url, async)
+
+            if(headers) {
+              Object.keys(headers).forEach(key => {
+                client.setRequestHeader(key, headers[key])
+              })
+            }
+
+            if(method == 'GET') {
+              client.send()
+            } else {
+              client.send(data)
+            }
+           
+            client.onreadyStatechange = function() {
+              if(client.readyState == 4) {
+                if(client.status == 200) {
+                  success && success(client.responseText)
+                  resolve(client.responseText)
+                } else {
+                  reject(new Error('err messgae:', client.statusText))
+                } 
+              }
+            }
+
+          })
+        }
+      },
+      mounted() {
+
+        // this.ajax('get', 'https://server.locusy.top/client_demo_api/blog/list', '', function(res) {
+        //   // console.log('res:::', res)
+        // })
+
+        // 调用示例
+        this.promisefy({
+          method: 'GET',
+          url: 'https://server.locusy.top/client_demo_api/blog/list',
+          success: function(res) {
+            console.log('success er', res.code);
+          },
+          async: true,
+          params: {
+            pageindex: 1,
+            pagesize: 5
+          },
+          data: {},
+          headers: {
+            'Content-Type': 'application/json'
+            // 'content-type', 'application/x-www-form-urlencoded'
+          }
+        }).then(
+          res => {
+            console.log('res', res)
+          },
+          err => {
+            console.error(err)
+          }
+        )
+
+      }
     }
 </script>
 
