@@ -2,6 +2,8 @@
     <div>
         <p>1、git revert 和 git reset 的区别</p>
         <p>2、git rebase（变基）</p>
+        <p>3、同步远程分支信息</p>
+        <p>4、删除远程分支</p>
     </div>
 </template>
 
@@ -29,6 +31,13 @@
             再切回master：
             git checkout master
             git merge branch1
+
+    3、同步远程分支信息
+        git fetch --all
+        git remote prune origin
+
+    4、删除远程分支
+        git push origin --delete 分支名
 */
 </script>
 

@@ -21,7 +21,7 @@
     }
 
     // 第二种：
-    // 空间换取时间 用对象存储我们需要的数据 遍历一次搞定
+    // 空间换取时间 用对象存储我们需要的数据 遍历一次搞定 O(n)
     let obj = {}
     for(let i=0; i<arr.length; i++) {
         if(arr[i] in obj) {
@@ -33,7 +33,22 @@
     }
 
     export default {
-        
+        mounted() {
+
+            // 练习
+            var arrr = [1,2,4,6,8,9]
+            var numm = 12
+            let obj = {}
+            for(let i=0; i<arrr.length; i++) {
+                if(arrr[i] in obj) {
+                    // console.log(obj[arrr[i]], arrr[i])
+                } else {
+                    let need = numm - arrr[i]
+                    obj[need] = arrr[i]
+                }
+            }
+
+        }
     }
 </script>
 

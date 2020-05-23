@@ -74,38 +74,98 @@ function quick_sort(arr) {
     }
     return quick_sort(left).concat([temp], quick_sort(right))
 }
-// console.time('sort')
-// console.log(quick_sort(arr))
-// console.timeEnd('sort')
+console.time('sort')
+console.log(quick_sort(arr))
+console.timeEnd('sort')
 
 // 快速排序优化版
 // 时间复杂度O(1)
-// function quick_sort1(arr) {
-//     if (arr.length <= 1) {
-//         return arr;
-//     }
-//     let pivot = arr[0]
+function quick_sort1(arr) {
+    if (arr.length <= 1) {
+        return arr;
+    }
+    let pivot = arr[0]
 
-//     let i = 1
-//     let j = arr.length-1
-//     while(i<j){
-//         let pivot = arr[0]
-//         while(arr[j]>=pivot && i<j){
-//             j --
-//         }
-//         while(arr[i]<=pivot  && i<j){
-//             i ++
-//         }
-//         let temp = arr[i]
-//         arr[i] = arr[j]
-//         arr[j] = temp
-//     }
-//     let left = arr.slice(1,i+1)
-//     let right = arr.slice(j+1)
-//     return [...quick_sort1(left), pivot, ...quick_sort1(right)]
-// }
+    let i = 1
+    let j = arr.length-1
+    while(i<j){
+        let pivot = arr[0]
+        while(arr[j]>=pivot && i<j){
+            j --
+        }
+        while(arr[i]<=pivot && i<j){
+            i ++
+        }
+        let temp = arr[i]
+        arr[i] = arr[j]
+        arr[j] = temp
+    }
+    let left = arr.slice(1,i+1)
+    let right = arr.slice(j+1)
+    return [...quick_sort1(left), pivot, ...quick_sort1(right)]
+}
+// console.time('sort')
 // console.log(quick_sort1(arr));
+// console.timeEnd('sort')
 
+// 2、希尔排序
+function shellSort(arr) {
+  var len = arr.length,
+    temp,
+    gap = 1;
+    while(gap < len/3) {          //动态定义间隔序列
+        gap = gap*3+1;
+    }
+    for (gap; gap > 0; gap = Math.floor(gap/3)) {
+        for (var i = gap; i < len; i++) {
+            temp = arr[i];
+            for (var j = i-gap; j >= 0 && arr[j] > temp; j -= gap) {
+                arr[j+gap] = arr[j];
+            }
+            arr[j+gap] = temp;
+        }
+    }
+    return arr;
+}
+
+// 3、选择排序
+function selectionSort(arr) {
+  var len = arr.length;
+  var minIndex, temp;
+  for (var i = 0; i < len - 1; i++) {
+    minIndex = i;
+    for (var j = i + 1; j < len; j++) {
+      if (arr[j] < arr[minIndex]) {     // 寻找最小的数
+          minIndex = j;                 // 将最小数的索引保存
+      }
+    }
+    temp = arr[i];
+    arr[i] = arr[minIndex];
+    arr[minIndex] = temp;
+  }
+  return arr;
+}
+
+//4、冒泡排序
+function bubbleSort(arr) {
+  var temp,swap;
+  for(var i=0;i<arr.length-1;i++){
+      swap=false;
+      for(var j=0;j<arr.length-1-i;j++){
+          if(arr[j]>arr[j+1]){
+              var temp=arr[j];
+              arr[j]=arr[j+1];
+              arr[j+1]=temp;
+              
+              swap=true;
+          }
+      }
+      if(!swap){
+          break;
+      }
+  }
+  return arr;
+}
 
 // 5、归并排序
 var merge = function(leftArr, rightArr){  
@@ -129,70 +189,31 @@ var mergeSort = function(array){
 // console.log(mergeSort(arr))
 
 
-
 export default {
   name: 'quickSort',
   methods: {
-    // 2、希尔排序
-    shellSort: (arr) => {
-      var len = arr.length,
-        temp,
-        gap = 1;
-        while(gap < len/3) {          //动态定义间隔序列
-            gap = gap*3+1;
-        }
-        for (gap; gap > 0; gap = Math.floor(gap/3)) {
-            for (var i = gap; i < len; i++) {
-                temp = arr[i];
-                for (var j = i-gap; j >= 0 && arr[j] > temp; j -= gap) {
-                    arr[j+gap] = arr[j];
-                }
-                arr[j+gap] = temp;
-            }
-        }
-        return arr;
-    },
-
-    // 3、选择排序
-    selectionSort: (arr) => {
-      var len = arr.length;
-      var minIndex, temp;
-      for (var i = 0; i < len - 1; i++) {
-        minIndex = i;
-        for (var j = i + 1; j < len; j++) {
-          if (arr[j] < arr[minIndex]) {     // 寻找最小的数
-              minIndex = j;                 // 将最小数的索引保存
-          }
-        }
-        temp = arr[i];
-        arr[i] = arr[minIndex];
-        arr[minIndex] = temp;
-      }
-      return arr;
-    },
-
-    //4、冒泡排序
-    bubbleSort: (arr) => {
-      var temp,swap;
-      for(var i=0;i<arr.length-1;i++){
-          swap=false;
-          for(var j=0;j<arr.length-1-i;j++){
-              if(arr[j]>arr[j+1]){
-                  var temp=arr[j];
-                  arr[j]=arr[j+1];
-                  arr[j+1]=temp;
-                  
-                  swap=true;
-              }
-          }
-          if(!swap){
-              break;
-          }
-      }
-      return arr;
-    }
   },
   mounted() {
+    // 练习
+    // var myarr = [4,5,2,1,4,7,8,0,10,22]
+    // function quick(myarr){
+    //   if(myarr.length <= 1) {
+    //     return arr
+    //   }
+
+    //   let temp = myarr[0]
+    //   let left = []
+    //   let right = []
+    //   for(let i=0; i<myarr.length; i++) {
+    //     if(myarr[0] > temp) {
+    //       left.push(myarr[0])
+    //     } else {
+    //       right.push(myarr[0])
+    //     }
+    //   }
+    //   return quick(left).concat([temp], quick(right))
+    // }
+    // console.log(quick(myarr))
   }
 }
 
