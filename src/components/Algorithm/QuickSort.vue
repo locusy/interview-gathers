@@ -74,9 +74,9 @@ function quick_sort(arr) {
     }
     return quick_sort(left).concat([temp], quick_sort(right))
 }
-console.time('sort')
-console.log(quick_sort(arr))
-console.timeEnd('sort')
+// console.time('sort')
+// console.log(quick_sort(arr))
+// console.timeEnd('sort')
 
 // 快速排序优化版
 // 时间复杂度O(1)
@@ -194,26 +194,51 @@ export default {
   methods: {
   },
   mounted() {
-    // 练习
-    // var myarr = [4,5,2,1,4,7,8,0,10,22]
-    // function quick(myarr){
-    //   if(myarr.length <= 1) {
-    //     return arr
-    //   }
+    // 练习 快排
+    var self = [4,5,2,1,4,7,8,0,10,22]
+    function quick(self) {
+      if(self.length <= 1) {
+        return self
+      }
 
-    //   let temp = myarr[0]
-    //   let left = []
-    //   let right = []
-    //   for(let i=0; i<myarr.length; i++) {
-    //     if(myarr[0] > temp) {
-    //       left.push(myarr[0])
-    //     } else {
-    //       right.push(myarr[0])
-    //     }
-    //   }
-    //   return quick(left).concat([temp], quick(right))
-    // }
-    // console.log(quick(myarr))
+      let temp = self[0]
+      let left = []
+      let right = []
+      for(let i=1; i<self.length; i++) {
+        if(temp > self[i]) {
+          left.push(self[i])
+        } else {
+          right.push(self[i])
+        }
+      }
+      return quick(left).concat([temp], quick(right))
+    }
+    // console.time('sorter')
+    // console.log('mysort', quick(self))
+    // console.timeEnd('sorter')
+
+
+    // bubble 冒泡
+    function bubble() {
+      var temp, swap;
+      for (let i=0; i<self.length-1; i++) {
+        swap = false
+        for(let j=0; j<self.length-1-i; j++) {
+          if(self[j] > self[j+1]) {
+            temp = self[j]
+            self[j] = self[j+1]
+            self[j+1] = temp
+            swap = true
+          }
+        }
+        if(!swap) { break }
+      }
+      return self
+    }
+    // console.time('bubble')
+    // console.log('bubble', bubble())
+    // console.timeEnd('bubble')
+    
   }
 }
 
