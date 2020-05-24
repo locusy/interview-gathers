@@ -116,6 +116,40 @@
     }
 
     export default {
+        mounted() {
+            class myEvent {
+                constructor() {
+                    this.events = {}
+                }
+                on(type, cb) {
+                    let fns = this.events[type] || []
+                    if(fns.indexOf(cb) == -1) {
+                        fns.push(cb)
+                    }
+                    return this
+                }
+                emit(type, data) {
+                    let fns = this.events[type] || []
+                    if(Array.isArray(fns)) {
+                        fns.forEach(fn => fn(data))
+                    }
+                    return this
+                }
+            }
+
+            let mye = new myEvent()
+            mye.on('tian', function(data) {
+                console.log('tian1', data)
+            })
+            // mye.on('tian', function(data) {
+            //     console.log('tian2', data)
+            // })
+            // mye.on('tian', function(data) {
+            //     console.log('tian3', data)
+            // })
+            mye.emit('tian', 'daat')
+
+        }
     }
 </script>
 

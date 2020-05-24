@@ -29,10 +29,9 @@
   掌握1种以上Web框架，比如Express、Koa、Thinkjs、Restfy、Hapi等，会问遇到过哪些问题、以及前端优化等常识
   数据库相关，尤其是SQL、缓存、Mongodb等
   对于常见Node.js模块、工具的使用，观察一个人是否爱学习、折腾
-  是否熟悉linux，是否独立部署过服务器，有+分
-  js语法和es6、es7，延伸CoffeeScript、TypeScript等，看看你是否关注新技术，有+分
-  对前端是否了解，有+分
-  是否参与过或写过开源项目，技术博客、有+分
+  是否熟悉linux，是否独立部署过服务器
+  js语法和es6、es7，延伸CoffeeScript、TypeScript等，看看你是否关注新技术
+  是否参与过或写过开源项目，技术博客
 
 
   */
