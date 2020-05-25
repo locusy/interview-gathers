@@ -58,6 +58,9 @@
     </div>
 
     <p>29、请描述自适应和响应式的区别</p>
+    <p>30、文本溢出显示省略号</p>
+    <p class="ellipsis">文本溢出显示省略号文本溢出显示省略号文本溢出显示省略号文本溢出显示省略号文本溢出显示省略号文本溢出显示省略号文本溢出显示省略号文本溢出显示省略号文本溢出显示省略号文本溢出显示省略号文本溢出显示省略号文本溢出显示省略号</p>
+    <p class="muti_ellipsis">文本溢出显示省略号文本溢出显示省略号文本溢出显示省略号文本溢出显示省略号文本溢出显示省略号文本溢出显示省略号文本溢出显示省略号文本溢出显示省略号文本溢出显示省略号文本溢出显示省略号文本溢出显示省略号文本溢出显示省略号</p>
 
   </div>
 </template>
@@ -325,7 +328,10 @@
           响应式：就是一个网站能够兼容多个终端—而不是为每个终端做一个特定的版本。这个概念是为解决移动互联网浏览而诞生的。
           自适应：自适应设计指能使网页自适应显示在不同大小终端设备上新网页设计方式及技术。
 
-      30、多行元素的文本省略号
+      30、文本溢出显示省略号
+          1.单行文本溢出
+
+          2.多行文本溢出
       
     */
 
@@ -471,4 +477,47 @@
     background: salmon;
   }
 }
+
+// 1.单行文本溢出
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;  //文本溢出显示省略号
+  white-space: nowrap;  
+  width: 500px;
+  background-color: antiquewhite;
+}
+
+// 2.多行文本溢出
+// .muti_ellipsis {
+//   width: 500px;
+//   overflow: hidden;
+//   text-overflow:ellipsis; //文本溢出显示省略号
+//   display: -webkit-box;
+//   -webkit-line-clamp: 2;   //显示行数
+//   -webkit-box-orient: vertical;
+//   background-color:cornflowerblue;
+// }
+
+// 2.多行文本溢出（浏览器兼容写法）
+.muti_ellipsis{
+  position:relative;
+  line-height:1.4em;
+  height:2.8em;
+  overflow:hidden;
+  width:500px;
+  background-color: orange;
+}
+.muti_ellipsis::after{
+  content:"...";
+  font-weight:bold;
+  position:absolute;
+  bottom:0;
+  right:0;
+  padding-left:20px;
+  background: -webkit-linear-gradient(left, transparent, #fff 62%);
+  background: -o-linear-gradient(right, transparent, #fff 62%);
+  background: -moz-linear-gradient(right, transparent, #fff 62%);
+  background: linear-gradient(to right, transparent, #fff 62%);
+}
+
 </style>

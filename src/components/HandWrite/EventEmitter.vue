@@ -1,7 +1,7 @@
 <template>
     <div>
         <p>1、实现EventEmitter方法：$on、$emit、$once、$off（参照vue源码实现）</p>
-        <p>2、class Event对象</p>
+        <p>2、Event对象</p>
     </div>
 </template>
 
@@ -115,40 +115,40 @@
         }
     }
 
+    class myEvent {
+        constructor() {
+            this.events = {}
+        }
+        on(type, cb) {
+            let fns = this.events[type] || []
+            if(fns.indexOf(cb) == -1) {
+                fns.push(cb)
+            }
+            return this
+        }
+        emit(type, data) {
+            let fns = this.events[type];
+            if(Array.isArray(fns)) {
+                fns.forEach(fn => fn(data))
+            }
+            return this
+        }
+    }
+
+    // let mye = new EventEmiter()
+    myEvent.on('tian', function(data) {
+        console.log('tian1', data)
+    })
+    // mye.on('tian', function(data) {
+    //     console.log('tian2', data)
+    // })
+    // mye.on('tian', function(data) {
+    //     console.log('tian3', data)
+    // })
+    myEvent.emit('tian', 'daat') 
+
     export default {
         mounted() {
-            class myEvent {
-                constructor() {
-                    this.events = {}
-                }
-                on(type, cb) {
-                    let fns = this.events[type] || []
-                    if(fns.indexOf(cb) == -1) {
-                        fns.push(cb)
-                    }
-                    return this
-                }
-                emit(type, data) {
-                    let fns = this.events[type] || []
-                    if(Array.isArray(fns)) {
-                        fns.forEach(fn => fn(data))
-                    }
-                    return this
-                }
-            }
-
-            let mye = new myEvent()
-            mye.on('tian', function(data) {
-                console.log('tian1', data)
-            })
-            // mye.on('tian', function(data) {
-            //     console.log('tian2', data)
-            // })
-            // mye.on('tian', function(data) {
-            //     console.log('tian3', data)
-            // })
-            mye.emit('tian', 'daat')
-
         }
     }
 </script>
