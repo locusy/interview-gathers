@@ -7,7 +7,7 @@
 
 <script>
     // 1、实现EventEmitter方法：$on、$emit、$once、$off（参照vue源码实现）
-    var EventEmiter = function (){
+    var EventEmiter = function(){
       this._events = {};
     };
     EventEmiter.prototype.on = function (event, cb){
@@ -67,20 +67,27 @@
     };
 
 
-    // 2、class Event对象
+    // 2、Event对象
     class Event {
         constructor() {
-            this._cache = {};
+            this._events = {};
         }
+        /**
+         * 监听event事件，触发时调用callback函数
+         */
         on(type, callback) {
-            let fns = this._cache[type] || [];
+            let fns = this._events[type] || [];
             if (fns.indexOf(callback) === -1) {
                 fns.push(callback);
             }
-            return this;
+            this._events[type] = fns
+            return this
         }
+        /**
+         * 触发事件，并把参数传给事件的处理函数
+         */
         emit(type, data) {
-            let fns = this._cache[type];
+            let fns = this._events[type];
             if (Array.isArray(fns)) {
                 fns.forEach((fn) => {
                     fn(data);
@@ -88,6 +95,9 @@
             }
             return this;
         }
+        /**
+         * 为事件注册单次监听器
+         */
         once(type, callback) {
             let wrapFunc = (...args) => {
                 callback.apply(this, args);
@@ -95,48 +105,35 @@
             };
             this.on(type, wrapFunc);
         }
+        /**
+         * 停止监听event事件
+         */
         off(type, callback) {
-            if (!type) {
-                this._cache = {};
-            } else {
-                let fns = this._cache[type];
-                if (Array.isArray(fns)) {
-                    if (callback) {
-                        let index = fns.indexOf(callback);
-                        if (index !== -1) {
-                            fns.splice(index, 1);
-                        } else {
-                            fns.length = 0;
-                        }
-                    }
-                }
-                return this;
-            }
+            let callbacks = this._events[type]
+            this._events[type] = callbacks && callbacks.filter(fn => fn !== callback)
+            return this
+
+            // if (!type) {
+            //     this._events = {};
+            // } else {
+            //     let fns = this._events[type];
+            //     if (Array.isArray(fns)) {
+            //         if (callback) {
+            //             let index = fns.indexOf(callback);
+            //             if (index !== -1) {
+            //                 fns.splice(index, 1);
+            //             } else {
+            //                 fns.length = 0;
+            //             }
+            //         }
+            //     }
+            //     return this;
+            // }
         }
     }
 
-    class myEvent {
-        constructor() {
-            this.events = {}
-        }
-        on(type, cb) {
-            let fns = this.events[type] || []
-            if(fns.indexOf(cb) == -1) {
-                fns.push(cb)
-            }
-            return this
-        }
-        emit(type, data) {
-            let fns = this.events[type];
-            if(Array.isArray(fns)) {
-                fns.forEach(fn => fn(data))
-            }
-            return this
-        }
-    }
-
-    // let mye = new EventEmiter()
-    myEvent.on('tian', function(data) {
+    let mye = new Event()
+    mye.once('tian', function(data) {
         console.log('tian1', data)
     })
     // mye.on('tian', function(data) {
@@ -145,11 +142,10 @@
     // mye.on('tian', function(data) {
     //     console.log('tian3', data)
     // })
-    myEvent.emit('tian', 'daat') 
+    mye.emit('tian', 'daat1')
+    mye.emit('tian', 'ddd')
 
     export default {
-        mounted() {
-        }
     }
 </script>
 

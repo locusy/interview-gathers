@@ -53,6 +53,21 @@ import eventBus from './../eventBus'
 export default {
   name: 'home',
   mounted() {
+
+    // var openElem = document.createElement('a')
+    // openElem.href = `baidu.com`
+    // openElem.target = "_blank"
+    // // 兼容IE
+    // if(document.all) {
+    //     openElem.click()
+    // }
+    // // 兼容其它浏览器
+    // else {
+    //     var e = document.createEvent("MouseEvents")
+    //     e.initEvent("click", true, true);
+    //     openElem.dispatchEvent(e)
+    // }
+
     eventBus.$on('tofather', function(data) {
       console.log('father, i am your son ' + data)
     })

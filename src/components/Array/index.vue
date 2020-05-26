@@ -2,6 +2,7 @@
     <div>
         <p>1、数组方法</p>
         <p>2、封装reduce</p>
+        <p>3、类数组转化成数组</p>
     </div>
 </template>
 
@@ -139,6 +140,23 @@
     }, 10)
     // console.log('result:', result)
 
+
+    // 3、类数组转化成数组
+    function getParams() {
+      console.log('args', arguments)
+      console.log('args', Object.prototype.toString.call(arguments))   // "[object Arguments]"
+
+      // 将类数组转化成数组
+      // const params = [].slice.call(args,1)
+      // const params = Array.prototype.slice.call(args)
+      // const params = [...arguments]
+      const params = Array.from(arguments)
+
+      console.log('params', params)
+      console.log('params', Object.prototype.toString.call(params))
+    }
+    // getParams(1, 2, 3)
+    
 
     export default {
         

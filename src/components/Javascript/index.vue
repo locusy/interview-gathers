@@ -416,7 +416,7 @@
     使用 Object.prototype.toString.call 判断，如果值是 [object Array], 说明是数组
         Object.prototype.toString.call()   "[object Undefined]"
         Object.prototype.toString.call([])   "[object Array]"
-        Object.prototype.toString.call({})   "[object object]"
+        Object.prototype.toString.call({})   "[object Object]"
     通过 constructor 来判断，如果是数组，那么 arr.constructor === Array (不准确，因为我们可以指定 obj.constructor = Array)
         [].constructor === Array   true
 
@@ -1005,6 +1005,14 @@
     typescript
 
     
+    window.open()打开新窗口并且不被拦截
+    https://blog.csdn.net/dongguan_123/article/details/62416767
+    https://blog.csdn.net/Wbiokr/article/details/83096466
+    https://www.jianshu.com/p/89f3db4b7537
+    https://segmentfault.com/a/1190000015381923
+
+    
+
 */
 
 
