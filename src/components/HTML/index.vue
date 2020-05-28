@@ -150,6 +150,12 @@
         a) 使用DocumentFragment进行缓存操作,引发一次回流和重绘；
         b) 使用display:none技术，只引发两次回流和重绘；
         c) 使用cloneNode(true or false) 和 replaceChild 技术，引发一次回流和重绘
+
+    10、请你描述下一个网页是如何渲染出来的，dom树和css树是如何合并的，浏览器的运行机制是什么，什么是否会造成渲染阻塞？
+      
+
+
+
 */
 
   export default {
