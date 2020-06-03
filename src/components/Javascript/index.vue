@@ -1172,12 +1172,12 @@
 */
 
     export default {
-        mouted() {
+        mounted() {
           // 字节跳动
           // this.ziJieTiaoDong()
-
+          
           // 知网
-          // this.zhiwang()
+          this.zhiwang()
         },
         methods: {
           ziJieTiaoDong() {
@@ -1246,9 +1246,8 @@
               // person.bind(obj, x)
           },
           zhiwang() {
-             //////////////////////////////////////////////////////////////////////////
 
-              //    var a = [1,2,3,4],
+              //   var a = [1,2,3,4],
               //        i = 0;
               //
               //    a[i++] = a[i++]*2;
@@ -1303,6 +1302,7 @@
 
 
                   //////////////////////////////////////////////////////////////////////////
+
                   //call实现继承方法
               //    function num1(){
               //        this.a = 'zhi';
@@ -1359,14 +1359,15 @@
                  var arr = {name:'2',age:'3'};
                  var arr3 = [1,2,3]
               
-                 function isArray(obj){
-                     return Object.prototype.toString.call(obj) === '[object Array]';
-                 }
+                //  function isArray(obj){
+                //      return Object.prototype.toString.call(obj) === '[object Array]';
+                //  }
               
                 //  console.log(isArray(arr));
                 //  console.log(isArray(arr3));
 
                   //////////////////////////////////////////////////////////////////////////
+
               //    获取数组中的最大值和最小值
                  var  numbers = [5, 458 , 120 , -215 ];
                  var maxInNumbers = Math.max.apply(Math, numbers)   //458
@@ -1378,26 +1379,29 @@
 
 
                   ////////////////////////////////////////////////////////////////////////
-              //    编写一个函数,将列表子元素的顺序倒转
 
+              //    编写一个函数,将列表子元素的顺序倒转
+                  var arr = [1, 2, 3, 4, 5, 6]
+                  function reverse(arr) {
+                    return arr.reverse()
+                  }
+                  // console.log('reverse:', reverse(arr))
 
 
                   //////////////////////////////////////////////////////////////////////////
               //    如何判断一个对象是否为函数
-
-
+                  // function selfFunc() {}
+                  // Object.prototype.toString.call(selfFunc) === '[object Function]'
 
                   //////////////////////////////////////////////////////////////////////////
-              //    循环时输出0 1 2 3 4  这样写正确吗?
-                  for(var i=0;i<5;i++){
-                      setTimeout(function () {
-                          console.log(i+'');
-                      },100)
+              //    var a = ['1','2','3','4'...];
+              //   a的长度是100,内容填充随机整数的字符串,请先构造此数组,再去重
+                  var a = []
+                  for(var i = 0; i < 100; i++) {
+                    a.push(Math.floor(Math.random()*10))
                   }
-                  //不正确  将var改成let
-
-                  //////////////////////////////////////////////////////////////////////////
-              //    var a = ['1','2','3','4'...];a的长度是100,内容填充随机整数的字符串,请先构造此数组,再去重
+                  // console.log(...new Set(a))
+                  
 
                   //////////////////////////////////////////////////////////////////////////
               //    以下代码的作用是?空白处填写什么?
@@ -1418,10 +1422,10 @@
 
 
                   //使用
-                  (function(){
-                      var t = new fn('<p><a href="{0}">{1}</a><span>{2}</span></p>');
-                      console.log(t.format('http://www.cnki.net','cnki','welcome'));
-                  })()
+                  // (function(){
+                  //     var t = new fn('<p><a href="{0}">{1}</a><span>{2}</span></p>');
+                  //     console.log(t.format('http://www.cnki.net','cnki','welcome'));
+                  // })()
           }
         }
     }

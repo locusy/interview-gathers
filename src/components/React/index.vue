@@ -1,13 +1,53 @@
 <template>
     <div>
-
+      <p>1、vue和react的区别？</p>
+      <p>2、react性能优化点有哪些？</p>
+      <p>3、说下React的生命周期</p>
+      <p>4、react哪些生命周期只执行一次</p>
+      <p>5、哪些地方调用setState</p>
+      <p>6、react函数改变this指向的方式</p>
+      <p>7、调用setState之后发生了什么？</p>
+      <p>8、React中keys的作用是什么？</p>
+      <p>9、为什么虚拟dom会提高性能?(必考)</p>
+      <p>10、react diff 原理（常考，大厂必考）</p>
+      <p>11、路由传参方式：</p>
+      <p>12、手动实现this的绑定的方法：</p>
+      <p>13、组件间的通信方法：</p>
+      <p>14、this.setState函数有三种用法：</p>
+      <p>15、setState为什么是异步的</p>
+      <p>16、setState变成同步</p>
+      <p>17、阻止事件默认行为：</p>
+      <p>18、前端不要操作cookie</p>
+      <p>19、防止xss攻击</p>
+      <p>20、在组件中获取真实dom</p>
+      <p>21、容器型组件和展示型组件</p>
+      <p>22、creat-react-app设置代理？</p>
+      <p>23、权限控制：</p>
+      <p>24、高阶组件：</p>
+      <p>25、为什么要引入React</p>
+      <p>26、为什么要用className而不用class</p>
+      <p>27、为什么属性要用小驼峰</p>
+      <p>28、为什么 constructor 里要调用 super 和传递 props</p>
+      <p>29、为什么组件用大写开头</p>
+      <p>30、为什么调用方法要 bind this</p>
+      <p>31、为什么要 setState，而不是直接 this.state.xx = oo</p>
+      <p>32、setState是同步还是异步相关问题</p>
+      <p>33、重构代码需要考虑的问题有哪些？</p>
+      <p>
+        面试题合集：
+        <a href="https://segmentfault.com/a/1190000016885832" target="_blank">
+          https://segmentfault.com/a/1190000016885832
+        </a>
+        <br />
+        <a href="https://mp.weixin.qq.com/s/I10nJpMGT2N-SBkHPES_TA" target="_blank">
+          https://mp.weixin.qq.com/s/I10nJpMGT2N-SBkHPES_TA
+        </a>
+      </p>
     </div>
 </template>
 
 <script>
 /*
-  https://segmentfault.com/a/1190000016885832
-  
   1、vue和react的区别？
     React生命周期和vue的区别
     Redux和vuex区别
@@ -34,16 +74,16 @@
     render
     componentDidUpdate
     销毁时
-    componentWillUnmount：执行一些清理方法，如事件回收或是清除定 时器。
+    componentWillUnmount：执行一些清理方法，如事件回收或是清除定时器。
 
-  3、react哪些生命周期只执行一次
+  4、react哪些生命周期只执行一次
     getDefaultProps
     getInitialState
     componentWillMount
     componentDidMount
     componentWillUnmount
 
-  4、哪些地方调用setState
+  5、哪些地方调用setState
     如果在 componentWillMount 中执行 setState 方法，会发生什么呢?组件会更新 state， 但组件只渲染一次。
     因此，这是无意义的执行，初始化时的 state 都可以放在 this.state。
 
@@ -55,17 +95,17 @@
       resolve()
     }).then(() => this.getSubjectLibList())
 
-  4、react函数改变this指向的方式
+  6、react函数改变this指向的方式
     bind
     箭头函数
 
-  5、调用 setState 之后发生了什么？
+  7、调用setState之后发生了什么？
     在代码中调用 setState 函数之后，React 会将传入的参数对象与组件当前的状态合并，然后触发所谓的调和过程（Reconciliation）。
     经过调和过程，React 会以相对高效的方式根据新的状态构建 React 元素树并且着手重新渲染整个 UI 界面。
     在 React 得到元素树之后，React 会自动计算出新的树与老树的节点差异，然后根据差异对界面进行最小化重渲染。
     在差异计算算法中，React 能够相对精确地知道哪些位置发生了改变以及应该如何改变，这就保证了按需更新，而不是全部重新渲染。
 
-  6、React 中 keys 的作用是什么？
+  8、React中keys的作用是什么？
     Keys 是 React 用于追踪哪些列表中元素被修改、被添加或者被移除的辅助标识
     render () {
       return (
@@ -81,14 +121,14 @@
     从而减少不必要的元素重渲染。此外，React 还需要借助 Key 值来判断元素与本地状态的关联关系，
     因此我们绝不可忽视转换函数中 Key 的重要性。
 
-  7、为什么虚拟 dom 会提高性能?(必考)
+  9、为什么虚拟dom会提高性能?(必考)
     虚拟 dom 相当于在 js 和真实 dom 中间加了一个缓存，利用 dom diff 算法避免了没有必要的 dom 操作，从而提高性能。
 
     用 JavaScript 对象结构表示 DOM 树的结构；
     然后用这个树构建一个真正的 DOM 树，插到文档当中当状态变更的时候，重新构造一棵新的对象树。
     然后用新的树和旧的树进行比较，记录两棵树差异把 2 所记录的差异应用到步骤 1 所构建的真正的 DOM 树上，视图就更新了。
 
-  8、react diff 原理（常考，大厂必考）
+  10、react diff 原理（常考，大厂必考）
     把树形结构按照层级分解，只比较同级元素。
     给列表结构的每个单元添加唯一的 key 属性，方便比较。
     React 只会匹配相同 class 的 component（这里面的 class 指的是组件的名字）
@@ -96,7 +136,7 @@
         到每一个事件循环结束, React 检查所有标记 dirty 的 component 重新绘制.
     选择性子树渲染。开发人员可以重写 shouldComponentUpdate 提高 diff 的性能。
 
-  9、路由传参方式：
+  11、路由传参方式：
     params
     this.props.history.push({
       pathname: '/manage',
@@ -122,7 +162,7 @@
       }
     })
 
-  4、手动实现 this 的绑定的方法：
+  12、手动实现this的绑定的方法：
      1）bind 方法：
         这个方法可以帮助我们绑定事件处理器内的 this ，并可以向事件处理器中传 5 递参数，比如:
 
@@ -188,7 +228,7 @@
 
         使用上述几种方式，都能够实现在类定义的组件中绑定 this 上下文的效果
 
-  5、组件间的通信方法：
+  13、组件间的通信方法：
     props
     Events:
         发布/订阅模式来举例，这里借用 Node.js Events 模块的浏览器版实现。
@@ -212,7 +252,7 @@
         }
     redux
     
-  6、this.setState函数有三种用法：
+  14、this.setState函数有三种用法：
     // 对象
     this.setState({
     })
@@ -235,12 +275,12 @@
       // TODO
     })
 
-  7、setState为什么是异步的
+  15、setState为什么是异步的
     https://www.jianshu.com/p/cc12e9a8052c
     setState 在react里的合成事件和钩子函数中是“异步”的。
     setState 在原生事件和 setTimeout 中是同步的。
 
-  7、setState变成同步
+  16、setState变成同步
     http://cnblogs.com/zhuotiabo/p/6265172.html
     https://www.cnblogs.com/jiuyi/p/9263114.html
 
@@ -295,13 +335,13 @@
         }
     
 
-  8、阻止事件默认行为：
+  17、阻止事件默认行为：
     在 React 中你不能通过返回 false 来阻止默认行为。必须明确调用 preventDefault 。
 
-  9、前端不要操作cookie
+  18、前端不要操作cookie
     在做一些前后端鉴权的时候，后端应该开启domain,secure,httponly严格模式，禁止前端操作cookie，防止csrf攻击。
 
-  10、防止 xss 攻击
+  19、防止xss攻击
       input，textarea 等标签，不要直接把 html 文本直接渲染在页面上,使用 xssb 等过滤之后再输出到标签上;
       import { html2text } from 'xss';
       render(){
@@ -312,7 +352,7 @@
       />
       }
 
-  11、在组件中获取真实 dom
+  20、在组件中获取真实dom
       使用 16 版本后的 createRef()函数：
       class MyComponent extends React.Component<iProps, iState> {
         constructor(props) {
@@ -329,11 +369,11 @@
         }
       }
 
-  12、容器型组件和展示型组件
+  21、容器型组件和展示型组件
       含有抽象数据而没有业务逻辑的组件，我们 称之为容器型组件(container component);
       而没有数据请求逻辑只有业务逻辑的组件，我们称之 为展示型组件(presentational component)
   
-  13、creat-react-app设置代理？
+  22、creat-react-app设置代理？
       （1）在package.json里面添加：
           "proxy": {
             "/v1": {
@@ -365,7 +405,7 @@
           const devServer = new WebpackDevServer(compiler, serverConfig);
           require('../src/setupProxy')(devServer);
 
-  14、权限控制：
+  23、权限控制：
       https://www.jianshu.com/p/1a5ba1731474
       https://www.jianshu.com/p/508a2d4cb143
       https://segmentfault.com/a/1190000008829420
@@ -376,11 +416,11 @@
       元素级的权限：高阶组件
       vue权限控制-自定义指令
 
-  15、高阶组件：
+  24、高阶组件：
       高阶组件可以看做是装饰器模式(Decorator Pattern)在React的实现。
       即允许向一个现有的对象添加新的功能，同时又不改变其结构，属于包装模式(Wrapper Pattern)的一种
 
-  16、为什么要引入 React
+  25、为什么要引入React
       在写 React 的时候，你可能会写类似这样的代码：
 
       import React from 'react'
@@ -403,7 +443,7 @@
       }
       因为从本质上讲，JSX 只是为 React.createElement(component, props, ...children) 函数提供的语法糖。
 
-  17、为什么要用 className 而不用 class
+  26、为什么要用className而不用class
       React 一开始的理念是想与浏览器的 DOM API 保持一直而不是 HTML，因为 JSX 是 JS 的扩展，而不是用来代替 HTML 的，这样会和元素的创建更为接近。在元素上设置 class 需要使用 className 这个 API：
 
       const element = document.createElement("div")
@@ -422,10 +462,10 @@
       const { class: className } = { class: 'foo' } 
       其他讨论可见：有趣的话题，为什么jsx用className而不是class
 
-  18、为什么属性要用小驼峰
+  27、为什么属性要用小驼峰
       因为 JSX 语法上更接近 JavaScript 而不是 HTML，所以 React DOM 使用 camelCase（小驼峰命名）来定义属性的名称，而不使用 HTML 属性名称的命名约定。
 
-  19、为什么 constructor 里要调用 super 和传递 props
+  28、为什么 constructor 里要调用 super 和传递 props
       这是官网的一段代码，具体见：状态(State) 和 生命周期
 
       class Clock extends React.Component {
@@ -520,7 +560,7 @@
       }
       更详细的内容可见Dan 的博客
 
-  20、为什么组件用大写开头
+  29、为什么组件用大写开头
       前面以及说过了，JSX 是 React.createElement(component, props, …children) 提供的语法糖，component 的类型是：string/ReactClass type，我们具体看一下在什么情况下会用到 string 类型，什么情况下用到 ReactClass type 类型
 
       string 类型react会觉得他是一个原生dom节点
@@ -561,7 +601,7 @@
       React.createElement("myDiv", null);
       由于找不到 myDiv 这个 dom，所以就会报错。
 
-  21、为什么调用方法要 bind this
+  30、为什么调用方法要 bind this
       前提知识：深刻的理解 JavaScript 中的 this
 
       相信刚写 React 的时候，很多朋友可能会写类似这样的代码：
@@ -760,7 +800,7 @@
       总结
       我平时用的就这四种写法，我这边从代码的美观性、性能以及是否顺手方便对各种写法做了简单的对比。其实每种方法在项目里用都是没什么问题的，性能方面基本上可以忽略，对于美观性和顺手比较主观，所以总体来说就是看大家的偏好咯，如果硬要推荐的话，我还是比较推荐第四种写法，美观而且不影响性能。
 
-  22、为什么要 setState，而不是直接 this.state.xx = oo
+  31、为什么要 setState，而不是直接 this.state.xx = oo
       这个问题是我们公司后端写 React 的时候提出的问题，为啥不能直接修改 state，要 setState 一下。我在想，从 vue 转到 React 可能也会有这种疑问，因为 vue 修改状态都是直接改的。
 
       如果我们了解 setState 的原理的话，可能就能解答这个问题了，setState 做的事情不仅仅只是修改了 this.state 的值，另外最重要的是它会触发 React 的更新机制，会进行 diff ，然后将 patch 部分更新到真实 dom 里。
@@ -771,7 +811,7 @@
 
       不明白访问器属性的可以看这篇文章：深入理解JS里的对象
   
-  23、setState 是同步还是异步相关问题
+  32、setState是同步还是异步相关问题
       1. setState 是同步还是异步？
 
         我的回答是执行过程代码同步的，只是合成事件和钩子函数的调用顺序在更新之前，导致在合成事件和钩子函数中没法立马拿到更新后的值，形式了所谓的“异步”，所以表现出来有时是同步，有时是“异步”。
@@ -803,14 +843,10 @@
 
         最后 setState 是 React 非常重要的一个方法，值得大家好好去研究一下他的原理。
 
-  24、https://mp.weixin.qq.com/s/I10nJpMGT2N-SBkHPES_TA
-
-  25、重构代码需要考虑的问题有哪些？
+  33、重构代码需要考虑的问题有哪些？
         代码规范，统一：提高可理解性
         代码架构：降低修改成本
         性能瓶颈
-
-  27、redux的核心思想
 
 */
 

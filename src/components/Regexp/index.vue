@@ -1,9 +1,17 @@
 <template>
     <div>
-        正则：
         <p>
-          <a href="https://www.cnblogs.com/angelatian/p/6807184.html" target="_blank">https://www.cnblogs.com/angelatian/p/6807184.html</a>
+          正则：
+          <a href="https://www.cnblogs.com/angelatian/p/6807184.html" target="_blank">
+            https://www.cnblogs.com/angelatian/p/6807184.html
+          </a>
         </p>
+        <p>1、验证手机号的正则</p>
+        <p>2、验证邮箱的正则</p>
+        <p>3、匹配数字</p>
+        <p>4、匹配子项</p>
+        <p>5、找出字符串中最多的字符和个数：</p>
+        <p>6、常见的正则例子</p>
     </div>
 </template>
 
@@ -53,6 +61,7 @@
   */
 
   // 5、找出字符串中最多的字符和个数：
+  /*
       var str = 'assssjdssskssalsssdkjsssdss';
       var arr = str.split('');
       str = arr.sort().join('');
@@ -77,10 +86,26 @@
       })
 
       console.log('最多的字符:'+value+',重复的次数:'+index);
+  */
 
-    export default {
-        
-    }
+  // 6、常见的正则例子
+  /*
+    匹配中文：[\u4e00-\u9fa5]
+    行首行尾空格：^\s*|\s*$
+    手机号：^1[3-9]\d{9}$
+    Email：^\w+@[a-z0-9]+(\.[a-z]+){1,3}$
+    网址：[a-zA-z]+://[^\s]*
+    QQ号：[1-9][0-9]{4,9}
+    邮政编码：[1-9]\d{5}
+    身份证：[1-9]\d{14}|[1-9]\d{17}|[1-9]\d{16}x
+  */
+
+
+  export default {
+      
+  }
+
+
 </script>
 
 <style lang="less" scoped>
