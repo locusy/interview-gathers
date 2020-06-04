@@ -45,6 +45,9 @@
     <p>
       <router-link :to="{ path: '/array' }">Array</router-link>
     </p>
+    <p>
+      <router-link :to="{ path: '/designs' }">设计模式</router-link>
+    </p>
   </div>
 </template>
 <script>

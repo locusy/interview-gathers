@@ -33,6 +33,7 @@
       <p>31、为什么要 setState，而不是直接 this.state.xx = oo</p>
       <p>32、setState是同步还是异步相关问题</p>
       <p>33、重构代码需要考虑的问题有哪些？</p>
+      <p>34、父组件怎么获取子组件的方法</p>
       <p>
         面试题合集：
         <a href="https://segmentfault.com/a/1190000016885832" target="_blank">
@@ -116,20 +117,20 @@
         </ul>
       )
     }
-    在开发过程中，我们需要保证某个元素的 key 在其同级元素中具有唯一性。
-    在 React Diff 算法中 React 会借助元素的 Key 值来判断该元素是新近创建的还是被移动而来的元素，
-    从而减少不必要的元素重渲染。此外，React 还需要借助 Key 值来判断元素与本地状态的关联关系，
-    因此我们绝不可忽视转换函数中 Key 的重要性。
+    在开发过程中，我们需要保证某个元素的key在其同级元素中具有唯一性。
+    在React Diff算法中React会借助元素的Key值来判断该元素是新近创建的还是被移动而来的元素，
+    从而减少不必要的元素重渲染。此外，React还需要借助Key值来判断元素与本地状态的关联关系，
+    因此我们绝不可忽视转换函数中Key的重要性。
 
   9、为什么虚拟dom会提高性能?(必考)
     虚拟 dom 相当于在 js 和真实 dom 中间加了一个缓存，利用 dom diff 算法避免了没有必要的 dom 操作，从而提高性能。
 
-    用 JavaScript 对象结构表示 DOM 树的结构；
+    用JavaScript对象结构表示DOM树的结构；
     然后用这个树构建一个真正的 DOM 树，插到文档当中当状态变更的时候，重新构造一棵新的对象树。
-    然后用新的树和旧的树进行比较，记录两棵树差异把 2 所记录的差异应用到步骤 1 所构建的真正的 DOM 树上，视图就更新了。
+    然后用新的树和旧的树进行比较，记录两棵树差异把 2 所记录的差异应用到步骤 1 所构建的真正的DOM树上，视图就更新了。
 
   10、react diff 原理（常考，大厂必考）
-    把树形结构按照层级分解，只比较同级元素。
+    把树形结构按照层级分解，只比较同级元素。
     给列表结构的每个单元添加唯一的 key 属性，方便比较。
     React 只会匹配相同 class 的 component（这里面的 class 指的是组件的名字）
     合并操作，调用 component 的 setState 方法的时候, React 将其标记为 dirty.
@@ -167,8 +168,10 @@
         这个方法可以帮助我们绑定事件处理器内的 this ，并可以向事件处理器中传 5 递参数，比如:
 
         import React, { Component } from 'react';
-        class App extends Component { handleClick(e, arg) {
-          console.log(e, arg); }
+        class App extends Component { 
+          handleClick(e, arg) {
+            console.log(e, arg); 
+          }
           render() {
             // 通过bind方法实现，可以传递参数
             return <button onClick={this.handleClick.bind(this, 'test')}>Test</button>;
@@ -182,7 +185,7 @@
             console.log(e); 
           }
           render() {
-            return <button onClick={::this.handleClick}>Test</button>;
+            return <button onClick={this.handleClick}>Test</button>;
           } 
         }
 
@@ -284,11 +287,11 @@
     http://cnblogs.com/zhuotiabo/p/6265172.html
     https://www.cnblogs.com/jiuyi/p/9263114.html
 
-    // this.setState({val: this.state.val + 1});
-    // console.log(this.state.val);    // 第 1 次 log->0
+    this.setState({val: this.state.val + 1});
+    console.log(this.state.val);    // 第 1 次 log->0
 
-    // this.setState({val: this.state.val + 9});
-    // console.log(this.state.val);    // 第 2 次 log->0
+    this.setState({val: this.state.val + 9});
+    console.log(this.state.val);    // 第 2 次 log->0
 
     setTimeout(() => {
       this.setState({val: this.state.val + 1});
@@ -600,7 +603,7 @@
 
       React.createElement("myDiv", null);
       由于找不到 myDiv 这个 dom，所以就会报错。
-
+  
   30、为什么调用方法要 bind this
       前提知识：深刻的理解 JavaScript 中的 this
 
@@ -847,6 +850,37 @@
         代码规范，统一：提高可理解性
         代码架构：降低修改成本
         性能瓶颈
+
+  34、父组件怎么获取子组件的方法
+      父组件：
+        class Father extends Component {
+          onRef = (ref) => {
+            this.content = ref
+          }
+
+          handleClick = () => {
+            this.content.update()
+          }
+
+          render() {
+            return (
+              <div>
+                <button onClick={this.handleClick}></button>
+                <Child onRef={this.onRef} />
+              </div>
+            )
+          }
+        }
+
+       子组件：
+        class Child extends Component {
+          componentDidMounted() {
+            this.props.onRef(this)
+          }
+          update() {
+            console.log('update...')
+          }
+        }
 
 */
 

@@ -31,6 +31,13 @@ import Regexp from './components/Regexp'
 import Vuer from './components/Vue'
 import Webpack from './components/Webpack'
 import Array from './components/Array'
+import Designs from './components/Designs'
+import Decorator from './components/Designs/Decorator'
+import Iterator from './components/Designs/Iterator'
+import Proxy from './components/Designs/Proxy'
+import PubSub from './components/Designs/PubSub'
+import Single from './components/Designs/Single'
+import Strategy from './components/Designs/Strategy'
 
 // const App = () => import('./App')
 // const Home = () => import('./components/Home')
@@ -208,6 +215,42 @@ const routes = [
         path: '/array',
         component: Array,
         name: 'Array'
+      },
+      // 设计模式
+      {
+        path: '/designs',
+        component: Designs,
+        name: 'Designs'
+      },
+      {
+        path: '/designs/decorator',
+        component: Decorator,
+        name: 'Decorator'
+      },
+      {
+        path: '/designs/iterator',
+        component: Iterator,
+        name: 'Iterator'
+      },
+      {
+        path: '/designs/proxy',
+        component: Proxy,
+        name: 'Proxy'
+      },
+      {
+        path: '/designs/pubSub',
+        component: PubSub,
+        name: 'PubSub'
+      },
+      {
+        path: '/designs/single',
+        component: Single,
+        name: 'Single'
+      },
+      {
+        path: '/designs/strategy',
+        component: Strategy,
+        name: 'Strategy'
       },
     ]
   }
