@@ -11,7 +11,7 @@
     var Plane = function(){
     }
     Plane.prototype.fire = function(){ 
-        console.log( '发射普通子弹' );
+        // console.log( '发射普通子弹' );
     }
 
     // 接下来增加两个装饰类，分别是导弹和原子弹:
@@ -20,7 +20,7 @@
     }
     MissileDecorator.prototype.fire = function(){ 
         this.plane.fire();
-        console.log( '发射导弹' );
+        // console.log( '发射导弹' );
     }
 
     var AtomDecorator = function( plane ){ 
@@ -28,7 +28,7 @@
     }
     AtomDecorator.prototype.fire = function(){ 
         this.plane.fire();
-        console.log( '发射原子弹' );
+        // console.log( '发射原子弹' );
     }
 
     // 最后看看测试结果
@@ -51,14 +51,14 @@
     // JavaScript 语言动态改变对象相当容易，我们可以直接改写对象或者对象的某个方法，并不需要使用“类”来实现装饰者模式，
     var plane = {
     fire: function(){
-        console.log( '发射普通子弹' ); 
+        // console.log( '发射普通子弹' ); 
     }
     }
     var missileDecorator = function(){ 
-        console.log( '发射导弹' );
+        // console.log( '发射导弹' );
     }
     var atomDecorator = function(){ 
-        console.log( '发射原子弹' );
+        // console.log( '发射原子弹' );
     }
     var fire1 = plane.fire;
     plane.fire = function(){ 
@@ -99,21 +99,21 @@
 
     // 实例1：
     document.getElementById = document.getElementById.before(function() {
-        console.log (1);
+        // console.log (1);
     });
     var button = document.getElementById('button');
-    console.log(button)
+    // console.log(button)
 
     // 实例2（改造window.onload）：
     window.onload = function(){ 
-        console.log (11);
+        // console.log (11);
     }
     window.onload = ( window.onload || function(){} ).before(function(){ 
-        console.log (22);
+        // console.log (22);
     }).after(function(){ 
-        console.log (33);
+        // console.log (33);
     }).after(function(){ 
-        console.log (44);
+        // console.log (44);
     });
 
     // 值得提到的是，上面的AOP实现是在Function.prototype上添加 before 和 after 方法，但许多人不喜欢这种污染原型的方式，那么我们可以做一些变通，把原函数和新函数都作为参数传入 before 或者 after 方法:
@@ -124,9 +124,9 @@
     }
     } 
     var a = before( function(){
-        console.log (3)
+        // console.log (3)
     }, function(){
-        console.log (2)
+        // console.log (2)
     }
     );
     a = a();
@@ -139,25 +139,25 @@
 
     // 5.1：假设现在我们需要点击一个按钮后既要负责打开登录浮层，和负责数据上报，我们看到在showLogin函数里，这是两个层面的功能，在此处却被耦合在一个函数里。
     {/* <button tag="login" id="button">点击打开登录浮层</button> */}
-    var showLogin = function(){ 
-        console.log( '打开登录浮层' ); 
-        log( this.getAttribute( 'tag' ) );
-    }
-    var log = function( tag ){
-        console.log( '上报标签为: ' + tag );
-        // (new Image).src = 'http:// xxx.com/report?tag=' + tag;   // 真正的上报代码略
-    }
-    document.getElementById( 'button' ).onclick = showLogin;
+    // var showLogin = function(){ 
+    //     // console.log( '打开登录浮层' ); 
+    //     log( this.getAttribute( 'tag' ) );
+    // }
+    // var log = function( tag ){
+    //     // console.log( '上报标签为: ' + tag );
+    //     // (new Image).src = 'http:// xxx.com/report?tag=' + tag;   // 真正的上报代码略
+    // }
+    // document.getElementById( 'button' ).onclick = showLogin;
 
     // 使用 AOP分离之后，代码如下:
-    var showLogin = function(){ 
-        console.log( '打开登录浮层' );
-    }
-    var log = function(){
-        console.log( '上报标签为: ' + this.getAttribute( 'tag' ) );
-    }
-    showLogin = showLogin.after(log); // 打开登录浮层之后上报数据
-    document.getElementById('button').onclick = showLogin;
+    // var showLogin = function(){ 
+    //     // console.log( '打开登录浮层' );
+    // }
+    // var log = function(){
+    //     // console.log( '上报标签为: ' + this.getAttribute( 'tag' ) );
+    // }
+    // showLogin = showLogin.after(log); // 打开登录浮层之后上报数据
+    // document.getElementById('button').onclick = showLogin;
 
 
 
@@ -171,69 +171,69 @@
 
     // 传统的表单验证的写法：
     // formSubmit 函数在此处承担了两个职责，除了提交 ajax 请求之外，还要验证用户输入的合法性。这种代码一来会造成函数臃肿，职责混乱，二来谈不上任何可复用性。
-    var username = document.getElementById( 'username' ),
-        password = document.getElementById( 'password' ), 
-        submitBtn = document.getElementById( 'submitBtn' );
-    var formSubmit = function(){
-    if ( username.value === '' ){
-        return console.log ( '用户名不能为空' ); 
-    }
-    if ( password.value === '' ){
-        return console.log ( '密码不能为空' );
-    }
-    var param = {
-        username: username.value, 
-        password: password.value
-    }
-    ajax( 'http:// xxx.com/login', param );
-    }
-    submitBtn.onclick = function(){ 
-    formSubmit();
-    }
+    // var username = document.getElementById( 'username' ),
+    //     password = document.getElementById( 'password' ), 
+    //     submitBtn = document.getElementById( 'submitBtn' );
+    // var formSubmit = function(){
+    // if ( username.value === '' ){
+    //     return // console.log ( '用户名不能为空' ); 
+    // }
+    // if ( password.value === '' ){
+    //     return // console.log ( '密码不能为空' );
+    // }
+    // var param = {
+    //     username: username.value, 
+    //     password: password.value
+    // }
+    // ajax( 'http:// xxx.com/login', param );
+    // }
+    // submitBtn.onclick = function(){ 
+    // formSubmit();
+    // }
 
     // 改造之后的写法
     // 在这段代码中，校验输入和提交表单的代码完全分离开来，它们不再有任何耦合关系， formSubmit = formSubmit.before( validata )这句代码，如同把校验规则动态接在 formSubmit 函数 之前，validata 成为一个即插即用的函数，它甚至可以被写成配置文件的形式，这有利于我们分 开维护这两个函数。再利用策略模式稍加改造，我们就可以把这些校验规则都写成插件的形式， 用在不同的项目当中。
-    Function.prototype.before = function( beforefn ){
-    var __self = this; 
-    return function(){
-        if ( beforefn.apply( this, arguments ) === false ){
-        // beforefn 返回 false 的情况直接 return，不再执行后面的原函数 return;
-        }
-        return __self.apply( this, arguments ); 
-    }
-    }
-    var validata = function(){
-    if ( username.value === '' ){
-        console.log ( '用户名不能为空' );
-        return false; 
-    }
-    if ( password.value === '' ){ 
-        console.log ( '密码不能为空' ); 
-        return false;
-    } 
-    }
-    var formSubmit = function(){ 
-    var param = {
-        username: username.value,
-        password: password.value
-    }
-    ajax( 'http:// xxx.com/login', param ); 
-    }
-    formSubmit = formSubmit.before( validata );
-    submitBtn.onclick = function(){ 
-    formSubmit();
-    }
+    // Function.prototype.before = function( beforefn ){
+    // var __self = this; 
+    // return function(){
+    //     if ( beforefn.apply( this, arguments ) === false ){
+    //     // beforefn 返回 false 的情况直接 return，不再执行后面的原函数 return;
+    //     }
+    //     return __self.apply( this, arguments ); 
+    // }
+    // }
+    // var validata = function(){
+    // if ( username.value === '' ){
+    //     // console.log ( '用户名不能为空' );
+    //     return false; 
+    // }
+    // if ( password.value === '' ){ 
+    //     // console.log ( '密码不能为空' ); 
+    //     return false;
+    // } 
+    // }
+    // var formSubmit = function(){ 
+    // var param = {
+    //     username: username.value,
+    //     password: password.value
+    // }
+    // ajax( 'http:// xxx.com/login', param ); 
+    // }
+    // formSubmit = formSubmit.before( validata );
+    // submitBtn.onclick = function(){ 
+    // formSubmit();
+    // }
 
 
     // 值得注意的是，因为函数通过 Function.prototype.before 或者 Function.prototype.after 被装 饰之后，返回的实际上是一个新的函数，如果在原函数上保存了一些属性，那么这些属性会丢失。 代码如下:
-    var func = function(){ 
-    console.log( 1 );
-    }
-    func.a = 'a';
-    func = func.after( function(){ 
-    console.log( 2 );
-    });
-    console.log ( func.a ); // 输出:undefined
+    // var func = function(){ 
+    // // console.log( 1 );
+    // }
+    // func.a = 'a';
+    // func = func.after( function(){ 
+    // // console.log( 2 );
+    // });
+    // // console.log ( func.a ); // 输出:undefined
     // 另外，这种装饰方式也叠加了函数的作用域，如果装饰的链条过长，性能上也会受到一些 影响。
 
 
