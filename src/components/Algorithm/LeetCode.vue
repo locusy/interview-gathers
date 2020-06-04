@@ -2,6 +2,17 @@
 <template>
     <div>
         <p>1、给定一个数组，找出数组中相加为10的两个数</p>
+        <p>
+            总结：
+            <a href="https://blog.csdn.net/yy2017220302028/article/details/104394877" target="_blank">
+                https://blog.csdn.net/yy2017220302028/article/details/104394877
+            </a>
+        </p>
+        <p>
+            <a href="https://blog.csdn.net/yy2017220302028/article/details/105562435" target="_blank">
+                https://blog.csdn.net/yy2017220302028/article/details/105562435
+            </a>
+        </p>
     </div>
 </template>
 

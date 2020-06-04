@@ -8,6 +8,7 @@
         <p>6、Node流程控制</p>
         <p>7、node的child_process模块有几个api,分别的作用是什么？</p>
         <p>8、node是如何实现http模块的？</p>
+        <p>9、node实现8g文件在2g内存下合并</p>
     </div>
 </template>
 
@@ -96,6 +97,8 @@
         Event: 'message'
 
     8、node是如何实现http模块的？
+
+    9、node实现8g文件在2g内存下合并
 
 
   */

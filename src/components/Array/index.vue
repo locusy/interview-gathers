@@ -3,6 +3,8 @@
         <p>1、数组方法</p>
         <p>2、封装reduce</p>
         <p>3、类数组转化成数组</p>
+        <p>4、编写一个函数，将列表子元素的顺序倒转</p>
+        <p>5、数组倒序输出</p>
     </div>
 </template>
 
@@ -156,6 +158,32 @@
       console.log('params', Object.prototype.toString.call(params))
     }
     // getParams(1, 2, 3)
+
+    // 4、编写一个函数，将列表子元素的顺序倒转 
+      var arr = [1, 2, 3, 4, 5, 6]
+
+      // 第一种：
+      // function reverse(arr) {
+      //   return arr.reverse()
+      // }
+
+      // 第二种
+      function reverse(arr) {
+        var newArr = []
+        for(var i = arr.length -1; i >= 0; i--) {
+            newArr.push(arr[i])
+        }
+        return newArr
+      }
+
+      // console.log('reverse:', reverse(arr))
+
+
+    // 5、数组倒序输出
+      // var arrr = [1,2,3,4,5]
+      // for(var i=arrr.length - 1; i>=0 ; i--) {
+      //   document.write(arrr[i])
+      // }
     
 
     export default {

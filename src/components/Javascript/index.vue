@@ -83,6 +83,7 @@
         <p>58、闭包和作用域：</p>
         <p>59、闭包内存泄漏问题：</p>
         <p>60、window.open()打开新窗口并且不被拦截</p>
+        <p>61、for in和for of区别</p>
 
 
         <br>
@@ -1046,6 +1047,28 @@
     https://www.jianshu.com/p/89f3db4b7537
     https://segmentfault.com/a/1190000015381923
 
+  61、for in和for of区别
+    for~in语句用于遍历对象，而for~of语句用于遍历数组
+    var obj = {
+      1: 'one',
+      2: 'two',
+      3: 'three'
+    }
+    for(var i in obj) {
+      console.log(obj[i])   // 1 2 3 4 5
+    }
+
+    var arr = [1, 2, 3, 4, 5]
+    for(var i in arr) {
+      console.log(arr[i])   // 1 2 3 4 5
+    }
+    for(var i of arr) {
+      console.log(i)    // 1 2 3 4 5
+    }
+
+    
+
+
 
 
   --------------------四、typescript---------------------
@@ -1376,16 +1399,6 @@
               
                 //  console.log(maxInNumbers)
                 //  console.log(minInNumbers)
-
-
-                  ////////////////////////////////////////////////////////////////////////
-
-              //    编写一个函数,将列表子元素的顺序倒转
-                  var arr = [1, 2, 3, 4, 5, 6]
-                  function reverse(arr) {
-                    return arr.reverse()
-                  }
-                  // console.log('reverse:', reverse(arr))
 
 
                   //////////////////////////////////////////////////////////////////////////

@@ -34,6 +34,8 @@
       <p>32、setState是同步还是异步相关问题</p>
       <p>33、重构代码需要考虑的问题有哪些？</p>
       <p>34、父组件怎么获取子组件的方法</p>
+      <p>35、为什么要使用redux+immutable，redux和全局变量的区别</p>
+      <p>36、react-redux的工作原理和相关源码</p>
       <p>
         面试题合集：
         <a href="https://segmentfault.com/a/1190000016885832" target="_blank">
@@ -881,6 +883,9 @@
             console.log('update...')
           }
         }
+
+    35、为什么要使用redux+immutable，redux和全局变量的区别
+    36、react-redux的工作原理和相关源码
 
 */
 

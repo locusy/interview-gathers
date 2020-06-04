@@ -1,25 +1,12 @@
 <template>
     <div>
-        <p>
-            <router-link :to="{ path: '/algorithm/gather' }">
-                1、将json转成字符串拼接形式
-            </router-link>
-        </p>
-        <p>
-            <router-link :to="{ path: '/algorithm/gather' }">
-                2、实现将str = 'a___b___d_ge'变成'a_b_d_ge'
-            </router-link>
-        </p>
-        <p>
-            <router-link :to="{ path: '/algorithm/gather' }">
-                3、二分法有什么限制条件（饿了么）
-            </router-link>
-        </p>
-        <p>
-            <router-link :to="{ path: '/algorithm/gather' }">
-                4、你了解贪心算法、动态规划、分治算法、回溯算法等常见的算法吗？
-            </router-link>
-        </p>
+        <p>1、将json转成字符串拼接形式</p>
+        <p>2、实现将str = 'a___b___d_ge'变成'a_b_d_ge'</p>
+        <p>3、二分法有什么限制条件（饿了么）</p>
+        <p>4、你了解贪心算法、动态规划、分治算法、回溯算法等常见的算法吗？</p>
+        <p>5、二分查找的事件复杂度怎么求。</p>
+        <p>6、线性顺序存储，和链式存储结构上有什么区别以及优缺点。</p>
+        <p>7、写一下斐波那契数列吧。</p>
     </div>
 </template>
 
@@ -74,8 +61,10 @@
 
     // 4、你了解贪心算法、动态规划、分治算法、回溯算法等常见的算法吗？
 
-    // 5.二分查找的事件复杂度怎么求。
-    // 6.线性顺序存储，和链式存储结构上有什么区别  以及优缺点。
+    // 5、二分查找的事件复杂度怎么求。
+    // 6、线性顺序存储，和链式存储结构上有什么区别以及优缺点。
+
+    // 7、写一下斐波那契数列吧
     
     export default {
     }

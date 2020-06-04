@@ -191,7 +191,7 @@
     // }
 
 
-// 4、实现一个 instanceof 
+// 4、实现一个 instanceof （常考）
     // a instanceof b
     // function _instanceof(a, b) {
     //     while (a) {

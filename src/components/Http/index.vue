@@ -17,6 +17,9 @@
         <p>15、浏览器缓存的基本策略，什么时候该缓存什么时候不该缓存，以及对于控制缓存的字段的相关设置是否清楚？</p>
         <p>16、通信的要点和目的：</p>
         <p>17、请求头和响应头都有哪些内容</p>
+        <p>18、https抓包分析</p>
+        <p>19、dns解析过程</p>
+        <p>20、永久重定向和临时重定向的区别？如何实现</p>
     </div>
 </template>
 
@@ -139,8 +142,17 @@
 
   17、请求头和响应头都有哪些内容
       https://www.cnblogs.com/fighter007/p/8445435.html
+
+  18、https抓包分析
+      https://blog.csdn.net/vtming/article/details/73740273
+
+  19、dns解析过程
+      https://www.jianshu.com/p/401f34691dcc
+
+  20、永久重定向和临时重定向的区别？如何实现
       
-  */
+*/
+
     export default {
         
     }
