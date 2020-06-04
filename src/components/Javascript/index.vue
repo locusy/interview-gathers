@@ -189,6 +189,39 @@
       }
 
     5、jQuery的事件委托怎么写的？
+      一：什么是事件委托？
+          事件委托是利用事件冒泡，只指定一个事件处理程序来管理某一类型的所有事件。
+
+      二：为什么要用事件委托？
+          1.在JavaScript中添加到页面上的事件处理程序的个数直接关系到页面的整体运行性能。为什么呢？因为，每个事件处理函数都是对象，对象会占用内存，内存中的对象越多，性能就越差。此外，必须事先指定所有的事件处理程序而导致的DOM访问次数，会延迟整个页面的交互就绪时间。
+
+          2.对有很多个数据的表格以及很长的列表逐个添加事件，简直就是噩梦。所以事件委托，能极大地提高页面的运行性能，减少开发人员的工作量。
+      三、事件委托写法
+          1.用on方法
+            $(function(){
+              $("#lists").on("click","li",function(event){
+                  var target = $(event.target);
+                  target.css("background-color","red");
+              })
+            })
+          2. 用delegate方法
+            $(function(){
+              $("#lists").delegate("li","click",function(event){
+                  var target = $(event.target);
+                  target.css("background-color","red");
+              })
+            })
+            on()方法和delegate（）方法对于事件委托的写法很像。并且执行事件委托的时候只有子元素（本文中的li）会触发事件，而代为执行的父元素（本文中为ul）不会触发事件，所以我们不需要盘判断触发事件的元素节点名，这一点明显优于原生的JavaScript。
+          3.用bind()方法，代码如下：
+            $(function(){
+              $("#lists").bind("click","li",function(event){
+                  var target = $(event.target);
+                  if(target.prop("nodeName")=="LI"){
+                    target.css("background-color","red");
+                  }
+              })
+            })
+            bind()方法同原生的JavaScript实现方法一样，当父元素代子元素执行事件时，父元素也会触发事件，所以我们需要判断一下触发事件的元素名。此外，用bind()方法给元素绑定事件的时候要注意，它只能给已经存在DOM元素添加事件，不能给未来存在DOM元素添加添加事件。如果要频繁地添加DOM元素，并且给新添加的DOM元素绑定事件的话，用live(),delegate(),on()等方法。鉴于jQuery从1.7之后就不推荐live（）和delegate（）方法了，所以大家还是使用on（）方法吧。
 
 
 

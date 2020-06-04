@@ -1,6 +1,21 @@
 <template>
     <div>
-
+      <div>
+        <p>一、资料：</p> 
+        <a href="http://es6.ruanyifeng.com/#docs/promise" target="_blank">
+          http://es6.ruanyifeng.com/#docs/promise
+        </a>
+        <br />
+        <a href="https://juejin.im/post/5b2f02cd5188252b937548ab" target="_blank">
+          https://juejin.im/post/5b2f02cd5188252b937548ab
+        </a>
+      </div>
+      <div>
+        <p>二、Promise的缺点：</p>
+        <p>首先，无法取消Promise，一旦新建它就会立即执行，无法中途取消。</p>
+        <p>其次，如果不设置回调函数，Promise内部抛出的错误，不会反应到外部。</p>
+        <p>第三，当处于pending状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）</p>
+      </div>
     </div>
 </template>
 
