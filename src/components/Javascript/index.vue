@@ -1229,6 +1229,21 @@
 
     export default {
         mounted() {
+
+          function fn() {
+            this.name = "tianzhi"
+          }
+
+          fn.prototype.getName = function() {
+            console.log('name:', this.name)
+          }
+
+          var obj = new fn()
+          console.log('obj name', obj.name)
+          obj.getName()
+          console.log(obj.__proto__ === fn.prototype)
+
+
           // 字节跳动
           // this.ziJieTiaoDong()
           
