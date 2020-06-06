@@ -226,7 +226,6 @@
 
 
     ------------------------------二、原型链--------------------------
-
     1、js数据类型：
       基本类型：number string boolean undefined  Symbol（符号,es6新增）
       引用类型：object(Function，Array，Date，RegExp，Null)
@@ -309,57 +308,69 @@
     console.log(Function instanceof Function)  //true
 
   7、继承：
-   function fn(){
-     this.name = 'tianzhi'
-   }
-   fn.prototype.age = 25
+    function fn(){
+      this.name = 'tianzhi'
+    }
+    fn.prototype.age = 25
 
-   let Fn = new fn()
-   Fn.name = 'dazhi'
-   console.log(Fn.name,Fn.age)
+    let Fn = new fn()
+    Fn.name = 'dazhi'
+    console.log(Fn.name,Fn.age)
 
-   原型链: 访问一个对象的属性时，先在基本属性中查找，如果没有，再沿着__proto__这条链向上找，这就是原型链
-   由于所有的对象的原型链都会找到Object.prototype，因此所有的对象都会有Object.prototype的方法。这就是所谓的“继承”。
+    原型链: 访问一个对象的属性时，先在基本属性中查找，如果没有，再沿着__proto__这条链向上找，这就是原型链
+    由于所有的对象的原型链都会找到Object.prototype，因此所有的对象都会有Object.prototype的方法。这就是所谓的“继承”。
   
   8、继承的几种方式： 
-    原型链继承
-    混合式继承
+    1.原型链继承
+      function Parent() {
+        this.name = ['ming', 'song', 'zhi']
+        this.age = 12
+      }
 
-    // call apply 实现继承
-    function Person(name, age){
+      function Child() {
+        this.gender = 'nan'
+      }
+
+      Child.prototype = new Parent()
+      var obj = new Child()
+      console.log(obj.name, obj.age, obj.gender)
+    
+
+    2.call apply实现继承
+      function Person(name, age){
+          this.name = name
+          this.age = age
+      }
+
+      function Student(name, age, grade){
+          console.log(Array.prototype.toString.call(arguments))
+          Person.apply(this, arguments)
+          // Person.call(this, name, age)
+          this.grade = grade
+      }
+
+      var obj = new Student('tianzhi','25','一年级')
+      console.log(obj.name, obj.age, obj.grade)
+
+    3.组合继承
+      function Parent(name, age) {
         this.name = name
         this.age = age
-    }
+      }
+      Parent.prototype.run = function() {
+        console.log('run:', this.name, this.age)
+      }
 
-    function Student(name, age, grade){
-        console.log(Array.prototype.toString.call(arguments))
-        Person.apply(this, arguments)
-        // Person.call(this, name, age)
+      function Child(name, age, grade) {
         this.grade = grade
-    }
+        Parent.call(this, name, age)
+      }
 
-    var obj = new Student('tianzhi','25','一年级')
-    console.log(obj.name,obj.age,obj.grade)
-
-    // 组合继承
-    function SuperType() {
-        this.name = name;
-        this.colors = ['red', 'blue', 'green'];
-    }
-    SuperType.prototype.sayName = function() {
-        console.log(this.name);
-    }
-
-    function SubType(name, age) {
-        SuperType.call(this, name);
-        this.age = age;
-    }
-    SubType.prototype = new SuperType();
-    SubType.prototype.constructor = SubType;
-
-    SubType.prototype.sayAge = function() {
-        console.log(this.age);
-    }
+      Child.prototype = new Parent()
+      
+      let obj = new Child('tian', 12, 'grade 3')
+      console.log(obj.name, obj.age, obj.grade)
+      obj.run()
 
   9、Object.create
     1.写法一
@@ -386,18 +397,18 @@
 
   1、JavaScript的函数调用有哪几种方式？请举例说明，并分析其不同之处。
       1.函数调用
-          this指向：window
-          返回值：由return值决定，如果没有return语句就表示没有返回值
+            this指向：window
+            返回值：由return值决定，如果没有return语句就表示没有返回值
       2.方法调用
-              this指向：该方法的调用者
-              返回值：由return语句决定
+            this指向：该方法的调用者
+            返回值：由return语句决定
       3.构造函数调用
-              this指向：当前构造函数创建的对象
-              返回值：a、没有手动添加返回值，默认返回this
-                                  b、return了一个基本数据类型（数字、布尔值、null、undefined），最终返回this
-                                  c、return了一个复杂数据类型（对象），最终返回该对象
+            this指向：当前构造函数创建的对象
+            返回值：a、没有手动添加返回值，默认返回this
+                  b、return了一个基本数据类型（数字、布尔值、null、undefined），最终返回this
+                  c、return了一个复杂数据类型（对象），最终返回该对象
       4.上下文调用
-              call和apply 是方法， 是所有函数都具有的方法。 Function.prototype
+              call和apply是方法，是所有函数都具有的方法。Function.prototype
               只要函数调用call/apply 方法，那么该函数就会立即执行。
               this指向： a、传递一个null/undefined------------------->window
                         b、传递一个数字、字符串、布尔值------->对应的基本包装类型的对象
@@ -405,7 +416,7 @@
               返回值：由return语句决定
     
   2、请举例说明DOM event的传播机制和用途
-    事件捕获，处于目标，事件冒泡
+    1.事件捕获，处于目标，事件冒泡
     var ev = document.getElementById('ev');
 
     ev.addEventListener('click', function (e) {
@@ -428,6 +439,7 @@
         console.log('body captrue');
     }, true);
 
+    2.自定义事件
     var eve = new Event('test');
     ev.addEventListener('test', function () {
         console.log('test dispatch');
@@ -470,7 +482,7 @@
           2）作为对象原型链的终点。
 
   6、== 和 === 有什么区别？
-    === 不需要进行类型转换，只有类型相同并且值相等时，才返回 true.
+    === 不需要进行类型转换，只有类型相同并且值相等时，才返回true.
     == 如果两者类型不同，首先需要进行类型转换。具体流程如下:
     首先判断两者类型是否相同，如果相等，判断值是否相等.
     如果类型不同，进行类型转换
@@ -482,6 +494,12 @@
   7、思考: [] == ![]
     我们来分析一下: [] == ![] 是true还是false？  true
 
+    Boolean([])   // true
+    Boolean(![])  // false
+
+    Number([])    // 0
+    Number(![])   // 0
+ 
     首先，我们需要知道 ! 优先级是高于 == (更多运算符优先级可查看: 运算符优先级)
     ![] 引用类型转换成布尔值都是true,因此![]的是false
     根据上面的比较步骤中的第五条，其中一方是 boolean，将 boolean 转为 number 再进行判断，false转换成 number，对应的值是 0.
@@ -1230,20 +1248,8 @@
     export default {
         mounted() {
 
-          function fn() {
-            this.name = "tianzhi"
-          }
-
-          fn.prototype.getName = function() {
-            console.log('name:', this.name)
-          }
-
-          var obj = new fn()
-          console.log('obj name', obj.name)
-          obj.getName()
-          console.log(obj.__proto__ === fn.prototype)
-
-
+          
+ 
           // 字节跳动
           // this.ziJieTiaoDong()
           
