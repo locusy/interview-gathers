@@ -565,8 +565,8 @@
     let 和 const 定义的变量不会出现变量提升，而 var 定义的变量会提升。
     let 和 const 是JS中的块级作用域
     let 和 const 不允许重复声明(会抛出错误)
-    let 和 const 定义的变量在定义语句之前，如果使用会抛出错误(形成了暂时性死区)，而 var 不会。
-    const 声明一个只读的常量。一旦声明，常量的值就不能改变(如果声明是一个对象，那么不能改变的是对象的引用地址)
+    let 和 const 定义的变量在定义语句之前，如果使用会抛出错误(形成了暂时性死区)，而var不会。
+    const声明一个只读的常量。一旦声明，常量的值就不能改变(如果声明是一个对象，那么不能改变的是对象的引用地址)
 
   11、在JS中什么是变量提升？什么是暂时性死区？
     变量提升就是变量在声明之前就可以使用，值为undefined。
@@ -585,27 +585,27 @@
     常见的类数组有: 函数的参数 arugments, DOM 对象列表(比如通过 document.querySelectorAll 得到的列表), jQuery 对象 (比如 $("div")).
 
   13、将类数组转化成数组的方法：
-    //第一种方法
+    1.第一种方法
     Array.prototype.slice.call(arrayLike, start);
 
-    //第二种方法
+    2.第二种方法
     [...arrayLike];
     
-    //第三种方法:
+    3.第三种方法:
     Array.from(arrayLike);
 
   14、如何判断一个变量是不是数组？
-      使用Array.isArray 判断，如果返回true, 说明是数组  
+      1.使用Array.isArray 判断，如果返回true, 说明是数组  
           Array.isArray([]) 返回true
-      使用 instanceof Array 判断，如果返回true, 说明是数组
+      2.使用 instanceof Array 判断，如果返回true, 说明是数组
           [] instanceof Array 返回true
           '' instanceof Array  false
           {} instanceof Array  报错:Uncaught SyntaxError: Unexpected token instanceof
-      使用 Object.prototype.toString.call 判断，如果值是 [object Array], 说明是数组
+      3.使用 Object.prototype.toString.call 判断，如果值是 [object Array], 说明是数组
           Object.prototype.toString.call()   "[object Undefined]"
           Object.prototype.toString.call([])   "[object Array]"
           Object.prototype.toString.call({})   "[object Object]"
-      通过 constructor 来判断，如果是数组，那么 arr.constructor === Array (不准确，因为我们可以指定 obj.constructor = Array)
+      4.通过 constructor 来判断，如果是数组，那么 arr.constructor === Array (不准确，因为我们可以指定 obj.constructor = Array)
           [].constructor === Array   true
 
   15、数组的哪些API会改变原数组？
@@ -1248,7 +1248,6 @@
     export default {
         mounted() {
 
-          
  
           // 字节跳动
           // this.ziJieTiaoDong()
