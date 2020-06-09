@@ -440,7 +440,7 @@
     }, true);
 
     2.自定义事件
-    var eve = new Event('test');
+    var ev = new Event('test');
     ev.addEventListener('test', function () {
         console.log('test dispatch');
     });
@@ -571,7 +571,8 @@
   11、在JS中什么是变量提升？什么是暂时性死区？
     变量提升就是变量在声明之前就可以使用，值为undefined。
 
-    在代码块内，使用 let/const 命令声明变量之前，该变量都是不可用的(会抛出错误)。这在语法上，称为“暂时性死区”。暂时性死区也意味着 typeof 不再是一个百分百安全的操作。
+    在代码块内，使用let/const命令声明变量之前，该变量都是不可用的(会抛出错误)。这在语法上，称为“暂时性死区”。
+    暂时性死区也意味着typeof不再是一个百分百安全的操作。
 
     typeof x; // ReferenceError(暂时性死区，抛错)
     let x;
