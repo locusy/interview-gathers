@@ -637,7 +637,9 @@
 
   18、说说JS的垃圾回收机制。
     Js具有自动垃圾回收机制。垃圾收集器会按照固定的时间间隔周期性的执行。
-    JS中最常见的垃圾回收方式是标记清除。
+
+    JS中垃圾回收方式：
+    1.标记清除（最常见的）
     工作原理：是当变量进入环境时，将这个变量标记为“进入环境”。当变量离开环境时，则将其标记为“离开环境”。
             标记“离开环境”的就回收内存。
     工作流程：
@@ -646,7 +648,7 @@
         3.再被加上标记的会被视为准备删除的变量。
         4.垃圾回收器完成内存清除工作，销毁那些带标记的值并回收他们所占用的内存空间。
 
-    引用计数 方式
+    2.引用计数
     工作原理：跟踪记录每个值被引用的次数。
     工作流程：
         1.声明了一个变量并将一个引用类型的值赋值给这个变量，这个引用类型值的引用次数就是1。
@@ -670,6 +672,26 @@
         解决：手动删除定时器和dom。
     （5）子元素存在引用引起的内存泄漏
         原因：div中的ul li  得到这个div，会间接引用某个得到的li，那么此时因为div间接引用li，即使li被清空，也还是在内存中，并且只要li不被删除，他的父元素都不会被删除。
+
+      示例：
+        var x = [];
+        function createSomeNodes() {
+          var div,
+          i = 100,
+          frag = document.createDocumentFragment();
+          for (;i > 0; i--) {
+            div = document.createElement("div");
+            div.appendChild(document.createTextNode(i + " - "+ new Date().toTimeString()));
+            frag.appendChild(div);
+          }
+          document.getElementById("nodes").appendChild(frag);
+        }
+        function grow() {
+          x.push(new Array(1000000).join('x'));
+          createSomeNodes();
+          setTimeout(grow,1000);
+        }
+        grow()
 
   20、js内存泄漏的排查方法（饿了么）
     https://github.com/wengjq/Blog/issues/1
@@ -718,35 +740,32 @@
   23、深拷贝和浅拷贝的区别
       https://cnblogs.com/biaochenxuying/p/11438353.html
       浅拷贝是指只复制第一层对象，但是当对象的属性是引用类型时，实质复制的是其引用，当引用指向的值改变时也会跟着变化。
-
       深拷贝复制变量值，对于非基本类型的变量，则递归至基本类型变量后，再复制。
+
       深拷贝后的对象与原来的对象是完全隔离的，互不影响，对一个对象的修改并不会影响另一个对象。
 
   24、深拷贝有哪些方式
       https://juejin.im/post/5cb8323cf265da038e54a35e
 
-      使用递归方式进行深拷贝：
-          var json = {a:6,b:5,c:[1,2,3,4,5]};
-          function clone(json){
-
-              var json1 = {};
-              for(var attr in json){
-                  if( isNaN(json[attr]) ){
-                      clone(json[attr]);
-                  }
-                  json1[attr] = json[attr];
-              };
-
-              return json;
-
-          };
-          console.log( clone(json) );
-      通过JSON对象实现深拷贝 JSON.parse(JSON.stringify(obj))
-      使用jq（extend）方法实现深拷贝 $.extend(true,{},obj);
-      object.assign()实现深拷贝 只能拷贝一维 Object.assign({}, obj1)
-      lodash函数库实现深拷贝 lodash.cloneDeep(abj)
-      MessageChannel实现深拷贝
-      Web Worker实现深拷贝
+      1.使用递归方式进行深拷贝：
+        var json = {a:6,b:5,c:[1,2,3,4,5]};
+        function clone(json) {
+            var json1 = {};
+            for(var attr in json) {
+                if( isNaN(json[attr]) ) {
+                    clone(json[attr]);
+                }
+                json1[attr] = json[attr];
+            };
+            return json1;
+        };
+        console.log( clone(json) );
+      2.通过JSON对象实现深拷贝 JSON.parse(JSON.stringify(obj))
+      3.使用jq（extend）方法实现深拷贝 $.extend(true,{},obj);
+      4.object.assign()实现深拷贝 只能拷贝一维 Object.assign({}, obj1)
+      5.lodash函数库实现深拷贝 lodash.cloneDeep(obj)
+      6.MessageChannel实现深拷贝
+      7.Web Worker实现深拷贝
 
   25、js深度复制的方式
       1.使用jq的$.extend(true, target, obj)
@@ -754,11 +773,11 @@
       3.newobj = JSON.parse(JSON.stringify(sourceObj))
 
   26、原生的js如何设置元素的高度？（自如网）
-      // 方法一：
+      1.方法一：
       var html = document.getElementsByTagName('html')[0];
       html.style.height = '200px'
 
-      // 方法二：
+      2.方法二：
       var obj = document.getElementById('myelem');
       obj.style.cssText = 'height:200px'
 
@@ -781,17 +800,22 @@
           let ul = document.querySelectorAll('ul')[0]
           let aLi = document.querySelectorAll('li')
           ul.addEventListener('click',function(e){
-          let oLi1 = e.target  
-          let oLi2 = e.currentTarget
-          console.log(oLi1)   //  被点击的li
-          console.log(oLi2)   // ul
-          console.log(oLi1===oLi2)  // falses
-          console.log(e.currentTarget===this) // true
-          console.log(e.target===this) // false
+            let oLi1 = e.target 
+            let oLi2 = e.currentTarget
+            console.log(oLi1)   //  被点击的li
+            console.log(oLi2)   // ul
+            console.log(oLi1===oLi2)  // falses
+            console.log(e.currentTarget===this) // true
+            console.log(e.target===this) // false
           })
       </ script>
 
   28、innerhtml和document.write的区别（商汤科技）
+      https://blog.csdn.net/u012309349/article/details/47946869
+
+      总结：
+      document.write会将页面上的所有内容清除包括标题，导致页面全部重绘
+      innerHTML只会重写所属元素的内容，即<div>元素中的内容
 
   29、怎么判断一个变量是否存在？（商汤科技）
       需要考虑是undefined还是null
@@ -802,10 +826,10 @@
 
   31、Bom对象：浏览器对象模型
       （1）window对象：顶层对象 表示瀏覽器打開的視窗，包括獲取焦點、改變捲軸、設置計時器等等。
-      （2）Navigator物件：包含瀏覽器資訊。 如：獲取瀏覽器名稱、版本資訊、作業系統平臺資訊等等。
-      （3）Screen物件：包含螢幕資訊。 如：獲取螢幕高度、寬度等等。
-      （4）History物件：可對當前頁的流覽歷史進行操作，如：前進、後退等。
-      （5）Location物件：可對當前頁面的URL進行操作，如：導航到新的頁面、獲取URL資訊等。
+      （2）navigator物件：包含瀏覽器資訊。 如：獲取瀏覽器名稱、版本資訊、作業系統平臺資訊等等。
+      （3）screen物件：包含螢幕資訊。 如：獲取螢幕高度、寬度等等。
+      （4）history物件：可對當前頁的流覽歷史進行操作，如：前進、後退等。
+      （5）location物件：可對當前頁面的URL進行操作，如：導航到新的頁面、獲取URL資訊等。
 
   32、请简述下js引擎的工作原理，js是怎样处理事件的eventloop，宏任务源tasks和微任务源jobs分别有哪些？
       Eventloop
@@ -822,6 +846,80 @@
         micro-task(微任务)
             Promise
             process.nextTick
+
+        面试题1：
+          async function async1() {
+            console.log('async1 start');
+            await async2();
+            console.log('async1 end');
+          }
+          async function async2() {
+            console.log('async2');
+          }
+          console.log('script start');
+          setTimeout(function() {
+            console.log('setTimeout');
+          }, 0);
+          async1();
+          new Promise(function(resolve) {
+            console.log('promise1');
+            resolve();
+          }).then(function() {
+            console.log('promise2');
+          });
+          console.log('script end');
+
+          结果：
+          script start
+          async1 start
+          async2
+          promise1
+          script end
+          async1 end
+          promise2
+          setTimeout
+
+        面试题2：
+          console.log('script start');
+
+          setTimeout(function () {
+              console.log('setTimeout---0');
+          }, 0);
+
+          setTimeout(function () {
+              console.log('setTimeout---200');
+              setTimeout(function () {
+                  console.log('inner-setTimeout---0');
+              });
+              Promise.resolve().then(function () {
+                  console.log('promise5');
+              });
+          }, 200);
+
+          Promise.resolve().then(function () {
+              console.log('promise1');
+          }).then(function () {
+              console.log('promise2');
+          });
+          Promise.resolve().then(function () {
+              console.log('promise3');
+          });
+          console.log('script end');
+
+          结果：
+          script start
+          script end
+          promise1
+          promise3
+          promise2
+          setTimeout---0
+          setTimeout---200
+          promise5
+          inner-setTimeout---0
+
+
+
+
 
   33、js是如何构造抽象语法树（AST）的？
 
@@ -1246,15 +1344,15 @@
 
 */
 
+
     export default {
         mounted() {
-
  
           // 字节跳动
           // this.ziJieTiaoDong()
           
           // 知网
-          this.zhiwang()
+          // this.zhiwang()
         },
         methods: {
           ziJieTiaoDong() {
