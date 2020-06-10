@@ -1,5 +1,6 @@
 <template>
     <div>
+      <button @click="todetail">todetail</button>
         <p>一、jquery</p>
         <p>1、jQuery获取的dom对象和原生的dom对象有何区别？</p>
         <p>2、jQuery插件：</p>
@@ -917,10 +918,6 @@
           promise5
           inner-setTimeout---0
 
-
-
-
-
   33、js是如何构造抽象语法树（AST）的？
 
   34、Math.floor()，Math.ceil()，Math.round()的区别
@@ -1355,6 +1352,10 @@
           // this.zhiwang()
         },
         methods: {
+          todetail() {
+            this.$router.push('/')
+            this.$router.push("/javascript")
+          },
           ziJieTiaoDong() {
               const obj = {
                 name: "jsCoder",
