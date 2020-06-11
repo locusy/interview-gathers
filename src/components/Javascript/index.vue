@@ -847,7 +847,7 @@
         micro-task(微任务)
             Promise
             process.nextTick
-
+        
         面试题1：
           async function async1() {
             console.log('async1 start');
@@ -870,7 +870,7 @@
           });
           console.log('script end');
 
-          结果：
+          结果：主线程-微任务-主线程-微任务-宏任务
           script start
           async1 start
           async2
@@ -880,7 +880,7 @@
           promise2
           setTimeout
 
-        面试题2：
+        面试题2：主线程-微任务-宏任务
           console.log('script start');
 
           setTimeout(function () {
@@ -919,6 +919,29 @@
           inner-setTimeout---0
 
   33、js是如何构造抽象语法树（AST）的？
+      https://www.cnblogs.com/fundebug/p/how-does-javascript-compile.html
+      https://segmentfault.com/a/1190000016231512
+
+      将一个简单的函数转化成AST之后的样子：
+      简单函数
+      function square(n) {
+          return n * n;
+      }
+      
+      转换后的AST
+      {
+        type: "FunctionDeclaration",
+        id: {
+            type: "Identifier",
+            name: "square"
+        },
+        params: [
+            {
+              type: "Identifier",
+              name: "n"
+            }
+        ],
+        ...
 
   34、Math.floor()，Math.ceil()，Math.round()的区别
       Math.floor(): 向下取整，返回的比它小的整数
