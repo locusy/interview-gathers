@@ -805,7 +805,7 @@
             let oLi2 = e.currentTarget
             console.log(oLi1)   //  被点击的li
             console.log(oLi2)   // ul
-            console.log(oLi1===oLi2)  // falses
+            console.log(oLi1===oLi2)  // false
             console.log(e.currentTarget===this) // true
             console.log(e.target===this) // false
           })
@@ -1015,10 +1015,10 @@
         HTML 5 为<script>标签定义了一个新的扩展属性：async。它的作用和 defer 一样，能够异步地加载和执行脚本，不因为加载脚本而阻塞页面的加载。但是有一点需要注意，在有 async 的情况下，JavaScript 脚本一旦下载好了就会执行，所以很有可能不是按照原本的顺序来执行的。如果 JavaScript 脚本前后有依赖性，使用 async 就很有可能出现错误。
 
         总结：
-        都是异步执行脚本的方法
-        何时执行：defer在onload事件触发前才会被执行，async下载完就执行
-        顺序：defer按照顺序执行，async无序执行
-        应用：当js脚本前后存在依赖关系的时候用defer，不存在依赖关系的用async
+        1.都是异步执行脚本的方法
+        2.何时执行：defer在onload事件触发前才会被执行，async下载完就执行
+        3.顺序：defer按照顺序执行，async无序执行
+        4.应用：当js脚本前后存在依赖关系的时候用defer，不存在依赖关系的用async
 
   41、loadscript封装：
         https://blog.csdn.net/load_life/article/details/7336828
@@ -1031,16 +1031,16 @@
         success:加载成功后执行的函数，优先执行callback。
 
         function loadScript(url, callback){
-            var script = document.createElement ("script")
+            var script = document.createElement("script")
             script.type = "text/javascript";
-            if (script.readyState){ //IE
+            if (script.readyState){ // IE
                 script.onreadystatechange = function(){
                     if (script.readyState == "loaded" || script.readyState == "complete"){
                         script.onreadystatechange = null;
                         callback();
                     }
                 };
-            } else { //Others
+            } else { // Others
                 script.onload = function(){
                     callback();
                 };
@@ -1050,7 +1050,7 @@
         }
 
   42、node占用内存优化，多线程（饿了么）
-        process.memoryUsage
+      console.log(process.memoryUsage())
 
   43、XMLHttpRequest通用属性和方法？
         var xhr = new XMLHttpRequest()
@@ -1068,6 +1068,22 @@
   45、js跳出循环
         forEach循环：throw new Error('error')
             https://www.cnblogs.com/Marydon20170307/p/8920775.html
+
+            try {
+                var array = ["first","second","third","fourth"];
+                // 执行到第3次，结束循环
+                array.forEach(function(item,index){
+                    if (item == "third") {
+                        throw new Error("EndIterative");
+                    }
+                    alert(item);// first,sencond
+                });
+            } catch(e) {
+                if(e.message!="EndIterative") throw e;
+            };
+            // 下面的代码不影响继续执行
+            alert(10);
+
         for循环：
             break  跳出
             continue  跳过
@@ -1099,7 +1115,7 @@
       为未来新版本的Javascript做好铺垫。
 
   50、什么是函数柯里化？
-      实现 sum(1)(2)(3) 返回结果是1,2,3之和
+        实现sum(1)(2)(3)返回结果是1,2,3之和
         函数柯里化是把接受多个参数的函数变换成接受一个单一参数（最初函数的第一个参数）的函数，
         并且返回接受余下的参数而且返回结果的新函数的技术。
 
@@ -1115,29 +1131,81 @@
         引申：实现一个curry函数，将普通函数进行柯里化:
 
         function curry(fn, args = []) {
-            return function(){
-                let rest = [...args, ...arguments];
-                if (rest.length < fn.length) {
-                    return curry.call(this,fn,rest);
-                }else{
-                    return fn.apply(this,rest);
-                }
-            }
-        }
-        //test
-        function sum(a,b,c) {
-            return a+b+c;
-        }
-        let sumFn = curry(sum);
-        console.log(sumFn(1)(2)(3)); //6
-        console.log(sumFn(1)(2, 3)); //6
+          return function() {
+              let _args = [].slice.call(arguments)
+              let rest = [...args, ..._args];
+              console.log('rest', rest)
+              if (rest.length < fn.length) {
+                  return curry.call(this, fn, rest);
+              } else { 
+                  return fn.apply(this, rest);
+              }
+          }
+      }
 
-  51、你了解js的数据结构吗？基本数据类型有哪些？复杂数据类型有哪些？在内存是如何表现的？
-  52、你可以用js去实现一个单向、双向、循环链表吗？你可以实现查找、插入、删除操作吗？
-  53、你是如何理解前端架构的？你了解持续集成吗？
-  54、git大型项目的团队的合作以及持续性继承什么的；
+      //test
+      function sum(a,b,c) {
+          return a+b+c;
+      }
+      let sumFn = curry(sum);
+      console.log('sumFn:', sumFn(1))
+      console.log(sumFn(1)(2)(3)); //6
+      console.log(sumFn(1)(2, 3)); //6
+
+
+      function add() {
+          // 第一次执行时，定义一个数组专门用来存储所有的参数
+          var _args = [].slice.call(arguments);
+
+          // 在内部声明一个函数，利用闭包的特性保存_args并收集所有的参数值
+          var adder = function () {
+              var _adder = function() {
+                  // [].push.apply(_args, [].slice.call(arguments));
+                  _args.push(...arguments);
+                  return _adder;
+              };
+
+              // 利用隐式转换的特性，当最后执行时隐式转换，并计算最终的值返回
+              _adder.toString = function () {
+                  return _args.reduce(function (a, b) {
+                      return a + b;
+                  });
+              }
+
+              return _adder;
+          }
+          // return adder.apply(null, _args);
+          return adder(..._args);
+      }
+
+      var a = add(1)(2)(3)(4);   // f 10
+      var b = add(1, 2, 3, 4);   // f 10
+      var c = add(1, 2)(3, 4);   // f 10
+      var d = add(1, 2, 3)(4);   // f 10
+
+      可以利用隐式转换的特性参与计算
+      console.log(a + 10); // 20
+      console.log(b + 20); // 30
+      console.log(c + 30); // 40
+      console.log(d + 40); // 50
+
+      也可以继续传入参数，得到的结果再次利用隐式转换参与计算
+      console.log(a(10) + 100);  // 120
+      console.log(b(10) + 100);  // 120
+      console.log(c(10) + 100);  // 120
+      console.log(d(10) + 100);  // 120
+
+  51、你了解js的数据结构吗？基本数据类型有哪些？复杂数据类型有哪些？在内存是如何表现的
+
+  52、你可以用js去实现一个单向、双向、循环链表吗？你可以实现查找、插入、删除操作吗
+
+  53、你是如何理解前端架构的？你了解持续集成吗
+
+  54、git大型项目的团队的合作以及持续性继承什么的
+
   55、你了解基本的设计模式吗？举例单例模式、策略模式、代理模式、迭代模式、发布订阅模式
-  56、js模块化 commonjs的UMD cmd 的规范的了解  以及es6的模块化跟其他几种的区别
+
+  56、js模块化commonjs的UMD cmd的规范的了解，以及es6的模块化跟其他几种的区别
 
   57、请你谈一下对于js拖拽功能的实现的理解，具体的实现方式是什么？
   
@@ -1222,6 +1290,8 @@
 
   61、for in和for of区别
     for~in语句用于遍历对象，而for~of语句用于遍历数组
+    for..in迭代的是对象的 键 的列表，而for..of则迭代 对象的键对应的值 。
+
     var obj = {
       1: 'one',
       2: 'two',
@@ -1239,9 +1309,6 @@
       console.log(i)    // 1 2 3 4 5
     }
 
-    
-
-
 
 
   --------------------四、typescript---------------------
@@ -1256,7 +1323,7 @@
 
     TypeScript 是微软开发一款开源的编程语言，本质上是向 JavaScript 增加静态类型系统。
     它是 JavaScript 的超集，所有现有的 JavaScript 都可以不加改变就在其中使用。
-    它是为大型软件开发而设计的，它最终编译产生 JavaScript，所以可以运行在浏览器、Node.js 等等的运行时环境。
+    它是为大型软件开发而设计的，它最终编译产生 JavaScript，所以可以运行在浏览器、Node.js等等的运行时环境。
 
   3、TypeScript和JavaScript的关系
     和一些基于 JavaScript 的激进语言不同（比如 CoffeeScript），TypeScript 的语法设计首先考虑的就是兼容 JavaScript，或者说对 JavaScript 的语法做扩展。基本上是在 JavaScript 的基础之上增加了一些类型标记语法，以实现静态类型分析。把这些类型标注语法去掉之后，仍是一个标准的 JavaScript 语言。
@@ -1294,7 +1361,8 @@
     ES6 class 必须使用 new 调用;
     ES6 class 不存在变量提升;
     ES6 class 默认即是严格模式;
-    ES6 class 子类必须在父类的构造函数中调用super()，这样才有this对象;ES5中类继承的关系是相反的，先有子类的this，然后用父类的方法应用在this上。
+    ES6 class 子类必须在父类的构造函数中调用super()，这样才有this对象;
+    ES5中类继承的关系是相反的，先有子类的this，然后用父类的方法应用在this上。
 
   6、import和require的区别（商汤科技）
     import引用的变量改变 不会影响原来的值
@@ -1304,9 +1372,9 @@
       https://www.lazycoffee.com/articles/view?id=58ab09eea072b332753d9774
       https://blog.csdn.net/deng1456694385/article/details/83831931
 
-      promise比较简单，也是最常用的，主要就是将原来的用回调函数的异步编程方法转成用relsove和reject触发事件， 用then和catch捕获成功或者失败的状态执行相应代码的异步编程的方法, promise将多个回调函数嵌套的回调地狱，变成了链式的写法 ，可读性更高写法也更清晰；但是希望顺序执行时，处理链式调用麻烦，需要多次使用then；捕获错误麻烦
-      Generator函数是将函数分步骤阻塞，希望顺序执行时方便；捕获错误简洁；但是只有主动调用next()才能进行下一步；
-      async函数就相当于自执行的Generator函数，Generator函数的语法糖，相当于自带一个状态机，在await的部分等待返回，返回后自动执行下一步；如果中途出错返回空值了，可以直接return中止执行
+      1.promise比较简单，也是最常用的，主要就是将原来的用回调函数的异步编程方法转成用relsove和reject触发事件，用then和catch捕获成功或者失败的状态执行相应代码的异步编程的方法, promise将多个回调函数嵌套的回调地狱，变成了链式的写法，可读性更高写法也更清晰；但是希望顺序执行时，处理链式调用麻烦，需要多次使用then；捕获错误麻烦
+      2.Generator函数是将函数分步骤阻塞，希望顺序执行时方便；捕获错误简洁；但是只有主动调用next()才能进行下一步；
+      3.async函数就相当于自执行的Generator函数，Generator函数的语法糖，相当于自带一个状态机，在await的部分等待返回，返回后自动执行下一步；如果中途出错返回空值了，可以直接return中止执行
 
   8、promise.then().then().then()中间的then怎么阻止返回
       return promise.reject()
@@ -1321,36 +1389,43 @@
     f().then(v => console.log(v))
     上面代码中，await命令的参数是数值123，这时等同于return 123。
     
-      await 13 不会报错 但是没有意义
-      await setTimeout(() = {
-        console.log('time')
-      }, 200) 
-      上面会执行吗？
+    await 13 不会报错 但是没有意义
+
+    async function hh() {
+        await setTimeout(() => {
+          console.log('time')
+        }, 200) 
+    }
+    hh().then(v => console.log(v))   // time
+    上面会执行吗？
 
   10、promise.all()
       http://liubin.org/promises-book/#ch2-promise-all
 
-      Promise.all 接收一个 promise对象的数组作为参数，当这个数组里的所有promise对象全部变为resolve或reject状态的时候，它才会去调用 .then 方法。
-      传递给 Promise.all 的promise并不是一个个的顺序执行的，而是同时开始、并行执行的。
-      而且每个promise的结果（resolve或reject时传递的参数值，和传递给 Promise.all 的promise数组的顺序是一致的。
+      Promise.all接收一个promise对象的数组作为参数，当这个数组里的所有promise对象全部变为resolve或reject状态的时候，它才会去调用.then方法。
+
+      传递给Promise.all的promise并不是一个个的顺序执行的，而是同时开始、并行执行的。
+
+      而且每个promise的结果（resolve或reject时传递的参数值，和传递给Promise.all 的promise数组的顺序是一致的。
 
       如果传入的参数是一个空的可迭代对象，那么此promise对象回调完成(resolve),只有此情况，是同步执行的，其它都是异步返回的。
-        如果传入的参数不包含任何 promise，则返回一个异步完成.
-        promises 中所有的promise都“完成”时或参数中不包含 promise 时回调完成。
-        如果参数中有一个promise失败，那么Promise.all返回的promise对象失败
-        在任何情况下，Promise.all 返回的 promise 的完成状态的结果都是一个数组
+      如果传入的参数不包含任何promise，则返回一个异步完成。
+      promises中所有的promise都“完成”时或参数中不包含 promise 时回调完成。
+      如果参数中有一个promise失败，那么Promise.all返回的promise对象失败
+      在任何情况下，Promise.all 返回的 promise 的完成状态的结果都是一个数组
 
   11、一句话描述promise
       Promise对象用于异步操作，它表示一个尚未完成且预计在未来完成的异步操作。
 
   12、promise有几种状态,Promise有什么优缺点?
-    promise有三种状态: fulfilled, rejected, pending.
+    promise有三种状态: fulfilled, rejected, pending
 
     Promise的优点:
     一旦状态改变，就不会再变，任何时候都可以得到这个结果
     可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数
-    Promise 的缺点:
-    无法取消 Promise
+
+    Promise的缺点:
+    无法取消Promise
     当处于pending状态时，无法得知目前进展到哪一个阶段
 
   13、Promise构造函数是同步还是异步执行，then中的方法呢?promise如何实现then处理 ?
@@ -1370,12 +1445,13 @@
 
     export default {
         mounted() {
- 
+
           // 字节跳动
           // this.ziJieTiaoDong()
           
           // 知网
           // this.zhiwang()
+
         },
         methods: {
           todetail() {

@@ -185,6 +185,16 @@
       //   document.write(arrr[i])
       // }
     
+      // 6、封装map
+      Array.prototype.map = function(cb) {
+          let arr = []
+          for(var i=0; i < this.length; i++) {
+            // arr[i] = cb(this[i])
+            arr.push(cb(this[i]))
+          }
+          return arr
+      };
+      // console.log([1,2,3].map(item => item*2))
 
     export default {
         
