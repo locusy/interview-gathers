@@ -36,6 +36,7 @@
       <p>34、父组件怎么获取子组件的方法</p>
       <p>35、为什么要使用redux+immutable，redux和全局变量的区别</p>
       <p>36、react-redux的工作原理和相关源码</p>
+      <p>37、setState的批量更新的问题</p>
       <p>
         面试题合集：
         <a href="https://segmentfault.com/a/1190000016885832" target="_blank">
@@ -886,6 +887,25 @@
 
     35、为什么要使用redux+immutable，redux和全局变量的区别
     36、react-redux的工作原理和相关源码
+    37、setState的批量更新的问题
+        setState 有两种使用方法。第一种方法是传入一个对象作参数。第二种方法是传入一个函数作参数。
+        你知道这两种方法分别应该在什么时候使用吗？
+        例如，如果你有一个可以启用或禁用的按钮，那么你可能会有一个名为 isDisabled 的状态，其中包含一个布尔值。
+        如果你想切换这个按钮的状态，你可能很会写这样的一段代码：
+        // setState 使用一个对象作参数
+        this.setState({ isDisabled: !this.state.isDisabled })
+
+        那么，这有什么问题呢？问题在于 React 状态更新可以批处理（batchUpdate），这意味着多个状态更新可以在一个更新周期中发生。如果你的更新将被批处理，并且你对 isDisabled 状态有多个更新，那么最终结果可能不是你所期望的。
+        更新状态的更正确的方法是提供前一个状态的函数作为参数:
+        this.setState(prevState => ({ isDisabled: !prevState.isDisabled }))
+
+        现在，即使你的状态更新被批处理，并且有多个更新都在操作 isDisabled 状态，但每个更新都依赖于正确的先前状态，因此你总是会得到预期的结果。
+
+        类似的递增计数器也是如此。
+        // 不要这样做
+        this.setState({ counterValue: this.state.counterValue + 1 })
+        // 正确的写法
+        this.setState(prevState => ({ counterValue: prevState.counterValue + 1 }))
 
 */
 

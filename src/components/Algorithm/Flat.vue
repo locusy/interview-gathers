@@ -55,7 +55,14 @@
     import Vue from 'vue'
 
     export default Vue.extend({
-        
+        mounted() {
+            var myArr = [1,2,4,5,[8,6,[12,45],7],9]
+
+            for(var item of myArr) {
+                console.log(item)
+            }
+            
+        }
     })
 </script>
 

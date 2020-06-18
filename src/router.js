@@ -38,6 +38,7 @@ import Proxy from './components/Designs/Proxy'
 import PubSub from './components/Designs/PubSub'
 import Single from './components/Designs/Single'
 import Strategy from './components/Designs/Strategy'
+import Basis from './components/Basis'
 
 // const App = () => import('./App')
 // const Home = () => import('./components/Home')
@@ -252,6 +253,12 @@ const routes = [
         component: Strategy,
         name: 'Strategy'
       },
+      // 基础
+      {
+        path: '/basis',
+        component: Basis,
+        name: 'Basis'
+      }
     ]
   }
 ]
