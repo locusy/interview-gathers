@@ -52,18 +52,17 @@
     // console.log('flat arr:', result)
 
 
+    // exercise
+    // const myArr = [1,2,4,5,[8,6,[12,45],7],9];
+    // const flatfn = myArr => myArr.reduce((a, b) => a.concat(Array.isArray(b) ? flatfn(b) : b), []) 
+
+    // console.log('newArr', flatfn(myArr))
+
     import Vue from 'vue'
 
-    export default Vue.extend({
-        mounted() {
-            var myArr = [1,2,4,5,[8,6,[12,45],7],9]
+    export default {
 
-            for(var item of myArr) {
-                console.log(item)
-            }
-            
-        }
-    })
+    }
 </script>
 
 <style scoped>
