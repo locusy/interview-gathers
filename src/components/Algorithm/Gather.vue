@@ -7,6 +7,7 @@
         <p>5、二分查找的时间复杂度怎么求。</p>
         <p>6、线性顺序存储，和链式存储结构上有什么区别以及优缺点。</p>
         <p>7、斐波那契数列（字节）</p>
+        <p>8、序列化和反序列化</p>
     </div>
 </template>
 
@@ -94,6 +95,47 @@
         // fn(3)
         // fn(4)
         // fn(5)
+
+    // 8、序列化和反序列化
+    // 序列化
+    // function Serialize(pNode) {
+    //     var result = [];
+    //     function preOrder(childNode) {
+    //         if (!childNode) {
+    //             result.push("#");
+    //             return;
+    //         }
+    //         result.push(childNode.val);
+    //         preOrder(childNode.left);
+    //         preOrder(childNode.right);
+    //     }
+    //     preOrder(pNode);
+    //     for (var i = result.length - 1; i >= 0; i--) {
+    //         if (result[i] !== "#") {
+    //             break;
+    //         }
+    //         result.pop();
+    //     }
+    //     return result.join();
+    // }
+
+    // 反序列化
+    // function Deserialize(s) {
+    //         if (!s) return;
+    //         s = s.split(",");
+    //         return deserlia(s);
+    // }
+    // function deserlia(arr) {
+    //     if (arr.length === 0) return;
+    //     let current = arr.shift();
+    //     let node = null;
+    //     if (current !== "#") {
+    //         node = { val: current };
+    //         node.left = deserlia(arr);
+    //         node.right = deserlia(arr);
+    //     }
+    //     return node;
+    // }
 
     
 

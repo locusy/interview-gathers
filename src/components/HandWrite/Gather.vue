@@ -19,52 +19,12 @@
         <p>
             <router-link :to="{ path: '/handwrite/gather' }">3、数字转成中文</router-link>
         </p>
-        
+        <p></p>
     </div>
 </template>
 
 <script>
 // https://juejin.im/post/5c9edb066fb9a05e267026dc
-
-    // 序列化
-    // function Serialize(pNode) {
-    //     var result = [];
-    //     function preOrder(childNode) {
-    //         if (!childNode) {
-    //             result.push("#");
-    //             return;
-    //         }
-    //         result.push(childNode.val);
-    //         preOrder(childNode.left);
-    //         preOrder(childNode.right);
-    //     }
-    //     preOrder(pNode);
-    //     for (var i = result.length - 1; i >= 0; i--) {
-    //         if (result[i] !== "#") {
-    //             break;
-    //         }
-    //         result.pop();
-    //     }
-    //     return result.join();
-    // }
-
-    // 反序列化
-    // function Deserialize(s) {
-    //         if (!s) return;
-    //         s = s.split(",");
-    //         return deserlia(s);
-    // }
-    // function deserlia(arr) {
-    //     if (arr.length === 0) return;
-    //     let current = arr.shift();
-    //     let node = null;
-    //     if (current !== "#") {
-    //         node = { val: current };
-    //         node.left = deserlia(arr);
-    //         node.right = deserlia(arr);
-    //     }
-    //     return node;
-    // }
 
 // 1、封装jsonp
 //http://www.baidu.com?aa=11&callback=my_jsonp04349289664328899
