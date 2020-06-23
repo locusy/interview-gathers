@@ -848,7 +848,7 @@
             Promise
             process.nextTick
         
-        面试题1：
+        面试题1：（字节）
           async function async1() {
             console.log('async1 start');
             await async2();

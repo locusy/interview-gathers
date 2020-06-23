@@ -19,6 +19,7 @@
         <p>
             <router-link :to="{ path: '/handwrite/gather' }">3、数字转成中文</router-link>
         </p>
+        
     </div>
 </template>
 

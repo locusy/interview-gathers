@@ -174,6 +174,7 @@
     })
   }
 
+  // 2020-字节跳动
   //all方法(获取所有的promise，都执行then，把结果放到数组，一起返回)
   Promise.all = function(promises){
     let arr = [];
