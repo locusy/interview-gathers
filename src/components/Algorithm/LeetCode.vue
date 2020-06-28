@@ -2,7 +2,7 @@
 <template>
     <div>
         <p>1、两数之和：给定一个数组，找出数组中相加为10的两个数</p>
-        <p>2、两数之和：给定一个数组，找出数组中相加为10的两个数</p>
+        <p></p>
         <p>
             总结：
             <a href="https://blog.csdn.net/yy2017220302028/article/details/104394877" target="_blank">
@@ -24,7 +24,7 @@
     var target = 10
 
     /**
-     * @param {number[]}  nums
+     * @param {number[]} nums
      * @param {number} target
      * @return {number[]}
      */
