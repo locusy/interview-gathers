@@ -34,7 +34,6 @@
 // React hooks原理就是链表存储，根据顺序查找到对应的state
 
 /*
-
 let node1 = {
     data: 'node1',
     next: node2
