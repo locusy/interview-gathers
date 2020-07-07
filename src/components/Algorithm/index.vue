@@ -27,6 +27,9 @@
         <p>
             <router-link :to="{ path: '/algorithm/gather' }">收集</router-link>
         </p>
+        <p>
+            <a target="_blank" href="https://github.com/sisterAn/JavaScript-Algorithms#%E7%BC%96%E7%A8%8B%E9%A2%98">https://github.com/sisterAn/JavaScript-Algorithms#%E7%BC%96%E7%A8%8B%E9%A2%98</a>
+        </p>
     </div>
 </template>
 
