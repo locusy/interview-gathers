@@ -2,8 +2,11 @@
     <div>
 
       <p>
-        面试题汇总：
-        <a href="https://github.com/Advanced-Frontend/Daily-Interview-Question/blob/master/datum/summary.md" target="_blank">https://github.com/Advanced-Frontend/Daily-Interview-Question/blob/master/datum/summary.md</a>
+        <section>面试题汇总：</section>
+        <a 
+          href="https://github.com/Advanced-Frontend/Daily-Interview-Question/blob/master/datum/summary.md" target="_blank">
+          https://github.com/Advanced-Frontend/Daily-Interview-Question/blob/master/datum/summary.md
+        </a>
       </p>
       <p>1、谈谈你对MVVM开发模式的理解</p>
       <p>2、Vue有哪些指令？</p>
@@ -17,7 +20,7 @@
       <p>10、delete和Vue.delete删除数组的区别</p>
       <p>11、vue传值的方式</p>
       <p>12、slot插槽有几种</p>
-      <p>13、this.nextick({}) 函数的使用场景和原理</p>
+      <p>13、this.$nextick({})函数的使用场景和原理</p>
       <p>14、路由hash和history的区别history缺点：</p>
       <p>15、路由钩子，页面的切换发生了什么</p>
       <p>16、路由的懒加载</p>
@@ -27,7 +30,7 @@
       <p>20、data props computed 执行顺序（作业帮）</p>
       <p>21、diff 算法（作业帮）</p>
       <p>22、虚拟dom和真实dom的区别？为什么用虚拟dom？（商汤科技）</p>
-      <p>23、Object.defineProperty()和Proxy 的区别</p>
+      <p>23、Object.defineProperty()和Proxy的区别</p>
       <p>24、Vue2.0和预计发布的Vue3.0的区别</p>
       <p>25、vue实现文本复制</p>
       <p>26、事件修饰符</p>
@@ -46,7 +49,8 @@
     Model：代表数据模型，数据和业务逻辑都在Model层中定义；
     View：代表UI视图，负责数据的展示；
     ViewModel：负责监听Model中数据的改变并且控制视图的更新，处理用户交互操作；
-    Model和View并无直接关联，而是通过ViewModel来进行联系的，Model和ViewModel之间有着双向数据绑定的联系。因此当Model中的数据改变时会触发View层的刷新，View中由于用户交互操作而改变的数据也会在Model中同步。
+    Model和View并无直接关联，而是通过ViewModel来进行联系的，Model和ViewModel之间有着双向数据绑定的联系。
+    因此当Model中的数据改变时会触发View层的刷新，View中由于用户交互操作而改变的数据也会在Model中同步。
     这种模式实现了Model和View的数据自动同步，因此开发者只需要专注对数据的维护操作即可，而不需要自己操作dom。
   
   2、Vue有哪些指令？
@@ -64,7 +68,7 @@
     v-once
 
   3、v-if和v-show有什么区别？
-    v-show 仅仅控制元素的显示方式，将 display 属性在 block 和 none 来回切换；
+    v-show仅仅控制元素的显示方式，将display属性在block和none来回切换；
     而v-if会控制这个 DOM 节点的存在与否。当我们需要经常切换某个元素的显示/隐藏时，使用v-show会更加节省性能上的开销；
     当只需要一次显示或隐藏时，使用v-if更加合理。
 
@@ -146,7 +150,7 @@
     具名插槽
     作用域插槽：我可以把组件上的属性/值，在组件元素上使用！
 
-  13、this.nextick({})函数的使用场景和原理
+  13、this.$nextick({})函数的使用场景和原理
       https://ustbhuangyi.github.io/vue-analysis/reactive/next-tick.html#vue-%E7%9A%84%E5%AE%9E%E7%8E%B0
       我们了解到数据的变化到 DOM 的重新渲染是一个异步过程，发生在下一个 tick。
       这就是我们平时在开发的过程中，比如从服务端接口去获取数据的时候，数据做了修改，如果我们的某些方法去依赖了数据修改后的 DOM 变化，我们就必须在 nextTick 后执行。比如下面的伪代码：
@@ -169,7 +173,7 @@
         afterEach（to，from，next）
       2)、组建内的导航钩子:
         beforeRouteEnter、beforeRouteUpdate、beforeRouteLeave。
-
+      
       需要注意是：
         1)、next需要被主动调用
         2)、beforeRouteEnter 不能获取组件实例 this，因为当守卫执行前，组件实例被没有被创建出来，
@@ -218,6 +222,31 @@
       虚拟dom是只更新改变的部分
       真实dom更新的是全部
 
+      Virtual DOM 算法主要是实现上面步骤的三个函数：element，diff，patch。然后就可以实际的进行使用：
+      // 1. 构建虚拟DOM
+      var tree = el('div', {'id': 'container'}, [
+          el('h1', {style: 'color: blue'}, ['simple virtal dom']),
+          el('p', ['Hello, virtual-dom']),
+          el('ul', [el('li')])
+      ])
+
+      // 2. 通过虚拟DOM构建真正的DOM
+      var root = tree.render()
+      document.body.appendChild(root)
+
+      // 3. 生成新的虚拟DOM
+      var newTree = el('div', {'id': 'container'}, [
+          el('h1', {style: 'color: red'}, ['simple virtal dom']),
+          el('p', ['Hello, virtual-dom']),
+          el('ul', [el('li'), el('li')])
+      ])
+
+      // 4. 比较两棵虚拟DOM树的不同
+      var patches = diff(tree, newTree)
+
+      // 5. 在真正的DOM元素上应用变更
+      patch(root, patches)
+
   23、Object.defineProperty() 和 Proxy 的区别
       http://es6.ruanyifeng.com/#docs/proxy
       https://juejin.im/post/5be4f7cfe51d453339084530
@@ -228,8 +257,8 @@
           prop:  要定义或修改的属性的名称。
           descriptor: 将被定义或修改的属性的描述符。
         var proxy = new Proxy(target, handler);
-      2、除了 get 和 set 之外，proxy 可以拦截多达 13 种操作，比如 has(target, propKey)，可以拦截 propKey in proxy 的操作，返回一个布尔值。
-      3、当使用 defineProperty，我们修改原来的 obj 对象就可以触发拦截，而使用 proxy，就必须修改代理对象，即 Proxy 的实例才可以触发拦截。
+      2、除了get和set之外，proxy可以拦截多达13种操作，比如has(target, propKey)，可以拦截propKey in proxy的操作，返回一个布尔值。
+      3、当使用defineProperty，我们修改原来的obj对象就可以触发拦截，而使用proxy，就必须修改代理对象，即Proxy的实例才可以触发拦截。
       4、this指向不同：
         Object.defineProperty()指向的是对象
         Proxy指向Proxy的实例
