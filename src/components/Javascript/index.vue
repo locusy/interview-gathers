@@ -8,6 +8,7 @@
         <p>4、监听浏览器的跳转事件</p>
         <p>5、jQuery的事件委托怎么写的？</p>
 
+
         <br>
         <br>
         <p>二、原型链</p>
@@ -20,6 +21,7 @@
         <p>7、继承：</p>
         <p>8、继承的几种方式：</p>
         <p>9、Object.create</p>
+
 
         <br>
         <br>
@@ -223,7 +225,6 @@
               })
             })
             bind()方法同原生的JavaScript实现方法一样，当父元素代子元素执行事件时，父元素也会触发事件，所以我们需要判断一下触发事件的元素名。此外，用bind()方法给元素绑定事件的时候要注意，它只能给已经存在DOM元素添加事件，不能给未来存在DOM元素添加添加事件。如果要频繁地添加DOM元素，并且给新添加的DOM元素绑定事件的话，用live(),delegate(),on()等方法。鉴于jQuery从1.7之后就不推荐live（）和delegate（）方法了，所以大家还是使用on（）方法吧。
-
 
 
     ------------------------------二、原型链--------------------------
@@ -786,7 +787,6 @@
 
       obj.offsetHeight
       obj.clientHeight
-        
 
   27、target和currenttarget的区别（自如网）
       https://www.jianshu.com/p/1dd668ccc97a
@@ -799,7 +799,8 @@
           <li>hello 3</li>
           <li>hello 4</li>
       </ul>
-      <script>
+      注意：注释里面不能用script标签
+      < script >
           let ul = document.querySelectorAll('ul')[0]
           let aLi = document.querySelectorAll('li')
           ul.addEventListener('click',function(e){
@@ -816,7 +817,7 @@
             this ==> e.currentTarget
 
           })
-      </script>
+      </ script >
 
   28、innerhtml和document.write的区别（商汤科技）
       https://blog.csdn.net/u012309349/article/details/47946869
@@ -924,7 +925,6 @@
           setTimeout---200
           promise5
           inner-setTimeout---0
-
   33、js是如何构造抽象语法树（AST）的？
       抽象语法树（Abstract Syntax Tree）也称为AST语法树，指的是源代码语法所对应的树状结构。
       也就是说，对于一种具体编程语言下的源代码，通过构建语法树的形式将源代码中的语句映射到树中的每一个节点上。 
@@ -1350,18 +1350,18 @@
       Generics是指在定义函数、接口或类的时候，不预先指定具体的类型，而在使⽤的时候再指定类型的一种特性。
 
       定义范型接口
-      interface Result<T> {
-        ok: 0 | 1;
-        data: T[]; 
-      }
+      // interface Result<T> {
+      //   ok: 0 | 1;
+      //   data: T[]; 
+      // }
 
       定义泛型函数
-      function getData<T>(): Result<T> {
-        const data: any[] = [
-          { id: 1, name: "类型注解", version: "2.0" }, { id: 2, name: "编译型语⾔言", version: "1.0" }
-        ];
-        return { ok: 1, data };
-      }
+      // function getData<T>(): Result<T> {
+      //   const data: any[] = [
+      //     { id: 1, name: "类型注解", version: "2.0" }, { id: 2, name: "编译型语⾔言", version: "1.0" }
+      //   ];
+      //   return { ok: 1, data };
+      // }
 
 
   5、用过哪些ts的方法（商汤科技）
@@ -1470,6 +1470,7 @@
 
   16、Promise和setTimeout的区别?
      Promise 是微任务，setTimeout 是宏任务，同一个事件循环中，promise总是先于 setTimeout 执行。
+
 
 */
 
