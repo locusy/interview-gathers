@@ -42,7 +42,8 @@
 
   4、HTTPS是什么： 
     HTTPS即加密的HTTP，HTTPS并不是一个新协议，而是HTTP+SSL（TLS）。
-    原本HTTP先和TCP（假定传输层是TCP协议）直接通信，而加了SSL后，就变成HTTP先和SSL通信，再由SSL和TCP通信，相当于SSL被嵌在了HTTP和TCP之间
+    原本HTTP先和TCP（假定传输层是TCP协议）直接通信，而加了SSL后，就变成HTTP先和SSL通信，
+    再由SSL和TCP通信，相当于SSL被嵌在了HTTP和TCP之间
   
   5、SSL加密的原理？
     http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html

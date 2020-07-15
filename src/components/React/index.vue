@@ -37,6 +37,7 @@
       <p>35、为什么要使用redux+immutable，redux和全局变量的区别</p>
       <p>36、react-redux的工作原理和相关源码</p>
       <p>37、setState的批量更新的问题</p>
+      <p>38、前端监控sentry</p>
       <p>
         面试题合集：
         <a href="https://segmentfault.com/a/1190000016885832" target="_blank">
@@ -110,7 +111,7 @@
     在差异计算算法中，React 能够相对精确地知道哪些位置发生了改变以及应该如何改变，这就保证了按需更新，而不是全部重新渲染。
 
   8、React中key的作用是什么？（字节）
-    Key 是 React 用于追踪哪些列表中元素被修改、被添加或者被移除的辅助标识
+    Key是React用于追踪哪些列表中元素被修改、被添加或者被移除的辅助标识
     render () {
       return (
         <ul>
@@ -121,9 +122,8 @@
       )
     }
     在开发过程中，我们需要保证某个元素的key在其同级元素中具有唯一性。
-    在React Diff算法中React会借助元素的Key值来判断该元素是新近创建的还是被移动而来的元素，
-    从而减少不必要的元素重渲染。此外，React还需要借助Key值来判断元素与本地状态的关联关系，
-    因此我们绝不可忽视转换函数中Key的重要性。
+    在React Diff算法中React会借助元素的Key值来判断该元素是新近创建的还是被移动而来的元素，从而减少不必要的元素重渲染。
+    此外，React还需要借助Key值来判断元素与本地状态的关联关系，因此我们绝不可忽视转换函数中Key的重要性。
 
   9、为什么虚拟dom会提高性能?(必考)
     虚拟 dom 相当于在 js 和真实 dom 中间加了一个缓存，利用 dom diff 算法避免了没有必要的 dom 操作，从而提高性能。
@@ -132,13 +132,13 @@
     然后用这个树构建一个真正的 DOM 树，插到文档当中当状态变更的时候，重新构造一棵新的对象树。
     然后用新的树和旧的树进行比较，记录两棵树差异把 2 所记录的差异应用到步骤 1 所构建的真正的DOM树上，视图就更新了。
 
-  10、react diff 原理（常考，大厂必考）
+  10、react diff原理（常考，大厂必考）
     把树形结构按照层级分解，只比较同级元素。
     给列表结构的每个单元添加唯一的 key 属性，方便比较。
-    React 只会匹配相同 class 的 component（这里面的 class 指的是组件的名字）
-    合并操作，调用 component 的 setState 方法的时候, React 将其标记为 dirty.
-        到每一个事件循环结束, React 检查所有标记 dirty 的 component 重新绘制.
-    选择性子树渲染。开发人员可以重写 shouldComponentUpdate 提高 diff 的性能。
+    React 只会匹配相同 class 的 component（这里面的class指的是组件的名字）
+    合并操作，调用 component 的 setState 方法的时候, React将其标记为 dirty.
+    到每一个事件循环结束, React检查所有标记dirty的component重新绘制.
+    选择性子树渲染。开发人员可以重写shouldComponentUpdate提高diff的性能。
 
   11、路由传参方式：
     params
@@ -283,8 +283,8 @@
 
   15、setState为什么是异步的
     https://www.jianshu.com/p/cc12e9a8052c
-    setState 在react里的合成事件和钩子函数中是“异步”的。
-    setState 在原生事件和 setTimeout 中是同步的。
+    setState在react里的合成事件和钩子函数中是“异步”的。
+    setState在原生事件和setTimeout中是同步的。
 
   16、setState变成同步
     http://cnblogs.com/zhuotiabo/p/6265172.html
@@ -352,10 +352,10 @@
       import { html2text } from 'xss';
       render(){
         <div
-        dangerouslySetInnerHTML={{
-          __html: html2text(htmlContent)
-        }}
-      />
+          dangerouslySetInnerHTML={{
+            __html: html2text(htmlContent)
+          }}z
+        />
       }
 
   20、在组件中获取真实dom
@@ -457,9 +457,9 @@
       浏览器问题，ES5 之前，在对象中不能使用保留字。以下代码在 IE8 中将会抛出错误：
 
       const element = {
-      attributes: {
-        class: "hello"
-      }
+        attributes: {
+          class: "hello"
+        }
       } 
       解构问题，当你在解构属性的时候，如果分配一个 class 变量会出问题：
 
@@ -887,7 +887,6 @@
 
     35、为什么要使用redux+immutable，redux和全局变量的区别
 
-
     36、react-redux的工作原理和相关源码
 
     37、setState的批量更新的问题
@@ -909,6 +908,15 @@
         this.setState({ counterValue: this.state.counterValue + 1 })
         // 正确的写法
         this.setState(prevState => ({ counterValue: prevState.counterValue + 1 }))
+
+    38、前端监控sentry
+        https://docs.sentry.io/platforms/javascript/react/
+
+        import * as Sentry from '@sentry/react';
+        Sentry.init({dsn: "http://73c2b3e82a96434ba7c9dc3d92f123de@sentry.yunduoketang.com/6"});
+
+        http://sentry.yunduoketang.com/sentry/react-91/issues/49/?query=is%3Aunresolved
+        xucong@yuuxin.com 12345
 
 */
 

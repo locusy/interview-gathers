@@ -19,42 +19,73 @@
         <p>
             <router-link :to="{ path: '/handwrite/gather' }">3、数字转成中文</router-link>
         </p>
-        <p></p>
+        <p>4、封装jsonp</p>
+        <p>5、发布订阅模式</p>
+        <p>6、手写bind, call, apply</p>
+        <p>7、手动实现一个new关键字的功能的函数 _new(fun, args) --> new fun(args)</p>
+        <p>8、实现一个 instanceof （常考）</p>
+        <p>9、reduce的实现</p>
     </div>
 </template>
 
 <script>
 // https://juejin.im/post/5c9edb066fb9a05e267026dc
 
-// 1、封装jsonp
-//http://www.baidu.com?aa=11&callback=my_jsonp04349289664328899
-// var jsonp = function (url, param, callback) {
-//   //处理url地址,查找？，如果没有？这个变量就有一个"?"，有？这个变量接收一个&
-//   var querystring = url.indexOf("?") == -1 ? "?" : "&";
-//   //处理参数{xx:xx}
-//   for (var k in param) {
-//     querystring += k + "=" + param[k] + "&"; //?k=para[k]
-//   }
-//   //处理回调函数名
-//   var cbName = "callback_" + new Date().getTime();
-//   querystring += "callback=" + cbName;
-//   var script = document.createElement("script");
-//   script.src = url + querystring;
-//   //把回调函数的名字附给window
-//   window[cbName] = function (param) {
-//     //这里执行回调的操作，用回调来处理参数
-//     callback(param);
-//     //拿到了就删掉这个script
-//     document.body.removeChild(script);
-//   };
-//   document.body.appendChild(script);
-// };
+//  4、封装jsonp
+    //  http://www.baidu.com?aa=11&callback=my_jsonp04349289664328899
 
-// jsonp("https://www.baidu.com", { aa: 11 }, function () {
-//   console.log(param);
-// });
+    //  var jsonp = function (url, param, callback) {
+    //   //处理url地址,查找？，如果没有？这个变量就有一个"?"，有？这个变量接收一个&
+    //   var querystring = url.indexOf("?") == -1 ? "?" : "&";
+    //   //处理参数{xx:xx}
+    //   for (var k in param) {
+    //     querystring += k + "=" + param[k] + "&"; //?k=para[k]
+    //   }
+    //   //处理回调函数名
+    //   var cbName = "callback_" + new Date().getTime();
+    //   querystring += "callback=" + cbName;
+    //   var script = document.createElement("script");
+    //   script.src = url + querystring;
+    //   //把回调函数的名字附给window
+    //   window[cbName] = function (param) {
+    //     //这里执行回调的操作，用回调来处理参数
+    //     callback(param);
+    //     //拿到了就删掉这个script
+    //     document.body.removeChild(script);
+    //   };
+    //   document.body.appendChild(script);
+    // };
 
-// 1、发布订阅模式
+    // jsonp("https://www.baidu.com", { aa: 11 }, function () {
+    //   console.log(param);
+    // });
+
+
+    // foo 函数将会被调用 传入后台返回的数据
+    //   function foo(data) {
+    //       console.log('通过jsonp获取后台数据:', data);
+    //       document.getElementById('data').innerHTML = data;
+    //   }
+    //   /**
+    //   * 通过手动创建一个script标签发送一个get请求
+    //   * 并利用浏览器对<script>不进行跨域限制的特性绕过跨域问题
+    //   */
+    //   (function jsonp() {
+    //       let head = document.getElementsByTagName('head')[0]; // 获取head元素 把js放里面
+    //       let js = document.createElement('script');
+    //       js.src = 'http://domain:port/testJSONP?a=1&b=2&callback=foo'; // 设置请求地址
+    //       head.appendChild(js); // 这一步会发送请求
+    //   })();
+
+    //   // 后台代码
+    //   // 因为是通过 script 标签调用的 后台返回的相当于一个 js 文件
+    //   // 根据前端传入的 callback 的函数名直接调用该函数
+    //   // 返回的是 'foo(3)'
+    //   function testJSONP(callback, a, b) {
+    //     return `${callback}(${a + b})`;
+    //   }
+
+// 5、发布订阅模式
 // class Event {
 //   constructor() {
 //     this._handlers = {};
@@ -91,7 +122,7 @@
 // }
 
     
-// 2、手写bind, call, apply
+  // 6、手写bind, call, apply
   //   Function.prototype.bind = function(context, ...bindArgs) {
   //     // func 为调用 bind 的原函数
   //     const func = this;
@@ -111,7 +142,7 @@
   //     }
   //   }
 
-  // // 通过隐式绑定实现
+  //  通过隐式绑定实现
   //   Function.prototype.call = function(context, ...args) {
   //     context = context || window;
   //     context.func = this;
@@ -138,7 +169,7 @@
   //     return res;
   //   }
 
-// 3、手动实现一个 new 关键字的功能的函数 _new(fun, args) --> new fun(args)
+// 7、手动实现一个new关键字的功能的函数 _new(fun, args) --> new fun(args)
     // function _new(fun, ...args) {
     //     if (typeof fun !== 'function') {
     //         return new Error('参数必须是一个函数');
@@ -152,7 +183,7 @@
     // }
 
 
-// 4、实现一个 instanceof （常考）
+// 8、实现一个 instanceof （常考）
     // a instanceof b
     // function _instanceof(a, b) {
     //     while (a) {
@@ -161,34 +192,9 @@
     //     }
     //     return false;
     // }
+    
 
-
-// 5、手写jsonp
-    // foo 函数将会被调用 传入后台返回的数据
-      // function foo(data) {
-      //     console.log('通过jsonp获取后台数据:', data);
-      //     document.getElementById('data').innerHTML = data;
-      // }
-      // /**
-      // * 通过手动创建一个 script 标签发送一个 get 请求
-      // * 并利用浏览器对 <script> 不进行跨域限制的特性绕过跨域问题
-      // */
-      // (function jsonp() {
-      //     let head = document.getElementsByTagName('head')[0]; // 获取head元素 把js放里面
-      //     let js = document.createElement('script');
-      //     js.src = 'http://domain:port/testJSONP?a=1&b=2&callback=foo'; // 设置请求地址
-      //     head.appendChild(js); // 这一步会发送请求
-      // })();
-
-      // // 后台代码
-      // // 因为是通过 script 标签调用的 后台返回的相当于一个 js 文件
-      // // 根据前端传入的 callback 的函数名直接调用该函数
-      // // 返回的是 'foo(3)'
-      // function testJSONP(callback, a, b) {
-      //   return `${callback}(${a + b})`;
-      // }
-
-// 7、reduce的实现
+// 9、reduce的实现
     // function reduce(arr, callback, initial) {
     //     let i = 0;
     //     let acc = initial === undefined ? arr[i++] : initial;
@@ -198,7 +204,7 @@
     //     return acc;
     // }
 
-// 8、实现 generator 的自动执行器
+// 10、实现generator的自动执行器
     // 要求是 yield 后面只能是 Promise 或 Thunk 函数
     // https://juejin.im/post/5c9edb066fb9a05e267026dc#heading-12
     // function run(gen) {

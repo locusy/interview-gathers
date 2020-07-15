@@ -740,7 +740,9 @@
 
   23、深拷贝和浅拷贝的区别
       https://cnblogs.com/biaochenxuying/p/11438353.html
-      浅拷贝是指只复制第一层对象，但是当对象的属性是引用类型时，实质复制的是其引用，当引用指向的值改变时也会跟着变化。
+      浅拷贝是指只复制第一层对象，但是当对象的属性是引用类型时，
+      实质复制的是其引用，当引用指向的值改变时也会跟着变化。
+
       深拷贝复制变量值，对于非基本类型的变量，则递归至基本类型变量后，再复制。
 
       深拷贝后的对象与原来的对象是完全隔离的，互不影响，对一个对象的修改并不会影响另一个对象。
@@ -797,7 +799,7 @@
           <li>hello 3</li>
           <li>hello 4</li>
       </ul>
-      <script >
+      <script>
           let ul = document.querySelectorAll('ul')[0]
           let aLi = document.querySelectorAll('li')
           ul.addEventListener('click',function(e){
@@ -808,8 +810,13 @@
             console.log(oLi1===oLi2)  // false
             console.log(e.currentTarget===this) // true
             console.log(e.target===this) // false
+
+            e.target ==> li
+            e.currentTarget ==> ul
+            this ==> e.currentTarget
+
           })
-      </ script>
+      </script>
 
   28、innerhtml和document.write的区别（商汤科技）
       https://blog.csdn.net/u012309349/article/details/47946869
@@ -1323,17 +1330,39 @@
   2、ts和js的区别
     http://taobaofed.org/blog/2017/03/09/head-first-typescript/
 
-    TypeScript 是微软开发一款开源的编程语言，本质上是向 JavaScript 增加静态类型系统。
-    它是 JavaScript 的超集，所有现有的 JavaScript 都可以不加改变就在其中使用。
-    它是为大型软件开发而设计的，它最终编译产生 JavaScript，所以可以运行在浏览器、Node.js等等的运行时环境。
+    TypeScript是微软开发一款开源的编程语言，本质上是向JavaScript增加静态类型系统。
+    它是JavaScript的超集，所有现有的JavaScript都可以不加改变就在其中使用。
+    它是为大型软件开发而设计的，它最终编译产生JavaScript，所以可以运行在浏览器、Node.js等等的运行时环境。
 
   3、TypeScript和JavaScript的关系
-    和一些基于 JavaScript 的激进语言不同（比如 CoffeeScript），TypeScript 的语法设计首先考虑的就是兼容 JavaScript，或者说对 JavaScript 的语法做扩展。基本上是在 JavaScript 的基础之上增加了一些类型标记语法，以实现静态类型分析。把这些类型标注语法去掉之后，仍是一个标准的 JavaScript 语言。
+    和一些基于JavaScript的激进语言不同（比如CoffeeScript），
+    TypeScript的语法设计首先考虑的就是兼容JavaScript，或者说对JavaScript的语法做扩展。
+    基本上是在JavaScript的基础之上增加了一些类型标记语法，以实现静态类型分析。
+    把这些类型标注语法去掉之后，仍是一个标准的JavaScript语言。
 
-    TypeScript 同样也在做一些新语法编译到老语法的事情（就像 Babel 做的）， 基本实现常用的 EcmaScript Stage 1 以上的语法特性。
+    TypeScript同样也在做一些新语法编译到老语法的事情（就像Babel做的），
+    基本实现常用的EcmaScript Stage 1以上的语法特性。
 
   4、ts泛型的使用（商汤科技）
       https://www.tslang.cn/
+
+      泛型 Generics 
+      Generics是指在定义函数、接口或类的时候，不预先指定具体的类型，而在使⽤的时候再指定类型的一种特性。
+
+      定义范型接口
+      interface Result<T> {
+        ok: 0 | 1;
+        data: T[]; 
+      }
+
+      定义泛型函数
+      function getData<T>(): Result<T> {
+        const data: any[] = [
+          { id: 1, name: "类型注解", version: "2.0" }, { id: 2, name: "编译型语⾔言", version: "1.0" }
+        ];
+        return { ok: 1, data };
+      }
+
 
   5、用过哪些ts的方法（商汤科技）
       https://www.tslang.cn/

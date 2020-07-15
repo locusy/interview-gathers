@@ -34,6 +34,7 @@
       <p>24、Vue2.0和预计发布的Vue3.0的区别</p>
       <p>25、vue实现文本复制</p>
       <p>26、事件修饰符</p>
+      <p>27、vue自动化测试</p>
 
     </div>
 </template>
@@ -287,6 +288,20 @@
       .self 只当事件在该元素本身（比如不是子元素）触发时，才会触发事件
       .once 事件只触发一次
 
+  27、vue自动化测试
+    新建test/unit/layout.spec.js， *.spec.js 是命名规范，写一下代码
+    function add(num1, num2) {
+      return num1 + num2
+    }
+
+    // 测试套件 test suite
+    describe('layout.vue', () => {
+      // 测试用例 test case
+      it('text func add', () => {
+        // 断⾔ assert
+        expect(add(1,2)).toBe(3)
+      })
+    })
 
 
 */
