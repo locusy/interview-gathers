@@ -38,6 +38,7 @@
       <p>36、react-redux的工作原理和相关源码</p>
       <p>37、setState的批量更新的问题</p>
       <p>38、前端监控sentry</p>
+      <p>39、利用useMemo实现类似computed的功能</p>
       <p>
         面试题合集：
         <a href="https://segmentfault.com/a/1190000016885832" target="_blank">
@@ -917,6 +918,9 @@
 
         http://sentry.yunduoketang.com/sentry/react-91/issues/49/?query=is%3Aunresolved
         xucong@yuuxin.com 12345
+
+    39、利用useMemo实现类似computed的功能
+    
 
 */
 
