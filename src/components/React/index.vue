@@ -39,6 +39,7 @@
       <p>37、setState的批量更新的问题</p>
       <p>38、前端监控sentry</p>
       <p>39、利用useMemo实现类似computed的功能</p>
+      <p>40、PureComponent</p>
       <p>
         面试题合集：
         <a href="https://segmentfault.com/a/1190000016885832" target="_blank">
@@ -920,6 +921,63 @@
         xucong@yuuxin.com 12345
 
     39、利用useMemo实现类似computed的功能
+        import React, { useState, useMemo } from 'react';
+
+        function Example(props) {
+          const [firstName, setFirstName] = useState('');
+          const [lastName, setLastName] = useState('');
+          // 使用 useMemo 函数缓存计算过程
+          const renderFullName = useMemo(() => `${firstName} ${lastName}`, [
+            firstName,
+            lastName,
+          ]);
+
+          return <div>{renderFullName}</div>;
+        }
+
+    40、PureComponent
+        PureComponent：react组件无论state或者props是否改变都会重绘 为了提高性能
+        React创建了PureComponent组件创建了默认的shouldComponentUpdate行为。
+        这个默认的shouldComponentUpdate行为会一一比较props和state中所有的属性，只有当其中任意一项发生改变是，才会进行重绘。shouldComponentUpdate默认返回true
+        需要注意的是，PureComponent使用浅比较判断组件是否需要重绘
+
+        https://www.jianshu.com/p/33cda0dc316a
+
+        class Comment extends PureComponent {
+          继承自PureComponent的组件不用我们手动去判断prop和state，所以不需要在PureComponent组件中使用shouldComponentUpdate
+          render() {
+            console.log("render comment");
+            const {body, author} = this.props;
+            return (
+              <div>
+                <p>{body}</p>
+                <p> --- {author}</p>
+              </div>
+            );
+          }
+        }
+
+        以上组件等同于：
+        class Comment extends Component {
+          shouldComponentUpdate(nextProps, nextState) {
+            if (nextProps.data.body === this.props.data.body && 
+                nextProps.data.author === this.props.data.author) {
+                return false;
+            }
+            return true;
+          }
+            
+          render() {
+            console.log("render comment");
+            const {body, author} = this.props;
+            return (
+              <div>
+                <p>{body}</p>
+                <p> --- {author}</p>
+              </div>
+            );
+          }
+        }
     
 
 */
