@@ -87,6 +87,7 @@
         <p>59、闭包内存泄漏问题：</p>
         <p>60、window.open()打开新窗口并且不被拦截</p>
         <p>61、for in和for of区别</p>
+        <p>62、微前端</p>
 
 
         <br>
@@ -276,7 +277,7 @@
       __proto__也指向Object.prototype
     Object.prototype：
        一个特例——它的__proto__指向的是null，切记切记！
-    函数也有__proto__:
+    函数也有__proto__：
       函数是由Function创建的
          var fn2 = new Function('x','y','return x + y')
       这种写法相当于
@@ -865,8 +866,14 @@
         面试题1：（字节）
           async function async1() {
             console.log('async1 start');
+
             await async2();
             console.log('async1 end');
+
+            // 以上代码相当于
+            // promise.resolve(async2()).then(() => {
+            //   console.log('async1 end');
+            // })
           }
           async function async2() {
             console.log('async2');
@@ -884,7 +891,7 @@
           });
           console.log('script end');
 
-          结果：主线程-微任务-主线程-微任务-宏任务
+          结果：
           script start
           async1 start
           async2
@@ -894,7 +901,8 @@
           promise2
           setTimeout
 
-        面试题2：主线程-微任务-宏任务
+
+        面试题2：
           console.log('script start');
 
           setTimeout(function () {
@@ -931,6 +939,50 @@
           setTimeout---200
           promise5
           inner-setTimeout---0
+        
+        面试题3（快手）：
+          console.log('script start');
+
+          setTimeout(function() {
+              console.log('setTimeout');
+          }, 0)
+
+          new Promise(function(resolve) {
+              console.log('promise1');
+              resolve();
+          }).then(function() {
+              console.log('promise2');
+          });
+
+          new Promise((resolve, reject) => {
+              console.log('promise3')
+              setTimeout(() => {
+                  resolve('111')
+                  resolve('222')
+                  reject()
+              }, 1000)
+          })
+          .then((data1) => {
+              console.log('res1', data1)
+          }, (data2) => {
+              console.log('res2', data2)
+          })
+          .then((data3) => {
+              console.log('res3', data3)
+          })
+
+          console.log('script end');
+
+          script start
+          promise1
+          promise3
+          script end
+          promise2
+          setTimeout
+          res1 111
+          res3 undefined
+
+
   33、js是如何构造抽象语法树（AST）的？
       抽象语法树（Abstract Syntax Tree）也称为AST语法树，指的是源代码语法所对应的树状结构。
       也就是说，对于一种具体编程语言下的源代码，通过构建语法树的形式将源代码中的语句映射到树中的每一个节点上。 
@@ -1323,6 +1375,9 @@
     for(var i of arr) {
       console.log(i)    // 1 2 3 4 5
     }
+
+  62、微前端
+    https://blog.csdn.net/vipshop_fin_dev/article/details/105621839
 
 
 
@@ -1739,4 +1794,4 @@
 
 <style lang="scss" scoped>
 
-</style>
+</style>  
