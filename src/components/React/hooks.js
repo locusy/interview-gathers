@@ -6,7 +6,6 @@ import React, { useState, useEffect, useReducer, useContext, useMemo, useCallbac
 // 2、Hook 将组件中相互关联的部分拆分成更小的函数
 // 3、Hook 使你在非class的情况下可以使用更多的React特性。
 //   从概念上讲，React 组件一直更像是函数。而 Hook 则拥抱了函数，同时也没有牺牲 React 的精神原则。
-
 const Context = React.createContext();
 
 function fruitReducer(state, action) {
