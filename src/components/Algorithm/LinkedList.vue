@@ -57,7 +57,6 @@ let node3 = {
 */
 
 // 链表查找元素比较复杂
-
 // 节点
 class Node {
     constructor(element) {
