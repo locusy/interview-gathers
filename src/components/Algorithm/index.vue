@@ -40,6 +40,34 @@
             }
         },
         mounted() {
+
+            // 滴滴面试笔记
+            // let obj = {name: function() {}}
+            // JSON.parse(JSON.stringify(obj))
+            // // Object.assign(...obj)
+            // 递归
+            // $.extend
+            // lodash cloneDeep
+
+            // let new = {}
+            // function digui(obj) {
+            //     for(var attr in obj) {
+            //         if(Object.prototype.toString.call(obj[attr]) == '[object Object]') {
+            //             digui()
+            //         } else if (Object.prototype.toString.call(obj[attr]) == '[object Array]') {
+            //             obj[attr] = obj[attr].map(element => {
+            //                 if(Object.prototype.toString.call(element) == '[object Object]') {
+            //                     return element
+            //                 }
+            //             });
+            //         } else{
+            //             new[attr] = obj[attr]
+            //         }
+            //     }
+            // }
+
+
+            
         }
     }
 </script>
