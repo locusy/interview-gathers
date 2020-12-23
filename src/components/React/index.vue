@@ -150,7 +150,7 @@
     选择性子树渲染。开发人员可以重写shouldComponentUpdate提高diff的性能。
 
   11、路由传参方式：
-    params
+    params 刷新也没
     this.props.history.push({
       pathname: '/manage',
       params: {
@@ -174,6 +174,9 @@
         id: item.id
       }
     })
+
+    路径传参数 刷新还有
+    pathname: '/edit/:id',
 
   12、手动实现this的绑定的方法：
      1）bind 方法：
