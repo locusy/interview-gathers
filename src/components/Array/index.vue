@@ -149,17 +149,17 @@
       console.log('args', Object.prototype.toString.call(arguments))   // "[object Arguments]"
 
       // 将类数组转化成数组
-      // const params = [].slice.call(args,1)
-      // const params = Array.prototype.slice.call(args)
+      const params = [].slice.call(arguments,1)
+      // const params = Array.prototype.slice.call(arguments)
       // const params = [...arguments]
-      const params = Array.from(arguments)
+      // const params = Array.from(arguments)
 
       console.log('params', params)
-      console.log('params', Object.prototype.toString.call(params))
+      console.log('params', Object.prototype.toString.call(params))  // “[object Array]”
     }
-    // getParams(1, 2, 3)
-
-    // 4、编写一个函数，将列表子元素的顺序倒转 
+    getParams(1, 2, 3)
+    
+    // 4、编写一个函数，将列表子元素的顺序倒转
       var arr = [1, 2, 3, 4, 5, 6]
 
       // 第一种：
@@ -190,11 +190,11 @@
           let arr = []
           for(var i=0; i < this.length; i++) {
             // arr[i] = cb(this[i])
-            arr.push(cb(this[i]))
+            arr.push(cb(this[i], i))
           }
           return arr
       };
-      // console.log([1,2,3].map(item => item*2))
+      // console.log([1,2,3].map((item,index) => item*2))
 
     export default {
         
