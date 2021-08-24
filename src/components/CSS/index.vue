@@ -337,12 +337,28 @@
 
       30、文本溢出显示省略号
           1.单行文本溢出
+            width: 5.76rem;
+            white-space: nowrap;  // 规定段落中的文本不进行换行
+            overflow: hidden; // 内容会被修剪，并且其余内容是不可见的。
+            text-overflow: ellipsis; // 显示省略号来代表被修剪的文本
 
           2.多行文本溢出
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
 
       31、CSS怎么画一个三角形
+        width: 0;
+        height: 0;
+        border: 50px solid transparent;
+        border-top: 50px solid blue;
+        
 
       33、移动端Retina屏幕1px边框变粗问题
+        transform: scale
+        
           
       
     */
