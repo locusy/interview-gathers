@@ -13,7 +13,7 @@ function fruitReducer(state, action) {
         case 'init':
             return action.payload;
         case 'add':
-            return [...state, actixon.payload];
+            return [...state, action.payload];
         default:
             return state
     }

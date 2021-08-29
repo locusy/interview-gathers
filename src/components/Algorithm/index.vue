@@ -30,6 +30,15 @@
         <p>
             <a target="_blank" href="https://github.com/sisterAn/JavaScript-Algorithms#%E7%BC%96%E7%A8%8B%E9%A2%98">https://github.com/sisterAn/JavaScript-Algorithms#%E7%BC%96%E7%A8%8B%E9%A2%98</a>
         </p>
+        <p>
+            <a target="_blank" href="https://github.com/labuladong/fucking-algorithm">https://github.com/labuladong/fucking-algorithm</a>
+        </p>
+        <p>
+            <a target="_blank" href="https://leetcode-solution-leetcode-pp.gitbook.io/leetcode-solution/">https://leetcode-solution-leetcode-pp.gitbook.io/leetcode-solution/</a>
+        </p>
+        <p>
+            <a target="_blank" href="https://books.halfrost.com/leetcode/ChapterOne/">https://books.halfrost.com/leetcode/ChapterOne/</a>
+        </p>
     </div>
 </template>
 

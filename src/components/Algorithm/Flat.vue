@@ -7,7 +7,6 @@
     </div>
 </template>
 
-
 <script>
     //（1）老方法-递归
     var result = []
@@ -67,5 +66,4 @@
 </script>
 
 <style scoped>
-
 </style>

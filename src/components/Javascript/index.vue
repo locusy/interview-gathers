@@ -88,6 +88,7 @@
         <p>60、window.open()打开新窗口并且不被拦截</p>
         <p>61、for in和for of区别</p>
         <p>62、微前端</p>
+        <p>63、给obj设置动态属性名字</p>
 
 
         <br>
@@ -1379,7 +1380,17 @@
   62、微前端
     https://blog.csdn.net/vipshop_fin_dev/article/details/105621839
 
-
+  63、给obj设置动态属性名字
+    https://www.jb51.net/article/56421.htm
+    var arr=[];
+    arr['js']='jquery';
+    arr['css']='oocss';
+    var obj={};
+    for(var i in arr){
+      obj[i] = arr[i];
+    }
+    alert(obj.js);  // jquery
+    就是那么简单!把对象obj当成一个数组来对待,它支持使用类似于下标形式的方法来把属性和属性值赋给对象.但是,对象依然是对象,obj.length是不存在的.
 
   --------------------四、typescript---------------------
 
