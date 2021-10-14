@@ -869,10 +869,10 @@
             await async2();
             console.log('async1 end');
 
-            // 以上代码相当于
-            // promise.resolve(async2()).then(() => {
-            //   console.log('async1 end');
-            // })
+            以上代码相当于
+            promise.resolve(async2()).then(() => {
+              console.log('async1 end');
+            })
           }
           async function async2() {
             console.log('async2');
