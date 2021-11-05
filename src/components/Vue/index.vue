@@ -59,7 +59,7 @@
     v-html
     v-show
     v-if
-    v-eles-if
+    v-else-if
     v-for
     v-on
     v-bind
@@ -143,6 +143,7 @@
     (2) props父组件向子组件传值
    （3）子组件向父组件传值emit自定义事件
    （4）vuex
+   （5）provide/inject
 
   12、slot插槽有几种
     https://www.cnblogs.com/chinabin1993/p/9115396.html
