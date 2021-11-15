@@ -366,7 +366,7 @@
         <div
           dangerouslySetInnerHTML={{
             __html: html2text(htmlContent)
-          }}z
+          }}
         />
       }
 
