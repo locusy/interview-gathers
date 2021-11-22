@@ -25,6 +25,74 @@
 <script>
 /*
     1、排除打包文件的办法
+      https://juejin.cn/post/6844903825250189319
+      (1)排除某个模块的方法：
+        externals: {
+          jquery: "jQuery"
+        },
+
+      (2)忽略依赖库的解析
+        module: {
+          noParse: /jquery|lodash/, //不去解析jquery | lodash 中的依赖库
+        }
+
+      (3)解析时指定和排除查找目录
+        rules:[
+          {
+            test:/\.js$/,
+            exclude:/node_modules/, // 解析不包含的目录,两者写其一即可
+            include:path.resolve('src'), // 即系包含的目录,两者写其一即可
+            use:{...}
+          }
+        ]
+
+      (4)指定目录不打包:IgnorePlugin使用
+        let Webpack = require('webpack');
+        plugins:[
+          new Webpack.IgnorePlugin(/\.\/locale/,/moment/)
+        ]
+
+      (5)DllPlugin动态链接库
+        将react和react-dom单独打包好，然后动态链接引入即可。
+        如果第二次打包，那么发现react和react-dom已经被打包好了，那么直接找到打包好的文件，不需要再次打包
+        let path = require('path');
+        let webpack = require('webpack');
+        module.exports = {
+          mode:'development',
+          entry:{
+            react:['react','react-dom']
+          },
+          output:{
+            filename:'_dll_[name].js',//产生的文件名_dll_react.js 
+            path:path.resolve(__dirname,'dist'),
+            library:'_dll_[name]',//_dll_react // 
+            // libraryTarget:'var',
+          },
+          plugins:[
+            new webpack.DllPlugin({
+              name:'_dll_[name]',//这个name要与output中的library同名
+              path:path.resolve(__dirname,'dist','manifest.json')
+            })
+          ]
+        }
+        引入：
+        <!DOCTYPE html>
+          <html>
+          <head>
+            <title></title>
+          </head>
+          <body>
+            <div id="root"></div>
+            <script type="text/javascript" src="/_dll_react.js"></script>
+          </body>
+        </html>
+
+
+      (6)抽离公共代码
+        如果将这些公共代码抽取出来，并让浏览器缓存起来，用户在请求资源的时候，
+        可以直接读取缓存中的这些代码，这样就能解决以上问题。
+        使用optimization的splitChunks属性
+
 
     2、模块化解决了前端的哪些痛点
       命名冲突
@@ -52,7 +120,9 @@
         loader 本身就是一个函数，接受源文件为参数，返回转换的结果。
       Plugin：
         是用来扩展 Webpack 功能的，通过在构建流程里注入钩子实现，它给 Webpack 带来了很大的灵活性。
-        通过plugin（插件）webpack可以实 loader 所不能完成的复杂功能，使用 plugin 丰富的自定义 API 以及生命周期事件，可以控制 webpack 打包流程的每个环节，实现对 webpack 的自定义功能扩展。
+        通过plugin（插件）webpack可以实 loader 所不能完成的复杂功能，
+        使用 plugin 丰富的自定义 API 以及生命周期事件，可以控制 webpack 打包流程的每个环节，
+        实现对 webpack 的自定义功能扩展。
 
     5、webpack编译打包的过程
       读取文件，分析模块依赖

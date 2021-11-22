@@ -8,7 +8,6 @@
         <p>4、监听浏览器的跳转事件</p>
         <p>5、jQuery的事件委托怎么写的？</p>
 
-
         <br>
         <br>
         <p>二、原型链</p>
@@ -21,7 +20,6 @@
         <p>7、继承：</p>
         <p>8、继承的几种方式：</p>
         <p>9、Object.create</p>
-
 
         <br>
         <br>
@@ -871,10 +869,10 @@
             await async2();
             console.log('async1 end');
 
-            // 以上代码相当于
-            // promise.resolve(async2()).then(() => {
-            //   console.log('async1 end');
-            // })
+            以上代码相当于
+            promise.resolve(async2()).then(() => {
+              console.log('async1 end');
+            })
           }
           async function async2() {
             console.log('async2');

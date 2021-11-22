@@ -52,9 +52,32 @@
         https://www.cnblogs.com/LuckyWinty/p/8053226.html
         https://www.cnblogs.com/libin-1/p/6501951.html
 
+         .navigationStart 准备加载页面的起始时间
+         .unloadEventStart 如果前一个文档和当前文档同源,返回前一个文档开始unload的时间
+         .unloadEventEnd 如果前一个文档和当前文档同源,返回前一个文档开始unload结束的时间
+         .redirectStart   如果有重定向,这里是重定向开始的时间.
+         .redirectEnd     如果有重定向,这里是重定向结束的时间.
+         .fetchStart        开始检查缓存或开始获取资源的时间
+         .domainLookupStart   开始进行dns查询的时间
+         .domainLookupEnd     dns查询结束的时间
+         .connectStart                  开始建立连接请求资源的时间
+         .connectEnd                     建立连接成功的时间.
+         .secureConnectionStart      如果是https请求.返回ssl握手的时间
+         .requestStart                     开始请求文档时间(包括从服务器,本地缓存请求)
+         .responseStart                   接收到第一个字节的时间
+         .responseEnd                      接收到最后一个字节的时间.
+         .domLoading                       ‘current document readiness’ 设置为 loading的时间 (这个时候还木有开始解析文档)
+         .domInteractive               文档解析结束的时间
+         .domContentLoadedEventStart    DOMContentLoaded事件开始的时间
+         .domContentLoadedEventEnd      DOMContentLoaded事件结束的时间
+         .domComplete        current document readiness被设置 complete的时间
+         .loadEventStart      触发onload事件的时间
+         .loadEventEnd       onload事件结束的时间
+
+
     3、如何优化SPA应用的首屏加载速度慢的问题？
         a.将公用的JS库通过script标签外部引入，减小 app.bundel 的大小，让浏览器并行下载资源文件，提高下载速度；
-        b.在配置路由时，页面和组件使用懒加载的方式引入，进一步缩小 app.bundel 的体积，在调用某个组件时再加载对应的js文件；
+        b.在配置路由时，页面和组件使用懒加载的方式引入，进一步缩小 app.bundel 的体积，在调用某个组件时再加载对应的js文件
         c.加一个首屏loading图，提升用户体验
 
     4、用到的谷歌调试工具的哪些功能和API

@@ -366,7 +366,7 @@
         <div
           dangerouslySetInnerHTML={{
             __html: html2text(htmlContent)
-          }}z
+          }}
         />
       }
 
@@ -501,18 +501,11 @@
           );
         }
       }
-      而且有这么一段话，不仅让我们调用 super 还要把 props 传递进去，但是没有告诉我们为什么要这么做。
-
-      image-20190901222456704
-      image-20190901222456704
-      不知道你有没有疑惑过为什么要调用 super 和传递 props，接下来我们来解开谜题吧。
 
       为什么要调用 super
-
       其实这不是 React 的限制，这是 JavaScript 的限制，在构造函数里如果要调用 this，那么提前就要调用 super，在 React 里，我们常常会在构造函数里初始化 state，this.state = xxx ，所以需要调用 super。
 
       为什么要传递 props
-
       你可能以为必须给 super 传入 props，否则 React.Component 就没法初始化 this.props：
 
       class Component {

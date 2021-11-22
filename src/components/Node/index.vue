@@ -28,7 +28,7 @@
             allowMethods: ['GET', 'POST', 'DELETE', 'OPTIONS', 'PUT'],
             allowHeaders: ['Content-Type', 'Authorization', 'Accept']
         }));
-
+    
     2、nodeJS主要分为哪几个模块（自如网）
         fs
         buffer

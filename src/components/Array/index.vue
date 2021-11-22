@@ -157,7 +157,7 @@
       console.log('params', params)
       console.log('params', Object.prototype.toString.call(params))  // “[object Array]”
     }
-    getParams(1, 2, 3)
+    // getParams(1, 2, 3)
     
     // 4、编写一个函数，将列表子元素的顺序倒转
       var arr = [1, 2, 3, 4, 5, 6]
@@ -195,7 +195,7 @@
           return arr
       };
       // console.log([1,2,3].map((item,index) => item*2))
-
+      
     export default {
         
     }
