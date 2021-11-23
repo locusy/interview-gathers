@@ -17,8 +17,8 @@
       <p>15、构建性能有哪些</p>
       <p>16、webpack的入口问津怎么配置，多个入口如何分割。</p>
       <p>17、Babel插件transform-runtime以及stage-2说一下他们的作用</p>
-      <p>19、有没有写过webpack的loader，它的原理以及什么</p>
-      <p>20、babel把es6转换成es5这类的原理是什么</p>
+      <p>18、webpack配置用到webpack.optimize.UglifyJsPlugin这个插件</p>
+      <p>19、babel把es6转换成es5这类的原理是什么</p>
     </div>
 </template>
 
@@ -26,7 +26,8 @@
 /*
     1、排除打包文件的办法
       https://juejin.cn/post/6844903825250189319
-      (1)排除某个模块的方法：
+      (1)排除某个模块
+        使用引入外部模块的方式
         externals: {
           jquery: "jQuery"
         },
@@ -132,12 +133,161 @@
       遍历 AST，输出 JS
 
     6、webpack打包之后生成哪些文件
+      html
+      css
+      js 压缩后的bundle.js  有一个参数modules为一个数组，包含了我们所有要打包的模块
 
     7、webpack打包出来的文件体积过大怎么办
+    https://www.jianshu.com/p/a64735eb0e2b
+    https://juejin.cn/post/6844903569917739021
+    (1)去除不必要的插件
+      开发环境和生产环境用的是同一个 webpack 配置文件，导致生产环境打包的 JS 文件包含了一大堆没必要的插件，
+      比如 HotModuleReplacementPlugin, NoErrorsPlugin
+    (2)提取第三方库
+      *比如react的使用
+      {
+        entry: {
+        bundle: 'app'
+          vendor: ['react']
+        }
+
+        plugins: {
+          new webpack.optimize.CommonsChunkPlugin('vendor',  'vendor.js')
+        }
+      }
+      打包后会生成一个vendor.js，在index.html引用
+      <script src="/build/vendor.js"></script>
+      <script src="/build/bundle.js"></script>
+
+      *或者引用外部文件的方式引入第三方库
+      {
+        externals: {
+          'react': 'React'
+        }
+      }
+      externals 对象的 key 是给 require 时用的，比如 require('react')，
+      对象的 value 表示的是如何在 global 中访问到该对象，这里是 window.React，
+      这时候 index.html 就变成下面这样
+      <script src="//cdn.bootcss.com/react/0.14.7/react.min.js"></script>
+      <script src="/build/bundle.js"></script>
+    (3)代码压缩
+      {
+        plugins: [
+          new webpack.optimize.UglifyJsPlugin({
+            compress: {
+              warnings: false
+            }
+          })
+        ]
+      }
+    (4)开启gzip压缩
+     const CompressionPlugin = require("compression-webpack-plugin");
+      plugins:[
+        new CompressionPlugin({
+          asset: '[path].gz[query]', //目标资源名称。[file] 会被替换成原资源。[path] 会被替换成原资源路径，[query] 替换成原查询字符串
+          algorithm: 'gzip',//算法
+          test: new RegExp(
+                '\\.(js|css)$'    //压缩 js 与 css
+          ),
+          threshold: 10240,//只处理比这个值大的资源。按字节计算
+          minRatio: 0.8//只有压缩率比这个值小的资源才会被处理
+        })
+      ]
+    (5)开启html压缩，自动添加上面生成的静态资源
+      npm install html-webpack-plugin --save-dev
+      plugins:[
+        new HtmlWebpackPlugin({
+            title: '',
+              template: __dirname + '/../public/index.html',
+              minify: {
+                  removeComments: true,
+                  collapseWhitespace: true,
+                  removeRedundantAttributes: true,
+                  useShortDoctype: true,
+                  removeEmptyAttributes: true,
+                  removeStyleLinkTypeAttributes: true,
+                  keepClosingSlash: true,
+                  minifyJS: true,
+                  minifyCSS: true,
+                  minifyURLs: true,
+              },
+              chunksSortMode:'dependency'
+          }),
+      ]
+    (6)代码分割
+      code split 
+    (7)设置缓存
+      output: {
+        path: xxx,
+        publicPath: yyy,
+        filename: '[name]-[chunkhash:6].js'
+      }
+      打包后的文件名加入了 hash 值
 
     8、怎么将js文件打包成多个js文件
+      （1）多入口模式和splitChunks配合,可以将js拆分成多个,并且可以将node_modules中代码单独打包,
+      公共的文件打包成单独一个chunk
+      （2）单入口模式和splitChunks配合,可以将node_modules中代码单独打包
+      （3）单入口模式和splitChunks加上在js中用import动态导入语法,能将某个文件单独打包,
+      并且可以将node_modules中代码单独打包
+
+      const { resolve } = require('path');
+      const HtmlWebpackPlugin = require('html-webpack-plugin');
+      module.exports = {
+      // 单入口
+      // entry: './src/js/index.js',
+      
+      //多入口
+      entry: {
+          index: './src/js/index.js',
+          test: './src/js/test.js'
+      },
+      output: {
+          // [name]：取文件名
+          filename: 'js/[name].[contenthash:10].js',
+          path: resolve(__dirname, 'build')
+      },
+      plugins: [
+          new HtmlWebpackPlugin({
+          template: './src/index.html',
+          minify: {
+              collapseWhitespace: true,
+              removeComments: true
+          }
+          })
+      ],
+        //   1. 可以将node_modules中代码单独打包一个chunk最终输出
+          // 2. 自动分析多入口chunk中，有没有公共的文件。如果有会打包成单独一个chunk
+      optimization: {
+          splitChunks: {
+          chunks: 'all'
+          }
+      },
+      mode: 'production'
+      };
+
+
+      index.js中分离js方式
+      // 通过js代码，让某个文件被单独打包成一个chunk
+      // import动态导入语法：能将某个文件单独打包
+      //  webpackChunkName: 'test'  在js中给分离出去的js命名
+        import(/ webpackChunkName: 'test' /'./test')
+        .then(({ mul, count }) => {
+            // 文件加载成功~
+            // eslint-disable-next-line
+            console.log(mul(2, 5));
+        })
+        .catch(() => {
+            // eslint-disable-next-line
+            console.log('文件加载失败~');
+        });
+
+
     9、webpack热部署的原理
+      https://juejin.cn/post/6844904008432222215
+
     10、webpack打包速度过慢怎么办？
+    https://juejin.cn/post/6844904071736852487
 
     11、less-loader实现原理（商汤科技）
         less是怎么编译成css文件的
@@ -176,15 +326,53 @@
 
         ...剩余见官网
 
-    16、webpack的入口问津怎么配置，多个入口如何分割。
+    16、webpack的入口文件怎么配置，多个入口如何分割。
+        entry: {
+            'index1': './src/index1.js',
+            'index2': './src/index2.js',
+            'index3': './src/index3.js'
+        },
+
+        plugins: [
+            new CleanWebpackPlugin(['distribution']),
+            new BundleAnalyzerPlugin({
+                openAnalyzer: false,
+                analyzerMode: 'static',
+                reportFilename: 'bundle-analyzer-report.html'
+            }),
+            new HtmlWebpackPlugin({
+                template: './src/index1.html',
+                filename: 'index1.html'
+            }),
+            new HtmlWebpackPlugin({
+                template: './src/index2.html',
+                filename: 'index2.html'
+            }),
+            new HtmlWebpackPlugin({
+                template: './src/index3.html',
+                filename: 'index3.html'
+            }),
+            new webpack.HashedModuleIdsPlugin()
+
+        ]
 
     17、Babel插件transform-runtime以及stage-2说一下他们的作用
+      https://babel.docschina.org/docs/en/6.26.3/babel-preset-stage-2/
+      @babel/plugin-transform-runtime 的作用是转译代码，转译后的代码中可能会引入 @babel/runtime-corejs3 里面的模块。
+      所以前者运行在编译时，后者运行在运行时。
+      类似 polyfill，后者需要被打包到最终产物里在浏览器中运行。
 
     18、webpack配置用到webpack.optimize.UglifyJsPlugin这个插件
+      代码压缩
 
-    19、有没有写过webpack的loader，它的原理以及什么
+    19、babel把es6转换成es5这类的原理是什么
+      https://juejin.cn/post/6992501845755183135
+      第一步主要是将 ES6 语法解析为 AST 抽象语法树
+      第二步是将打散的 AST 语法通过配置好的 plugins（babel-traverse 对 AST 进行遍历转译）和 
+      presets （es2015 / es2016 / es2017 / env / stage-0 / stage-4 其中 es20xx 表示转换成该年份批准的标准，
+      env 是最新标准，stage-0 和 stage-4 是实验版）转换成新的 AST 语法。
+      第三步是将新的 AST 语法树对象再生成浏览器都可以识别的 ES5 语法
 
-    20、babel把es6转换成es5这类的原理是什么
 */
     export default {
         
