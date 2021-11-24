@@ -353,12 +353,12 @@
                 filename: 'index3.html'
             }),
             new webpack.HashedModuleIdsPlugin()
-
         ]
 
     17、Babel插件transform-runtime以及stage-2说一下他们的作用
       https://babel.docschina.org/docs/en/6.26.3/babel-preset-stage-2/
-      @babel/plugin-transform-runtime 的作用是转译代码，转译后的代码中可能会引入 @babel/runtime-corejs3 里面的模块。
+      @babel/plugin-transform-runtime 的作用是转译代码，转译后的代码中可能会引入 
+      @babel/runtime-corejs3 里面的模块。
       所以前者运行在编译时，后者运行在运行时。
       类似 polyfill，后者需要被打包到最终产物里在浏览器中运行。
 
@@ -369,7 +369,8 @@
       https://juejin.cn/post/6992501845755183135
       第一步主要是将 ES6 语法解析为 AST 抽象语法树
       第二步是将打散的 AST 语法通过配置好的 plugins（babel-traverse 对 AST 进行遍历转译）和 
-      presets （es2015 / es2016 / es2017 / env / stage-0 / stage-4 其中 es20xx 表示转换成该年份批准的标准，
+      presets （es2015 / es2016 / es2017 / env / stage-0 / stage-4 
+      其中 es20xx 表示转换成该年份批准的标准，
       env 是最新标准，stage-0 和 stage-4 是实验版）转换成新的 AST 语法。
       第三步是将新的 AST 语法树对象再生成浏览器都可以识别的 ES5 语法
 
