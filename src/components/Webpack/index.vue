@@ -84,7 +84,7 @@
           </head>
           <body>
             <div id="root"></div>
-            <script type="text/javascript" src="/_dll_react.js"></script>
+            script type="text/javascript" src="/_dll_react.js" 
           </body>
         </html>
 
@@ -144,7 +144,7 @@
       开发环境和生产环境用的是同一个 webpack 配置文件，导致生产环境打包的 JS 文件包含了一大堆没必要的插件，
       比如 HotModuleReplacementPlugin, NoErrorsPlugin
     (2)提取第三方库
-      *比如react的使用
+      //比如react的使用
       {
         entry: {
         bundle: 'app'
@@ -155,11 +155,9 @@
           new webpack.optimize.CommonsChunkPlugin('vendor',  'vendor.js')
         }
       }
-      打包后会生成一个vendor.js，在index.html引用
-      <script src="/build/vendor.js"></script>
-      <script src="/build/bundle.js"></script>
+      打包后会生成一个vendor.js，在index.html引用/build/vendor.js 和 /build/bundle.js
 
-      *或者引用外部文件的方式引入第三方库
+      //或者引用外部文件的方式引入第三方库
       {
         externals: {
           'react': 'React'
@@ -168,8 +166,8 @@
       externals 对象的 key 是给 require 时用的，比如 require('react')，
       对象的 value 表示的是如何在 global 中访问到该对象，这里是 window.React，
       这时候 index.html 就变成下面这样
-      <script src="//cdn.bootcss.com/react/0.14.7/react.min.js"></script>
-      <script src="/build/bundle.js"></script>
+      script src="//cdn.bootcss.com/react/0.14.7/react.min.js" /script
+      script src="/build/bundle.js" /script
     (3)代码压缩
       {
         plugins: [

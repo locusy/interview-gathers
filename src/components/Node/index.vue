@@ -49,7 +49,7 @@
             （解决办法是分解大型运算为多个小任务，不阻塞I/O发起）
 
     4、node的事件循环机制Event loop是怎样的？
-        https://www.imooc.com/article/40020
+        
 
     5、setTimeout/setImmediate/process.nextTick的区别
         https://blog.csdn.net/hkh_1012/article/details/53453138
