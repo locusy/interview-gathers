@@ -49,7 +49,11 @@
             （解决办法是分解大型运算为多个小任务，不阻塞I/O发起）
 
     4、node的事件循环机制Event loop是怎样的？
-        
+        https://www.cnblogs.com/everlose/p/12846375.html
+
+        nodejs 和 浏览器关于eventLoop的主要区别:
+        两者最主要的区别在于浏览器中的微任务是在每个相应的宏任务中执行的，而nodejs中的微任务是在不同阶段之间执行的
+        https://blog.fundebug.com/2019/01/15/diffrences-of-browser-and-node-in-event-loop/
 
     5、setTimeout/setImmediate/process.nextTick的区别
         https://blog.csdn.net/hkh_1012/article/details/53453138
