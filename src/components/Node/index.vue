@@ -45,10 +45,15 @@
         4.擅长I/O密集型
             主要体现在Node利用事件轮询的方式处理事件，而不是单开一个线程来为每一个请求服务
         5.不擅长CPU密集型业务
-            由于Node单线程，如果长时间运行计算将导致CPU不能释放，使得后续I/O无法发起。（解决办法是分解大型运算为多个小任务，不阻塞I/O发起）
+            由于Node单线程，如果长时间运行计算将导致CPU不能释放，使得后续I/O无法发起。
+            （解决办法是分解大型运算为多个小任务，不阻塞I/O发起）
 
     4、node的事件循环机制Event loop是怎样的？
-        https://www.imooc.com/article/40020
+        https://www.cnblogs.com/everlose/p/12846375.html
+
+        nodejs 和 浏览器关于eventLoop的主要区别:
+        两者最主要的区别在于浏览器中的微任务是在每个相应的宏任务中执行的，而nodejs中的微任务是在不同阶段之间执行的
+        https://blog.fundebug.com/2019/01/15/diffrences-of-browser-and-node-in-event-loop/
 
     5、setTimeout/setImmediate/process.nextTick的区别
         https://blog.csdn.net/hkh_1012/article/details/53453138
@@ -97,9 +102,16 @@
         Event: 'message'
 
     8、node是如何实现http模块的？
+    https://segmentfault.com/a/1190000020954879
 
     9、node实现8g文件在2g内存下合并
+        https://cloud.tencent.com/developer/article/1630065
 
+        const fs = require('fs');
+        const readable = fs.createReadStream('./test1.txt');
+        const writeable = fs.createWriteStream('./test2.txt');
+
+        readable.pipe(writeable);
 
   */
 
