@@ -185,12 +185,13 @@
     19、有没有写过webpack的loader，它的原理以及什么
 
     20、babel把es6转换成es5这类的原理是什么
+
 */
     export default {
         
     }
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="less" scoped>
 </style>
+

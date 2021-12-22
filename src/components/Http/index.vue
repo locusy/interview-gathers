@@ -19,6 +19,7 @@
         <p>17、请求头和响应头都有哪些内容</p>
         <p>18、https抓包分析</p>
         <p>19、dns解析过程</p>
+        <p>20、命令行查看请求信息</p>
     </div>
 </template>
 
@@ -182,6 +183,9 @@
 
   19、dns解析过程
       https://www.jianshu.com/p/401f34691dcc
+
+  20、命令行查看请求信息
+      curl -v https://www.baidu.com
       
 */
 
