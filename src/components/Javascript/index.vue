@@ -425,36 +425,36 @@
     
   2、请举例说明DOM event的传播机制和用途
     1.事件捕获，处于目标，事件冒泡
-    var ev = document.getElementById('ev');
+      var ev = document.getElementById('ev');
 
-    ev.addEventListener('click', function (e) {
-        console.log('ev captrue');
-    }, true);
+      ev.addEventListener('click', function (e) {
+          console.log('ev captrue');
+      }, true);
 
-    window.addEventListener('click', function (e) {
-        console.log('window captrue');
-    }, true);
+      window.addEventListener('click', function (e) {
+          console.log('window captrue');
+      }, true);
 
-    document.addEventListener('click', function (e) {
-        console.log('document captrue');
-    }, true);
+      document.addEventListener('click', function (e) {
+          console.log('document captrue');
+      }, true);
 
-    document.documentElement.addEventListener('click', function (e) {
-        console.log('html captrue');
-    }, true);
+      document.documentElement.addEventListener('click', function (e) {
+          console.log('html captrue');
+      }, true);
 
-    document.body.addEventListener('click', function (e) {
-        console.log('body captrue');
-    }, true);
+      document.body.addEventListener('click', function (e) {
+          console.log('body captrue');
+      }, true);
 
     2.自定义事件
-    var ev = new Event('test');
-    ev.addEventListener('test', function () {
-        console.log('test dispatch');
-    });
-    setTimeout(function () {
-        ev.dispatchEvent(eve);
-    }, 1000);
+      var ev = new Event('test');
+      ev.addEventListener('test', function () {
+          console.log('test dispatch');
+      });
+      setTimeout(function () {
+          ev.dispatchEvent(eve);
+      }, 1000);
   
   3、作用域题
     alert(a)    // undefined
