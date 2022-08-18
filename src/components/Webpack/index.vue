@@ -19,6 +19,10 @@
       <p>17、Babel插件transform-runtime以及stage-2说一下他们的作用</p>
       <p>18、webpack配置用到webpack.optimize.UglifyJsPlugin这个插件</p>
       <p>19、babel把es6转换成es5这类的原理是什么</p>
+      <p>20、webpack和vite区别</p>
+      <p>21、vite开发过程快的原因</p>
+
+
     </div>
 </template>
 
@@ -121,7 +125,7 @@
         loader 本身就是一个函数，接受源文件为参数，返回转换的结果。
       Plugin：
         是用来扩展 Webpack 功能的，通过在构建流程里注入钩子实现，它给 Webpack 带来了很大的灵活性。
-        通过plugin（插件）webpack可以实 loader 所不能完成的复杂功能，
+        通过plugin（插件）webpack可以实现 loader 所不能完成的复杂功能，
         使用 plugin 丰富的自定义 API 以及生命周期事件，可以控制 webpack 打包流程的每个环节，
         实现对 webpack 的自定义功能扩展。
 
@@ -367,12 +371,16 @@
       https://juejin.cn/post/6992501845755183135
       第一步主要是将 ES6 语法解析为 AST 抽象语法树
       第二步是将打散的 AST 语法通过配置好的 plugins（babel-traverse 对 AST 进行遍历转译）和 
-      presets （es2015 / es2016 / es2017 / env / stage-0 / stage-4 
-      其中 es20xx 表示转换成该年份批准的标准，
+      presets （es2015 / es2016 / es2017 / env / stage-0 / stage-4 其中 es20xx 表示转换成该年份批准的标准，
       env 是最新标准，stage-0 和 stage-4 是实验版）转换成新的 AST 语法。
       第三步是将新的 AST 语法树对象再生成浏览器都可以识别的 ES5 语法
 
-    20、babel把es6转换成es5这类的原理是什么
+    20、webpack和vite区别
+      webpack会先打包，然后启动开发服务器，请求服务器时直接给予打包结果。 
+      vite直接启动开发服务器，请求哪个模块再对该模块进行实时编译。
+
+    21、vite开发过程快的原因
+      由于vite启动的时候不需要打包，也就无需分析模块依赖、编译，所以启动速度非常快。
 
 */
     export default {

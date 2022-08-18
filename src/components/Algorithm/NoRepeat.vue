@@ -7,6 +7,7 @@
         <p>4、使用filter</p>
         <p>5、使用对象的特点</p>
         <p>6、使用set</p>
+        <p>7、lodash</p>
     </div>
 </template>
 
@@ -84,6 +85,9 @@
     //     return [...new Set(arr)]
     // }
     // console.log(unique4(arr))
+
+    // 7、lodash
+    // lodash.uniq()方法
 
     export default {
         mounted() {}

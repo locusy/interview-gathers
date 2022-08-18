@@ -35,6 +35,7 @@
       <p>25、vue实现文本复制</p>
       <p>26、事件修饰符</p>
       <p>27、vue自动化测试</p>
+      <p>28、keep-alive缓存</p>
 
     </div>
 </template>
@@ -101,7 +102,7 @@
       比如现在需要监控data中， obj.a 的变化。Vue中监控对象属性的变化你可以这样：
       watch: {
         obj: {
-          handler (oldValue, newValue) {
+          handler (oldValue, newValue) {
             console.log( 'obj changed' )
           },
           deep: true
@@ -110,7 +111,7 @@
       deep属性表示深层遍历，但是这么写会监控obj的所有属性变化，并不是我们想要的效果，所以做点修改：
       watch: {
         'obj.a': {
-          handler (oldValue, newValue) {
+          handler (oldValue, newValue) {
             console.log( 'obj changed' )
           }
         }
@@ -153,7 +154,6 @@
     作用域插槽：我可以把组件上的属性/值，在组件元素上使用！
 
   13、this.$nextick({})函数的使用场景和原理
-      https://ustbhuangyi.github.io/vue-analysis/reactive/next-tick.html#vue-%E7%9A%84%E5%AE%9E%E7%8E%B0
       我们了解到数据的变化到 DOM 的重新渲染是一个异步过程，发生在下一个 tick。
       这就是我们平时在开发的过程中，比如从服务端接口去获取数据的时候，数据做了修改，如果我们的某些方法去依赖了数据修改后的 DOM 变化，我们就必须在 nextTick 后执行。比如下面的伪代码：
       getData(res).then(()=>{
@@ -303,6 +303,13 @@
         expect(add(1,2)).toBe(3)
       })
     })
+
+  28、keep-alive缓存
+      keep-alive可以实现组件缓存，当组件切换时不会对当前组件进行卸载。
+      主要是有include、exclude、max三个属性；前两个属性允许keep-alive有条件的进行缓存；
+      max可以定义组件最大的缓存个数，如果超过了这个个数的话，在下一个新实例创建之前，
+      就会将以缓存组件中最久没有被访问到的实例销毁掉。
+      两个生命周期activated/deactivated，用来得知当前组件是否处于活跃状态。
 
 
 */

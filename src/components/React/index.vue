@@ -40,6 +40,8 @@
       <p>38、前端监控sentry</p>
       <p>39、利用useMemo实现类似computed的功能</p>
       <p>40、PureComponent</p>
+      <p>41、Redux应用的三大原则</p>
+      <p>42、纯函数</p>
       <p>
         面试题合集：
         <a href="https://segmentfault.com/a/1190000016885832" target="_blank">
@@ -61,11 +63,23 @@
     react和vue数据双向绑定区别
 
   2、react性能优化点有哪些？
-    react在每个组件生命周期更新的时候都会调用一个shouldComponentUpdate(nextProps, nextState)函数。
-    它的职责就是返回true或false，true表示需要更新，false表示不需要，默认返回为true，
-    即便你没有显示地定义 shouldComponentUpdate 函数。
-    这就不难解释上面发生的资源浪费了。
-
+    ···shouldComponentUpdate
+      react在每个组件生命周期更新的时候都会调用一个shouldComponentUpdate(nextProps, nextState)函数。
+      它的职责就是返回true或false，true表示需要更新，false表示不需要，默认返回为true，
+      即便你没有显示地定义 shouldComponentUpdate 函数。
+      这就不难解释上面发生的资源浪费了。
+    ···使用纯组件PureComponent
+    ···使用 React.memo 进行组件记忆
+    ···懒加载组件
+        import webpack
+    ···使用 React Fragments 避免额外标记
+    ···不要使用内联函数定义
+    ···避免 componentWillMount()中的异步请求
+    ···在Constructor的早期绑定函数
+    ···使用唯一键迭代
+    ···用 CSS 动画代替 JavaScript 动画
+    ···React 组件的服务端渲染
+    
   3、说下React的生命周期
     实例化
     getDefaultProps
@@ -142,7 +156,7 @@
     https://juejin.im/post/6844903529161850893
 
   10、react diff原理（常考，大厂必考）
-    把树形结构按照层级分解，只比较同级元素。
+    把树形结构按照层级分解，只比较同级元素。
     给列表结构的每个单元添加唯一的 key 属性，方便比较。
     React 只会匹配相同 class 的 component（这里面的class指的是组件的名字）
     合并操作，调用 component 的 setState 方法的时候, React将其标记为 dirty.
@@ -981,7 +995,20 @@
             );
           }
         }
-    
+
+    41、Redux应用的三大原则
+      单一数据源
+        我们可以把Redux的状态管理理解成一个全局对象，那么这个全局对象是唯一的，所有的状态都在全局对象store下进行统一”配置”，这样做也是为了做统一管理，便于调试与维护。
+      State是只读的
+        与React的setState相似，直接改变组件的state是不会触发render进行渲染组件的。同样，在Redux中唯一改变state的方法就是触发action，action是一个用于描述发生了什么的“关键词”，而具体使action在state上更新生效的是reducer，用来描述事件发生的详细过程，reducer充当了发起一个action连接到state的桥梁。这样做的好处是当开发者试图去修改状态时，Redux会记录这个动作是什么类型的、具体完成了什么功能等（更新、传播过程），在调试阶段可以为开发者提供完整的数据流路径。
+
+        首先，react 组件从 store 中获取原始的数据，然后渲染。当 react 中的数据发生改变时，react 就需要使用 action，让 action 携带新的数据值派发给 store，store 把 action 发给 reducer 函数，reducer 函数处理新的数据然后返回给 store，最后 react 组件拿到更新后的数据渲染页面，达到页面更新的目的。
+      Reducer必须是一个纯函数
+        Reducer用来描述action如何改变state，接收旧的state和action，返回新的state。Reducer内部的执行操作必须是无副作用的，不能对state进行直接修改，当状态发生变化时，需要返回一个全新的对象代表新的state。这样做的好处是，状态的更新是可预测的，另外，这与Redux的比较分发机制相关，阅读Redux判断状态更新的源码部分(combineReducers)，发现Redux是对新旧state直接用==来进行比较，也就是浅比较，如果我们直接在state对象上进行修改，那么state所分配的内存地址其实是没有变化的，“==”是比较对象间的内存地址，因此Redux将不会响应我们的更新。之所以这样处理是避免对象深层次比较所带来的性能损耗（需要递归遍历比较）。
+
+    42、纯函数
+      一个函数的返回结果只依赖于它的参数，并且在执行过程里面没有副作用，我们就把这个函数叫做纯函数。
+      在执行过程里面没有副作用：除了修改外部的变量，一个函数在执行过程中还有很多方式产生外部可观察的变化，比如说调用 DOM API 修改页面，或者你发送了 Ajax 请求，还有调用 window.reload 刷新浏览器，甚至是 console.log 往控制台打印数据也是副作用。
 
 */
 

@@ -5,6 +5,8 @@
         <p>3、类数组转化成数组</p>
         <p>4、编写一个函数，将列表子元素的顺序倒转</p>
         <p>5、数组倒序输出</p>
+        <p>6、封装map</p>
+        <p>7、寻找数组中的众数</p>
     </div>
 </template>
 
@@ -195,7 +197,72 @@
           return arr
       };
       // console.log([1,2,3].map((item,index) => item*2))
+ 
+      // 7、寻找数组中的众数
+          // 方法一：
+            //"prop"是值，"num"是出现次数
+            var arr3 = [2, 3, 4, 1, 3, 1, 3, 3, 3, 3, 3, 3, 3, 2, 3, 5, 2, 5, 2, 5, 3, 2, 3, 4]
+            var obj = {}//统计值出现的次数{1:次数,2:次数,3:次数...}
+            var obj2 = {}//最终结果，prop是数组中的值，num出现的次数的记录
+            for (item in arr3) {
+                if (obj[arr3[item]] == undefined) {//第一次出现的值，计数为1
+                    obj[arr3[item]] = 1
+                } else {
+                    obj[arr3[item]]++
+                }
+            }
+            console.log(obj)//{1: 2, 2: 5, 3: 12, 4: 2, 5: 3}
+
+            //从obj1的初步结果中比较出最终结果{prop: "3", num: 12}
+            for (item in obj) {
+                if (obj2["prop"] == undefined) {//第一次向obj2中填值
+                    obj2["prop"] = item
+                    obj2["num"] = obj[item]
+                } else {
+                    if (obj2["num"] < obj[item]) {//比较次数，将次数大的项赋值到obj2
+                        obj2["prop"] = item
+                        obj2["num"] = obj[item]
+                    }
+                }
+                console.log(obj2)
+                // {prop: "1", num: 2}
+                // {prop: "2", num: 5}
+                // {prop: "3", num: 12}
+                // {prop: "3", num: 12}
+                // {prop: "3", num: 12}
+            }
+
+          // 方法二：
+            function findMost() {
+               var arr3 = [2, 3, 4, 1, 3, 1, 3, 3, 3, 3, 3, 3, 3, 2, 3, 5, 2, 5, 2, 5, 3, 2, 3, 4]
+                var newArr = []
+                arr3.map(item => {
+                  if(newArr.toString().indexOf(item) < 0) {
+                    newArr.push([item])
+                  }
+                })
+              
+                newArr.map(elem => {
+                  elem.map(option => {
+                    arr3.map(item => {
+                      if(option === item) {
+                        elem.push(item)
+                      }
+                    })
+                  })
+                })
+                
+                var lens = newArr.map(item => item.length)
+                var max = Math.max(...lens)
+                var index = lens.findIndex(e => e === max)
+                return newArr[index][0]
+
+            }
+             console.log(newArr,max, index)
+
       
+
+
     export default {
         
     }

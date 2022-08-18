@@ -67,6 +67,7 @@
     <p>32、BFC、IFC、GFC、FFC的区别</p>
 
     <p>33、移动端Retina屏幕1px边框变粗问题</p>
+    
 
   </div>
 </template>
@@ -329,6 +330,20 @@
       28、flex有哪些属性
         https://www.cnblogs.com/angelatian/p/8436577.html
 
+        flex-direction: row / row-reverse / column /column-reverse
+        flex-wrap: wrap / nowrap / wrap-reverse
+        flex-flow: flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap
+        justify-content: flex-start | flex-end | center | space-between | space-around
+        align-items: flex-start | flex-end | center | baseline | stretch
+        align-content: flex-start | flex-end | center | space-between | space-around | stretch;
+
+        flex-grow属性定义项目的放大比例，默认为0,即如果存在剩余空间，也不放大
+        flex-shrink属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小
+        flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小
+        flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。
+
+        align-self
+        
 
       29、请描述自适应和响应式的区别
           响应式：就是一个网站能够兼容多个终端—而不是为每个终端做一个特定的版本。

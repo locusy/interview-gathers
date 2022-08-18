@@ -95,6 +95,10 @@ export default function myHook() {
     const [secondName, setSecondName] = useState('zhi')
     const memoizedName = useMemo(() => `${firstName}-${secondName}`, [firstName, secondName])
 
+    // ueCallBack 针对可能重新创建的函数进行优化，使得函数被缓存，
+    // React.memo 认定两次地址是相同就可以避免子组件冗余的更新。 
+    // useMemo 针对不必要的计算进行优化，避免了当前组件中一些的冗余计算操作
+
     return (
         <Context.Provider value={{ fruits, dispatch }}>
             <div>
@@ -122,9 +126,3 @@ export default function myHook() {
         </Context.Provider>
     )
 }
-
-
-
-
-
-

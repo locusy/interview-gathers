@@ -111,7 +111,7 @@
         off(type, callback) {
             let callbacks = this._events[type]
             this._events[type] = callbacks && callbacks.filter(fn => fn !== callback)
-            return this
+            return this    
 
             // if (!type) {
             //     this._events = {};

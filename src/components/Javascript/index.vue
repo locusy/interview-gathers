@@ -61,7 +61,7 @@
         <p>35、Object.defineProperty(obj, prop, descriptor)</p>
         <p>36、轮询</p>
         <p>37、websocket</p>
-        <p>38、SourceMap</p>
+        <p>38、SourceMap</p>
         <p>39、js性能问题，同时加载多个js文件（饿了么）</p>
         <p>40、defer和async的区别（自如网）</p>
         <p>41、loadscript封装：</p>
@@ -118,6 +118,7 @@
         <p>14、在没有 promise 之前，怎么解决异步回调</p>
         <p>15、自己如何实现一个promise？</p>
         <p>16、Promise和setTimeout的区别</p>
+        <p>17、Set、WeakSet、Map、WeakMap：</p>
 
 
     </div>
@@ -509,7 +510,7 @@
     Number(![])   // 0
  
     首先，我们需要知道 ! 优先级是高于 == (更多运算符优先级可查看: 运算符优先级)
-    ![] 引用类型转换成布尔值都是true,因此![]的是false
+    [] 引用类型转换成布尔值都是true,因此![]的是false
     根据上面的比较步骤中的第五条，其中一方是 boolean，将 boolean 转为 number 再进行判断，false转换成 number，对应的值是 0.
     根据上面比较步骤中的第六条，有一方是 number，那么将object也转换成Number,空数组转换成数字，对应的值是0.(空数组转换成数字，对应的值是0，如果数组中只有一个数字，那么转成number就是这个数字，其它情况，均为NaN)
     0 == 0; 为true
@@ -747,8 +748,7 @@
 
   23、深拷贝和浅拷贝的区别
       https://cnblogs.com/biaochenxuying/p/11438353.html
-      浅拷贝是指只复制第一层对象，但是当对象的属性是引用类型时，
-      实质复制的是其引用，当引用指向的值改变时也会跟着变化。
+      浅拷贝是指只复制第一层对象，但是当对象的属性是引用类型时，实质复制的是其引用，当引用指向的值改变时也会跟着变化。
 
       深拷贝复制变量值，对于非基本类型的变量，则递归至基本类型变量后，再复制。
 
@@ -851,16 +851,30 @@
         https://juejin.im/post/5cbc0a9cf265da03b11f3505
         https://github.com/YvetteLau/Blog/issues/4
 
+        JavaScript有一套机制去处理同步和异步操作，那就是事件循环:
+          所有同步任务都在主线程上执行，形成一个执行栈 (Execution Context Stack)。
+          而异步任务会被放置到 Task Table，也就是上图中的异步处理模块，当异步任务有了运行结果，就将该函数移入任务队列。
+          一旦执行栈中的所有同步任务执行完毕，引擎就会读取任务队列，然后将任务队列中的第一个任务压入执行栈中运行。
+          主线程不断重复第三步，也就是 只要主线程空了，就会去读取任务队列，该过程不断重复，这就是所谓的 事件循环。
+
+
         在一个事件循环中，异步事件返回结果后会被放到一个任务队列中。然而，根据这个异步事件的类型，这个事件实际上会被对应的宏任务队列或者微任务队列中去，当执行栈为空的时候，主线程会首先查看微任务中的事件，如果微任务不是空的那么执行微任务中的事件，如果没有在宏任务中取出最前面的一个事件。把对应的回调加入当前执行栈...如此反复，进入循环。
 
-        macro-task(宏任务)
-            setTimeout
-            setInterval
-            setImmediate
+         macro-task(宏任务)
+          setTimeout
+          setInterval
+          setImmediate
 
         micro-task(微任务)
-            Promise
-            process.nextTick
+          Promise
+          process.nextTick
+
+        11.x 版本之前Node.js 与 浏览器环境下事件循环的区别
+        https://juejin.cn/post/6844903761949753352
+        浏览器和Node 环境下，microtask 任务队列的执行时机不同:
+          Node端，microtask 在事件循环的各个阶段之间执行
+          浏览器端，microtask 在事件循环的 macrotask 执行完之后执行
+
         
         面试题1：（字节）
           async function async1() {
@@ -890,7 +904,7 @@
           });
           console.log('script end');
 
-          结果：
+          结果：主线程---微任务第一层---主线程---微任务第二层---宏任务
           script start
           async1 start
           async2
@@ -928,7 +942,7 @@
           });
           console.log('script end');
 
-          结果：
+          结果：主线程---微任务第一层（空）---主线程---微任务第二层---微任务第三层---宏任务
           script start
           script end
           promise1
@@ -1044,7 +1058,7 @@
   37、websocket
       http://www.ruanyifeng.com/blog/2017/05/websocket.html
 
-  38、SourceMap
+  38、SourceMap
       http://www.ruanyifeng.com/blog/2013/01/javascript_source_map.html
       https://www.jianshu.com/p/ebf0ca8febb2
 
@@ -1276,6 +1290,9 @@
   57、请你谈一下对于js拖拽功能的实现的理解，具体的实现方式是什么？
   
   58、闭包和作用域：
+    函数执行后返回结果是一个内部函数，并被外部变量所引用，如果内部函数持有被执行函数作用域的变量。即形成了闭包。
+    可以在内部函数访问到外部函数作用域。使用闭包，一可以读取函数中的变量，二可以将函数中的变量存储在内存中，保护变量吧被污染。而正是因为闭包会把函数中的变量存储在内存中，会对内存有消耗，所以不能滥用闭包，否则会影响网页性能，造成内存泄漏。当不需要使用闭包时，要及时释放内存，可将内存函数对象的变量赋值为null。
+    
     闭包就是能够读取其他函数内部变量的函数。
     闭包的用途：可以读取函数内部的变量，并且让这些变量的值始终保持在内存中。
 
@@ -1316,6 +1333,12 @@
           console.log(j)
         },1000*j)
       })(i)
+    }
+
+     for(let i=0;i<5;i++){
+      setTimeout(() => {
+        console.log(i)
+      },1000*i)
     }
 
   59、闭包内存泄漏问题：
@@ -1465,7 +1488,7 @@
     ES6 class 子类必须在父类的构造函数中调用super()，这样才有this对象;
     ES5中类继承的关系是相反的，先有子类的this，然后用父类的方法应用在this上。
 
-  6、import和require的区别（2019-商汤科技）
+  6、import和require的区别（商汤科技）
     import引用的变量改变 不会影响原来的值
     require引用的变量改变 会影响原来的值
 
@@ -1540,6 +1563,56 @@
 
   16、Promise和setTimeout的区别?
      Promise 是微任务，setTimeout 是宏任务，同一个事件循环中，promise总是先于 setTimeout 执行。
+
+  17、Set、WeakSet、Map、WeakMap：
+  https://blog.csdn.net/muzidigbig/article/details/121995777
+  
+    Set：
+      成员唯一、有序且不重复。
+      [value, value]，键值与键名是一致的（或者说只有键值，没有键名）。
+      可以遍历，方法有：add、delete、has。
+    WeakSet：
+      成员都是对象。
+      成员都是弱引用，可以被垃圾回收机制回收，可以用来保存DOM节点，不容易造成内存泄漏。
+      不能遍历，方法有add、delete、has。
+    Map：
+      本质上是键值对的集合，类似集合。
+      可以遍历，方法很多可以跟各种数据格式转换。
+    WeakMap：
+      只接受对象作为键名（null除外），不接受其他类型的值作为键名。
+      键名是弱引用，键值可以是任意的，键名所指向的对象可以被垃圾回收，此时键名是无效的。
+      不能遍历，方法有get、set、has、delete。
+
+    Set和Map的区别
+      Set 和 Map 主要的应用场景在于 数据重组 和 数据储存。
+      Set 是一种叫做集合的数据结构，Map 是一种叫做字典的数据结构。
+      集合 与 字典 的区别：
+      共同点：集合、字典 可以储存不重复的值
+      不同点：集合 是以 [value, value]的形式储存元素，字典 是以 [key, value] 的形式储存
+
+    WeakSet与Set的区别：
+      WeakSet 只能储存对象引用，不能存放值，而 Set 都可以。
+      WeakSet 对象中储存的对象值都是被弱引用的，即垃圾回收机制不考虑 WeakSet 对该对象的应用，
+      如果没有其他的变量或属性引用这个对象值，则这个对象将会被垃圾回收掉（不考虑该对象还存在于 WeakSet 中），
+      所以，WeakSet 对象里有多少个成员元素，取决于垃圾回收机制有没有运行，运行前后成员个数可能不一致，
+      遍历结束之后，有的成员可能取不到了（被垃圾回收了），WeakSet 对象是无法被遍历的（ES6 规定 WeakSet 不可遍历），也没有办法拿到它包含的所有元素。
+
+  18、Promise.all() 、Promise.race() 、Promise.any()
+      方法同样是将多个 Promise 实例，包装成一个新的 Promise 实例。
+      const p = Promise.race([p1, p2, p3]);
+
+      Promise.all()：
+        p的状态由p1、p2、p3决定，分成两种情况。
+        （1）只有p1、p2、p3的状态都变成fulfilled，p的状态才会变成fulfilled，此时p1、p2、p3的返回值组成一个数组，传递给p的回调函数。
+        （2）只要p1、p2、p3之中有一个被rejected，p的状态就变成rejected，此时第一个被reject的实例的返回值，会传递给p的回调函数。
+
+      Promise.race()：
+      只要p1、p2、p3之中有一个实例率先改变状态，p的状态就跟着改变。那个率先改变的 Promise 实例的返回值，就传递给p的回调函数。
+
+      Promise.any()：
+      只要参数实例有一个变成fulfilled状态，包装实例就会变成fulfilled状态；如果所有参数实例都变成rejected状态，包装实例就会变成rejected状态。
+
+      Promise.any()跟Promise.race()方法很像，只有一点不同，就是Promise.any()不会因为某个 Promise 变成rejected状态而结束，必须等到所有参数 Promise 变成rejected状态才会结束。
 
 
 */
