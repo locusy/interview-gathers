@@ -7,7 +7,7 @@
        <p>5、vedio标签</p>
        <p>6、比较 HTML XML XHTML 和 JSON</p>
        <p>7、请描述img的title和alt的区别。</p>
-       <p>8、请简述一下src与href的区别。  xx</p>
+       <p>8、请简述一下src与href的区别。</p>
        <p>9、描述浏览器重绘和回流，哪些方法能够改善由于dom操作产生的回流</p>
     </div>
 </template>
