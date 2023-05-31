@@ -15,7 +15,7 @@
       <p>13、tree-shakeing是如何干掉无用重复的代码的？</p>
       <p>14、有没有去研究webpack的一些原理和机制，怎么实现的</p>
       <p>15、构建性能有哪些</p>
-      <p>16、webpack的入口问津怎么配置，多个入口如何分割。</p>
+      <p>16、webpack的入口文件怎么配置，多个入口如何分割。</p>
       <p>17、Babel插件transform-runtime以及stage-2说一下他们的作用</p>
       <p>18、webpack配置用到webpack.optimize.UglifyJsPlugin这个插件</p>
       <p>19、babel把es6转换成es5这类的原理是什么</p>
